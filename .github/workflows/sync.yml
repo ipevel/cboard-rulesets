@@ -2,9 +2,15 @@ name: sync-upstream
 
 # 每 15 分钟做一次「轻量探测」：只问两个上游「变了吗」，不变就直接退出。
 # 变了才全量拉取 + 校验 + 提交 —— 探测只花两次 API 调用，不下载任何规则内容。
+#
+# ⚠️ cron 写 9,24,39,54 而不是 */15：*/15 落在 :00/:15/:30/:45 这四个整点刻度上，
+# 那是 GitHub 全站最挤的时刻。本仓库 2026-10-13T15:41Z 建起来后近 4 小时
+# `event=schedule` 的 run 数为 **0**（同一时段 push / workflow_dispatch 都正常、
+# workflow state=active、默认分支上确实有这段 schedule），所以错开整点刻度，
+# 同时在改这个文件时让 GitHub 重新登记一次 schedule。若仍不触发，就要换触发方式。
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '9,24,39,54 * * * *'
   workflow_dispatch:
   push:
     branches: [main]
