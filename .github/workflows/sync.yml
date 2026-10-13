@@ -4,10 +4,23 @@ name: sync-upstream
 # 变了才全量拉取 + 校验 + 提交 —— 探测只花两次 API 调用，不下载任何规则内容。
 #
 # ⚠️ cron 写 9,24,39,54 而不是 */15：*/15 落在 :00/:15/:30/:45 这四个整点刻度上，
-# 那是 GitHub 全站最挤的时刻。本仓库 2026-10-13T15:41Z 建起来后近 4 小时
-# `event=schedule` 的 run 数为 **0**（同一时段 push / workflow_dispatch 都正常、
-# workflow state=active、默认分支上确实有这段 schedule），所以错开整点刻度，
-# 同时在改这个文件时让 GitHub 重新登记一次 schedule。若仍不触发，就要换触发方式。
+# 那是 GitHub 全站最挤的时刻。
+#
+# 🔴 结论（2026-10-14T07:00+08 定案）：**本仓库的 schedule 事件根本不触发。**
+# 建仓 2026-10-13T15:41Z 起近 7.5 小时 `event=schedule` 的 run 数一直是 **0**，
+# 期间已排除所有我们这侧的可能：push / workflow_dispatch 都正常；`state=active`；
+# 默认分支 main 上确有这段 schedule；`actions/permissions` enabled=True / all；
+# 不是 fork、没 archived/disabled；cron 已错开整点；还做过一次 disable+enable
+# 强制重登记（updated_at 刷新过）；最后又加了 `.github/workflows/schedule-probe.yml`
+# ——一个只 echo 报时的独立 workflow、自己一条 cron——42 分钟窗（覆盖 2 个刻度）
+# 内**它同样一次都没触发**。=> 问题在仓库的 schedule 通道，不在本文件。
+#
+# 现行走法：**靠 push（tools/** 与改本文件）+ 手动 `gh workflow run sync.yml` 兜底**。
+# 规则本身有懒更新（App 两端每 12 小时拉一次 latest.json），所以兜底期间不会阻断使用，
+# 只是新鲜度取决于兜底派发的频率。若要让上游变更尽快进来，两条候选（需用户拍板）：
+#   (a) 本机计划任务每小时 `gh workflow run sync.yml`（不占 runner、不写 hack）；
+#   (b) 本 workflow 跑完 sleep ~2h 再自我派发（要 actions: write，每天多 ~12 条 run）。
+# schedule-probe.yml 先留着：哪天 GitHub 那边恢复了，它能第一时间看出来。
 on:
   schedule:
     - cron: '9,24,39,54 * * * *'
