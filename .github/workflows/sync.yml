@@ -29,10 +29,10 @@ jobs:
       - name: 检出
         uses: actions/checkout@v4
 
-      - name: Node 20
+      - name: Node 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       # ---- 轻量探测：不下载任何规则内容 ----
       # 退出码：0 = 上游有变化；2 = 上游无变化；其他/非 0 非 2 = 探测本身失败
