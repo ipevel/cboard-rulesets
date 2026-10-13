@@ -1,7 +1,7 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-10-13T15:45:20.260Z
-版本：VERSION 2
+生成时间：2026-10-13T16:43:01.984Z
+版本：VERSION 3
 
 ## 上游坐标
 
@@ -19,12 +19,13 @@
 | 产出文件 | 条数 | 上游来源 |
 |---|---|---|
 | `dist/rules/ai.list` *(内核形态)* | 62 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
+| `dist/rules/apple.list` *(内核形态)* | 29 | Apple.list |
 | `dist/rules/banad.list` *(内核形态)* | 588 | BanAD.list |
 | `dist/rules/banprogramad.list` *(内核形态)* | 1010 | BanProgramAD.list |
-| `dist/rules/china-domain.list` *(内核形态)* | 652 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list |
+| `dist/rules/china-domain.list` *(内核形态)* | 683 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list |
 | `dist/rules/china-ip.list` *(内核形态)* | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
-| `dist/rules/china-media.list` *(内核形态)* | 77 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list |
-| `dist/rules/games.list` *(内核形态)* | 51 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list |
+| `dist/rules/china-media.list` *(内核形态)* | 99 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
+| `dist/rules/games.list` *(内核形态)* | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `dist/rules/onedrive.list` *(内核形态)* | 92 | OneDrive.list, Microsoft.list |
 | `dist/rules/proxy-gfwlist.list` *(内核形态)* | 6883 | ProxyGFWlist.list |
 | `dist/rules/proxy-media.list` *(内核形态)* | 357 | ProxyMedia.list |
@@ -36,12 +37,13 @@
 | `geo/geoip.metadb` | — | release 资产 `geoip.metadb` |
 | `geo/geosite.dat` | — | release 资产 `geosite.dat` |
 | `rules/ai.txt` | 62 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
+| `rules/apple.txt` | 29 | Apple.list |
 | `rules/banad.txt` | 588 | BanAD.list |
 | `rules/banprogramad.txt` | 1010 | BanProgramAD.list |
-| `rules/china-domain.txt` | 652 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list |
+| `rules/china-domain.txt` | 683 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list |
 | `rules/china-ip.txt` | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
-| `rules/china-media.txt` | 77 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list |
-| `rules/games.txt` | 51 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list |
+| `rules/china-media.txt` | 99 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
+| `rules/games.txt` | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `rules/onedrive.txt` | 92 | OneDrive.list, Microsoft.list |
 | `rules/proxy-gfwlist.txt` | 6883 | ProxyGFWlist.list |
 | `rules/proxy-media.txt` | 357 | ProxyMedia.list |

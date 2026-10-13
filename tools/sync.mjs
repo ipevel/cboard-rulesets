@@ -275,6 +275,7 @@ async function main() {
   for (const setDef of RULE_SETS) {
     const specs = setDef.files.map((n) => ({ name: n, dir: setDef.dir }));
     for (const n of setDef.alsoRuleset || []) specs.push({ name: n, dir: 'Clash/Ruleset' });
+    for (const n of setDef.alsoClash || []) specs.push({ name: n, dir: 'Clash' });
 
     const fetched = [];
     for (const spec of specs) {

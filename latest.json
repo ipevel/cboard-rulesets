@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 2,
-  "generatedAt": "2026-10-13T15:45:20.260Z",
+  "version": 3,
+  "generatedAt": "2026-10-13T16:43:01.984Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
@@ -48,6 +48,17 @@
       "behavior": "classical"
     },
     {
+      "path": "dist/rules/apple.list",
+      "bytes": 863,
+      "sha256": "75fdfef0b520da50025b0b1cb68e0148c130cef209bf70f5f4659d31e6828f95",
+      "rules": 29,
+      "sources": [
+        "Apple.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
       "path": "dist/rules/banad.list",
       "bytes": 15298,
       "sha256": "2ecd4247c610b534f40533bdaaa5e6360525f0389e8c38b848ab8277c0a2ad82",
@@ -71,16 +82,17 @@
     },
     {
       "path": "dist/rules/china-domain.list",
-      "bytes": 16998,
-      "sha256": "c56a8d6a453fb4fe01e2f68b77e788b2691e662f0f37355885c6940e56c6e19c",
-      "rules": 652,
+      "bytes": 17834,
+      "sha256": "c642cfe4c8e4a97a1b28269112850a3d6de64d0c6e65724e9cdfaa9e3a4661de",
+      "rules": 683,
       "sources": [
         "ChinaDomain.list",
         "Baidu.list",
         "Tencent.list",
         "Alibaba.list",
         "ByteDance.list",
-        "Wechat.list"
+        "Wechat.list",
+        "UnBan.list"
       ],
       "format": "text",
       "behavior": "classical"
@@ -100,28 +112,30 @@
     },
     {
       "path": "dist/rules/china-media.list",
-      "bytes": 2481,
-      "sha256": "f8d6c5a94b7f173ff4148692598142dc4f5b9e91f0961de2a35446107d19752d",
-      "rules": 77,
+      "bytes": 3338,
+      "sha256": "2611e07835df067b81290a7bd4808562f71460388c65a86b03887749b98f267c",
+      "rules": 99,
       "sources": [
         "ChinaMedia.list",
         "Bilibili.list",
-        "NetEaseMusic.list"
+        "NetEaseMusic.list",
+        "Download.list"
       ],
       "format": "text",
       "behavior": "classical"
     },
     {
       "path": "dist/rules/games.list",
-      "bytes": 1512,
-      "sha256": "a8bbc67319144e6c22374167481840da7229c226b06fcca041f86a3fadfb621b",
-      "rules": 51,
+      "bytes": 1974,
+      "sha256": "14bd8de1eb10557c508f2c8a53e4ec15fd6d9ae0eac71ad9d274eca159525fbc",
+      "rules": 67,
       "sources": [
         "Steam.list",
         "Epic.list",
         "Sony.list",
         "Nintendo.list",
-        "Xbox.list"
+        "Xbox.list",
+        "SteamCN.list"
       ],
       "format": "text",
       "behavior": "classical"
@@ -249,6 +263,15 @@
       ]
     },
     {
+      "path": "rules/apple.txt",
+      "bytes": 1059,
+      "sha256": "da16a23eab06da2561752b9f4dbc8eb3850c226d0892bc099b3b9ffce46e2fda",
+      "rules": 29,
+      "sources": [
+        "Apple.list"
+      ]
+    },
+    {
       "path": "rules/banad.txt",
       "bytes": 15484,
       "sha256": "a04c807259b955236d391569c69e1139743ba4abaa7924db0fce151e03f6b799",
@@ -268,16 +291,17 @@
     },
     {
       "path": "rules/china-domain.txt",
-      "bytes": 17282,
-      "sha256": "771dcac7b4c3c8886f6713137e75bba0e368d5c8d567b035999409d8e3a74ea3",
-      "rules": 652,
+      "bytes": 18144,
+      "sha256": "10c7a4170fbf0062ec8391d78a4cbd18ab874975d8e743074e6c67bfca682e1f",
+      "rules": 683,
       "sources": [
         "ChinaDomain.list",
         "Baidu.list",
         "Tencent.list",
         "Alibaba.list",
         "ByteDance.list",
-        "Wechat.list"
+        "Wechat.list",
+        "UnBan.list"
       ]
     },
     {
@@ -293,32 +317,34 @@
     },
     {
       "path": "rules/china-media.txt",
-      "bytes": 2715,
-      "sha256": "e789422e1a281227de432de35880934c5bebffc4b884c90dbc80dcef91c19a0c",
-      "rules": 77,
+      "bytes": 3629,
+      "sha256": "a93c099fb40f81afa65edb1c55114a2b48140cc7216cd0b43c88fcfecd92d0a9",
+      "rules": 99,
       "sources": [
         "ChinaMedia.list",
         "Bilibili.list",
-        "NetEaseMusic.list"
+        "NetEaseMusic.list",
+        "Download.list"
       ]
     },
     {
       "path": "rules/games.txt",
-      "bytes": 1739,
-      "sha256": "8841183b0297e018480fc6f3965484a78ad52afd72ff0090b17b87db810d06f8",
-      "rules": 51,
+      "bytes": 2244,
+      "sha256": "df81272860a6eb717586df222e639b39801f81a6e0de3547ea6d86136f083aca",
+      "rules": 67,
       "sources": [
         "Steam.list",
         "Epic.list",
         "Sony.list",
         "Nintendo.list",
-        "Xbox.list"
+        "Xbox.list",
+        "SteamCN.list"
       ]
     },
     {
       "path": "rules/onedrive.txt",
-      "bytes": 2796,
-      "sha256": "a0b741fc316504480ec689e88039a30427ba697b8b7c0d20097be0e6f5612910",
+      "bytes": 2823,
+      "sha256": "f8247a8bb813e66f3058551da1e63143ba753d75cb97997578c19af695188751",
       "rules": 92,
       "sources": [
         "OneDrive.list",

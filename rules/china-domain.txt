@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 国内域名
-# ACL4SSR 主表 + 百度 / 腾讯 / 阿里 / 字节 / 微信五家大厂表。
-# 合并自 6 份 ACL4SSR 清单：ChinaDomain / Baidu / Tencent / Alibaba / ByteDance / Wechat
-# 规则数：652 条（上游合计 772 条，去重 120 条）
+# ACL4SSR 主表 + 百度 / 腾讯 / 阿里 / 字节 / 微信五家大厂表 + UnBan 白名单。
+# 合并自 7 份 ACL4SSR 清单：ChinaDomain / Baidu / Tencent / Alibaba / ByteDance / Wechat / UnBan
+# 规则数：683 条（上游合计 803 条，去重 120 条）
 DOMAIN-SUFFIX,13th.tech
 DOMAIN-SUFFIX,423down.com
 DOMAIN-SUFFIX,bokecc.com
@@ -654,3 +654,34 @@ IP-CIDR,101.32.133.53/32,no-resolve
 IP-CIDR,101.32.133.209/32,no-resolve
 IP-CIDR,129.226.3.47/32,no-resolve
 IP-CIDR,129.226.107.244/32,no-resolve
+DOMAIN-SUFFIX,ol.epicgames.com
+DOMAIN-SUFFIX,dizhensubao.getui.com
+DOMAIN,dl.google.com
+DOMAIN-SUFFIX,googletraveladservices.com
+DOMAIN-SUFFIX,tracking-protection.cdn.mozilla.net
+DOMAIN,origin-a.akamaihd.net
+DOMAIN,fairplay.l.qq.com
+DOMAIN,livew.l.qq.com
+DOMAIN,vd.l.qq.com
+DOMAIN,errlog.umeng.com
+DOMAIN,msg.umeng.com
+DOMAIN,msg.umengcloud.com
+DOMAIN,tracking.miui.com
+DOMAIN,app.adjust.com
+DOMAIN,bdtj.tagtic.cn
+DOMAIN,rewards.hypixel.net
+DOMAIN-SUFFIX,koodomobile.com
+DOMAIN-SUFFIX,koodomobile.ca
+DOMAIN-SUFFIX,synology.me
+DOMAIN-SUFFIX,DiskStation.me
+DOMAIN-SUFFIX,i234.me
+DOMAIN-SUFFIX,myDS.me
+DOMAIN-SUFFIX,DSCloud.biz
+DOMAIN-SUFFIX,DSCloud.me
+DOMAIN-SUFFIX,DSCloud.mobi
+DOMAIN-SUFFIX,DSmyNAS.com
+DOMAIN-SUFFIX,DSmyNAS.net
+DOMAIN-SUFFIX,DSmyNAS.org
+DOMAIN-SUFFIX,FamilyDS.com
+DOMAIN-SUFFIX,FamilyDS.net
+DOMAIN-SUFFIX,FamilyDS.org

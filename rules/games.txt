@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 游戏平台
-# 覆盖 Steam / Epic / Sony / Nintendo / Xbox。
-# 合并自 5 份 ACL4SSR 清单：Steam / Epic / Sony / Nintendo / Xbox
-# 规则数：51 条（上游合计 51 条，去重 0 条）
+# 覆盖 Steam / Epic / Sony / Nintendo / Xbox，含 SteamCN 国内加速域名。
+# 合并自 6 份 ACL4SSR 清单：Steam / Epic / Sony / Nintendo / Xbox / SteamCN
+# 规则数：67 条（上游合计 67 条，去重 0 条）
 DOMAIN,steambroadcast.akamaized.net
 DOMAIN,steamcommunity-a.akamaihd.net
 DOMAIN,steampipe.akamaized.net
@@ -53,3 +53,19 @@ DOMAIN-SUFFIX,xboxlive.com
 DOMAIN-SUFFIX,xboxservice.com
 DOMAIN-SUFFIX,xboxservices.com
 DOMAIN-SUFFIX,gamepass.com
+DOMAIN,csgo.wmsj.cn
+DOMAIN,dl.steam.clngaa.com
+DOMAIN,dl.steam.ksyna.com
+DOMAIN,dota2.wmsj.cn
+DOMAIN,st.dl.bscstorage.net
+DOMAIN,st.dl.eccdnx.com
+DOMAIN,st.dl.pinyuncloud.com
+DOMAIN,steampipe.steamcontent.tnkjmec.com
+DOMAIN,steampowered.com.8686c.com
+DOMAIN,steamstatic.com.8686c.com
+DOMAIN,wmsjsteam.com
+DOMAIN,xz.pphimalayanrt.com
+DOMAIN-SUFFIX,cm.steampowered.com
+DOMAIN-SUFFIX,steamchina.com
+DOMAIN-SUFFIX,steamcontent.com
+DOMAIN-SUFFIX,steamusercontent.com
