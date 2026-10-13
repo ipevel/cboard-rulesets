@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 1,
-  "generatedAt": "2026-10-13T15:35:49.420Z",
+  "version": 2,
+  "generatedAt": "2026-10-13T15:45:20.260Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
