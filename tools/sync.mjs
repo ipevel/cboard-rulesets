@@ -87,6 +87,40 @@ async function http(url, { json = false, binary = false, allow404 = false } = {}
 const RULE_RE = /^[A-Z][A-Z0-9-]*\s*,/;
 
 /**
+ * 内核（mihomo）不认的规则类型 —— 在**源头**丢掉，别让它们进产出文件。
+ *
+ * 上游 ACL4SSR 的清单里有少量 `URL-REGEX`：mihomo 从早期就不支持这个类型，
+ * 加载时会逐条打 `parse classical rule [...] error: unsupported rule type: URL-REGEX`
+ * 然后丢掉 —— 也就是说这些行**本来就没生效过**。
+ *
+ * 留在文件里的唯一后果，是每台设备每次启动内核都刷一片 WARN（安卓 9 次 / Windows 27 次），
+ * 用户看日志会以为哪里坏了（这事在 DEVNOTES 的 A-54 里查过一次，当时是拿脚本从旧的
+ * 随包资源里剔的；现在上游改成统一从本仓库同步，就在这一层做，两端一起受益）。
+ *
+ * 也**不要**把它们改写成 DOMAIN-REGEX：URL-REGEX 匹配的是完整 URL（含路径），
+ * 换成 DOMAIN-REGEX 会把「某站点下某个路径」放大成「整个站点」，那是行为变更，不是清理。
+ */
+const UNSUPPORTED_RULE_TYPES = new Set(['URL-REGEX']);
+
+/** 规则行里的类型字段（`URL-REGEX,...` → `URL-REGEX`） */
+function ruleType(line) {
+  const i = line.indexOf(',');
+  return (i < 0 ? line : line.slice(0, i)).trim().toUpperCase();
+}
+
+/** 命中的「内核不认」的行 —— 用于如实记账，不静默丢 */
+function unsupportedLines(text) {
+  const out = [];
+  for (const raw of String(text).split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    if (!RULE_RE.test(line)) continue;
+    if (UNSUPPORTED_RULE_TYPES.has(ruleType(line))) out.push(line);
+  }
+  return out;
+}
+
+/**
  * 只保留规则行（以「类型,」开头），丢掉注释与空行。
  *
  * 理由：上游注释会随内容抖动（如「# 数量：12条」），留着会让每次上游改动都产生
@@ -130,11 +164,16 @@ function mergeLists(setDef, fetched) {
   const provenance = [];
   const all = [];
   let raw = 0;
+  let dropped = 0;
 
   for (const { name, text } of fetched) {
-    const rules = normalizeList(text);
+    const rules0 = normalizeList(text);
+    const rules = rules0.filter((l) => !UNSUPPORTED_RULE_TYPES.has(ruleType(l)));
     const bad = anomalousLines(text);
     if (bad.length) warn(`${setDef.out}: ${name}.list 有 ${bad.length} 行不是规则行，已跳过（首行：${bad[0].slice(0, 80)}）`);
+    const dead = unsupportedLines(text);
+    if (dead.length) log(`${setDef.out}: ${name}.list 丢弃 ${dead.length} 条内核不认的规则（类型 ${[...new Set(dead.map(ruleType))].join('/')}）`);
+    dropped += dead.length;
     raw += rules.length;
     all.push(...rules);
     provenance.push({ source: name, count: rules.length });
@@ -144,7 +183,7 @@ function mergeLists(setDef, fetched) {
   if (merged.length * 40 > MAX_OUTPUT_BYTES) {
     throw new Error(`${setDef.out} 产出过大（${merged.length} 条）—— 合并逻辑可能写错了`);
   }
-  return { merged, count: merged.length, raw, provenance };
+  return { merged, count: merged.length, raw, provenance, dropped };
 }
 
 /**
@@ -152,14 +191,17 @@ function mergeLists(setDef, fetched) {
  *   rules/<out>.txt        人看的：带固定表头（TEXT_HEADERS），无逐次变动的内容
  *   dist/rules/<out>.list  内核吃的：只含规则行（# 注释内核会跳过，但我们不给注释）
  */
-function renderRuleSet(setDef, merged, raw, provenance) {
+function renderRuleSet(setDef, merged, raw, provenance, dropped = 0) {
   const dateNote = provenance.length > 1
     ? `# 合并自 ${provenance.length} 份 ACL4SSR 清单：${provenance.map((p) => p.source).join(' / ')}`
     : `# 来自 ACL4SSR 清单：${provenance[0]?.source || '—'}`;
+  const dropNote = dropped
+    ? `；丢弃内核不认的 URL-REGEX ${dropped} 条（该类型 mihomo 从不支持，内核本来也会逐条跳过）`
+    : '';
   const txt = [
     ...(TEXT_HEADERS[setDef.out] || [`# Polaris 分流规则 —— ${setDef.out}`]),
     dateNote,
-    `# 规则数：${merged.length} 条（上游合计 ${raw} 条，去重 ${raw - merged.length} 条）`,
+    `# 规则数：${merged.length} 条（上游合计 ${raw} 条，去重 ${raw - merged.length} 条${dropNote}）`,
     '',
   ].join('\n') + merged.join('\n') + '\n';
 
@@ -282,8 +324,8 @@ async function main() {
       fetched.push({ name: spec.name, text: await http(`${UPSTREAM.acl.rawBase}/${current.acl.sha}/${spec.dir}/${spec.name}.list`) });
     }
 
-    const { merged, count, raw, provenance } = mergeLists(setDef, fetched);
-    const { txt, list } = renderRuleSet(setDef, merged, raw, provenance);
+    const { merged, count, raw, provenance, dropped } = mergeLists(setDef, fetched);
+    const { txt, list } = renderRuleSet(setDef, merged, raw, provenance, dropped);
     const sources = provenance.map((p) => `${p.source}.list`);
     staged.push({ path: `rules/${setDef.out}.txt`, buf: Buffer.from(txt), rules: count, raw, sources });
     staged.push({ path: `${DIST_DIR}/rules/${setDef.out}.list`, buf: Buffer.from(list), rules: count, sources, kernel: true });

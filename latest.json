@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 3,
-  "generatedAt": "2026-10-13T16:43:01.984Z",
+  "version": 4,
+  "generatedAt": "2026-10-13T18:46:02.424Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
@@ -112,9 +112,9 @@
     },
     {
       "path": "dist/rules/china-media.list",
-      "bytes": 3338,
-      "sha256": "2611e07835df067b81290a7bd4808562f71460388c65a86b03887749b98f267c",
-      "rules": 99,
+      "bytes": 2834,
+      "sha256": "1806d9aa9cea605d39cf0a39c6d882358b497ca67deee9c49943b1a8dd4594ce",
+      "rules": 91,
       "sources": [
         "ChinaMedia.list",
         "Bilibili.list",
@@ -165,9 +165,9 @@
     },
     {
       "path": "dist/rules/proxy-media.list",
-      "bytes": 10475,
-      "sha256": "6c1b4b1e091addf1ddcd513d150c6c456dded3d7c0d66cb6d66682b508abebf9",
-      "rules": 357,
+      "bytes": 10408,
+      "sha256": "3cb20de2312ea79096702d932af34e47114f2874b69e70593f0485594879b417",
+      "rules": 356,
       "sources": [
         "ProxyMedia.list"
       ],
@@ -190,9 +190,9 @@
     },
     {
       "path": "dist/rules/streaming.list",
-      "bytes": 5361,
-      "sha256": "d00842a51b6ea3393b3c8d4a220054182588b8fc473a62fa3f940ef6d65a08eb",
-      "rules": 175,
+      "bytes": 5294,
+      "sha256": "414dfbd1a282721ee87a108e8dcdedba810a5dc57896dd2b7a28c423a4bd5b40",
+      "rules": 174,
       "sources": [
         "YouTube.list",
         "Netflix.list",
@@ -317,9 +317,9 @@
     },
     {
       "path": "rules/china-media.txt",
-      "bytes": 3629,
-      "sha256": "a93c099fb40f81afa65edb1c55114a2b48140cc7216cd0b43c88fcfecd92d0a9",
-      "rules": 99,
+      "bytes": 3233,
+      "sha256": "22e6500baa38c8d3d75b8c602a182acb8323964966651f36bd407cb6b6c3affb",
+      "rules": 91,
       "sources": [
         "ChinaMedia.list",
         "Bilibili.list",
@@ -362,9 +362,9 @@
     },
     {
       "path": "rules/proxy-media.txt",
-      "bytes": 10676,
-      "sha256": "dd81ef7e15abe490ef868f46792f9822e65a408147106bbcb800443c7338d60d",
-      "rules": 357,
+      "bytes": 10717,
+      "sha256": "76d3d18e0f5ff3a5743798576a2d524555e11b6ba5afe9a33568d08d7d501c65",
+      "rules": 356,
       "sources": [
         "ProxyMedia.list"
       ]
@@ -383,9 +383,9 @@
     },
     {
       "path": "rules/streaming.txt",
-      "bytes": 5730,
-      "sha256": "f3448a7c9397ff5876c44cb3a55cbc2b65dd9b21c905f7bac543f57a36498f6c",
-      "rules": 175,
+      "bytes": 5771,
+      "sha256": "dbdcb0839cb15e12a538b5e7cd14a44432cdcb58e2aeaa08b6b74060fe4b0d46",
+      "rules": 174,
       "sources": [
         "YouTube.list",
         "Netflix.list",

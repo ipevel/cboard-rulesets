@@ -1,7 +1,7 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-10-13T16:43:01.984Z
-版本：VERSION 3
+生成时间：2026-10-13T18:46:02.424Z
+版本：VERSION 4
 
 ## 上游坐标
 
@@ -24,13 +24,13 @@
 | `dist/rules/banprogramad.list` *(内核形态)* | 1010 | BanProgramAD.list |
 | `dist/rules/china-domain.list` *(内核形态)* | 683 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list |
 | `dist/rules/china-ip.list` *(内核形态)* | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
-| `dist/rules/china-media.list` *(内核形态)* | 99 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
+| `dist/rules/china-media.list` *(内核形态)* | 91 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
 | `dist/rules/games.list` *(内核形态)* | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `dist/rules/onedrive.list` *(内核形态)* | 92 | OneDrive.list, Microsoft.list |
 | `dist/rules/proxy-gfwlist.list` *(内核形态)* | 6883 | ProxyGFWlist.list |
-| `dist/rules/proxy-media.list` *(内核形态)* | 357 | ProxyMedia.list |
+| `dist/rules/proxy-media.list` *(内核形态)* | 356 | ProxyMedia.list |
 | `dist/rules/social.list` *(内核形态)* | 53 | Twitter.list, Instagram.list, Facebook.list, Whatsapp.list |
-| `dist/rules/streaming.list` *(内核形态)* | 175 | YouTube.list, Netflix.list, DisneyPlus.list, HBO.list, Hulu.list, AppleTV.list, BBCiPlayer.list, AbemaTV.list, DAZN.list, Twitch.list, Spotify.list, Amazon.list |
+| `dist/rules/streaming.list` *(内核形态)* | 174 | YouTube.list, Netflix.list, DisneyPlus.list, HBO.list, Hulu.list, AppleTV.list, BBCiPlayer.list, AbemaTV.list, DAZN.list, Twitch.list, Spotify.list, Amazon.list |
 | `dist/rules/telegram.list` *(内核形态)* | 14 | Telegram.list |
 | `dist/rules/tiktok.list` *(内核形态)* | 10 | TikTok.list |
 | `geo/ASN.mmdb` | — | release 资产 `GeoLite2-ASN.mmdb` |
@@ -42,13 +42,13 @@
 | `rules/banprogramad.txt` | 1010 | BanProgramAD.list |
 | `rules/china-domain.txt` | 683 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list |
 | `rules/china-ip.txt` | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
-| `rules/china-media.txt` | 99 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
+| `rules/china-media.txt` | 91 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
 | `rules/games.txt` | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `rules/onedrive.txt` | 92 | OneDrive.list, Microsoft.list |
 | `rules/proxy-gfwlist.txt` | 6883 | ProxyGFWlist.list |
-| `rules/proxy-media.txt` | 357 | ProxyMedia.list |
+| `rules/proxy-media.txt` | 356 | ProxyMedia.list |
 | `rules/social.txt` | 53 | Twitter.list, Instagram.list, Facebook.list, Whatsapp.list |
-| `rules/streaming.txt` | 175 | YouTube.list, Netflix.list, DisneyPlus.list, HBO.list, Hulu.list, AppleTV.list, BBCiPlayer.list, AbemaTV.list, DAZN.list, Twitch.list, Spotify.list, Amazon.list |
+| `rules/streaming.txt` | 174 | YouTube.list, Netflix.list, DisneyPlus.list, HBO.list, Hulu.list, AppleTV.list, BBCiPlayer.list, AbemaTV.list, DAZN.list, Twitch.list, Spotify.list, Amazon.list |
 | `rules/telegram.txt` | 14 | Telegram.list |
 | `rules/tiktok.txt` | 10 | TikTok.list |
 

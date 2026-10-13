@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 国内流媒体与下载
 # 哔哩哔哩 / 网易音乐已并入国内直连；Download 是下载类直连域名。
 # 合并自 4 份 ACL4SSR 清单：ChinaMedia / Bilibili / NetEaseMusic / Download
-# 规则数：99 条（上游合计 117 条，去重 18 条）
+# 规则数：91 条（上游合计 109 条，去重 18 条；丢弃内核不认的 URL-REGEX 8 条（该类型 mihomo 从不支持，内核本来也会逐条跳过））
 DOMAIN,apiintl.biliapi.net
 DOMAIN,upos-hz-mirrorakam.akamaized.net
 DOMAIN-SUFFIX,acg.tv
@@ -34,7 +34,6 @@ IP-CIDR,103.44.56.0/22,no-resolve
 IP-CIDR,118.26.32.0/23,no-resolve
 IP-CIDR,118.26.120.0/24,no-resolve
 IP-CIDR,223.119.62.225/28,no-resolve
-URL-REGEX,^https?:\/\/int[\w-\.]+iqiyi\.com
 DOMAIN-SUFFIX,api.mob.app.letv.com
 DOMAIN-SUFFIX,v.smtcdns.com
 DOMAIN-SUFFIX,vv.video.qq.com
@@ -91,13 +90,6 @@ PROCESS-NAME,WebTorrent Helper.exe
 PROCESS-NAME,qbittorrent.exe
 DOMAIN-SUFFIX,smtp
 DOMAIN-KEYWORD,aria2
-URL-REGEX,(Subject|HELO|SMTP)
-URL-REGEX,(api|ps|sv|offnavi|newvector|ulog.imap|newloc)(.map|).(baidu|n.shifen).com
-URL-REGEX,(.+.|^)(360|so|qihoo|360safe|qhimg|360totalsecurity|yunpan).(cn|com)
-URL-REGEX,(.+.)?(torrent|announce.php?passkey=|tracker|BitTorrent|bt_key|ed2k|find_node|get_peers|info_hash|magnet:|peer_id=|xunlei)(..+)?
-URL-REGEX,(.?)(xunlei|sandai|Thunder|XLLiveUD)(.)
 PROCESS-NAME,DownloadService.exe
-URL-REGEX,(.+\.|^)(360|so)\.(cn|com)
 PROCESS-NAME,Weiyun.exe
 PROCESS-NAME,baidunetdisk.exe
-URL-REGEX,assets\d+\.xboxlive\.(com|cn)

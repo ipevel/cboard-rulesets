@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 境外流媒体兜底
 # 不在流媒体组名单里的长尾站点。
 # 来自 ACL4SSR 清单：ProxyMedia
-# 规则数：357 条（上游合计 372 条，去重 15 条）
+# 规则数：356 条（上游合计 371 条，去重 15 条；丢弃内核不认的 URL-REGEX 1 条（该类型 mihomo 从不支持，内核本来也会逐条跳过））
 DOMAIN-SUFFIX,edgedatg.com
 DOMAIN-SUFFIX,go.com
 DOMAIN-KEYWORD,anthropic
@@ -80,7 +80,6 @@ DOMAIN-SUFFIX,amazonvideo.com
 DOMAIN-SUFFIX,media-amazon.com
 DOMAIN-SUFFIX,pv-cdn.net
 DOMAIN-SUFFIX,seattlespheres.com
-URL-REGEX,^https?:\/\/www\.amazon\.com\/(Amazon-Video|gp\/video)\/
 DOMAIN,gspe1-ssl.ls.apple.com
 DOMAIN,np-edge.itunes.apple.com
 DOMAIN,play-edge.itunes.apple.com
