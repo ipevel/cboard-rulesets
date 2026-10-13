@@ -1,0 +1,397 @@
+{
+  "schema": 1,
+  "version": 1,
+  "generatedAt": "2026-10-13T15:35:49.420Z",
+  "upstream": {
+    "acl": {
+      "repo": "ACL4SSR/ACL4SSR",
+      "sha": "802e3abf065f8609e7d9073ba506158dbe2ba6e7",
+      "date": "2026-10-07T03:44:24Z"
+    },
+    "meta": {
+      "repo": "MetaCubeX/meta-rules-dat",
+      "tag": "latest",
+      "publishedAt": "2026-10-13T03:08:15Z"
+    }
+  },
+  "files": [
+    {
+      "path": "dist/geo/ASN.mmdb",
+      "bytes": 8969559,
+      "sha256": "d82d2f39ea82a175a3d63484c8b4723040d134ba1edf4b27d6819c2f96c14a9b",
+      "upstreamAsset": "GeoLite2-ASN.mmdb"
+    },
+    {
+      "path": "dist/geo/geoip.metadb",
+      "bytes": 8414245,
+      "sha256": "e060b447d974e2dde71340c47783f0263d4d4a6656237f4f824c186044647eb3",
+      "upstreamAsset": "geoip.metadb"
+    },
+    {
+      "path": "dist/geo/geosite.dat",
+      "bytes": 4290986,
+      "sha256": "30b8fe82c220879da1fadf896ec18b26b495091980dab3dca7a11199c74a5773",
+      "upstreamAsset": "geosite.dat"
+    },
+    {
+      "path": "dist/rules/ai.list",
+      "bytes": 1826,
+      "sha256": "184058d368a1ae069f135379a4d1269cd69412e830f956e6c07a3844afb9ff35",
+      "rules": 62,
+      "sources": [
+        "AI.list",
+        "OpenAi.list",
+        "ClaudeAI.list",
+        "Gemini.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/banad.list",
+      "bytes": 15298,
+      "sha256": "2ecd4247c610b534f40533bdaaa5e6360525f0389e8c38b848ab8277c0a2ad82",
+      "rules": 588,
+      "sources": [
+        "BanAD.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/banprogramad.list",
+      "bytes": 31436,
+      "sha256": "1abadab15fec4f849dcf0d8d4f6c46f3413f2b819bee751cfdd607f1ab565ec4",
+      "rules": 1010,
+      "sources": [
+        "BanProgramAD.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/china-domain.list",
+      "bytes": 16998,
+      "sha256": "c56a8d6a453fb4fe01e2f68b77e788b2691e662f0f37355885c6940e56c6e19c",
+      "rules": 652,
+      "sources": [
+        "ChinaDomain.list",
+        "Baidu.list",
+        "Tencent.list",
+        "Alibaba.list",
+        "ByteDance.list",
+        "Wechat.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/china-ip.list",
+      "bytes": 322016,
+      "sha256": "b701fd6cdc1b6bdb6258983f31717278a8d234c97d6b4ba83b11906fd3252e15",
+      "rules": 9114,
+      "sources": [
+        "ChinaIp.list",
+        "ChinaIpV6.list",
+        "ChinaCompanyIp.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/china-media.list",
+      "bytes": 2481,
+      "sha256": "f8d6c5a94b7f173ff4148692598142dc4f5b9e91f0961de2a35446107d19752d",
+      "rules": 77,
+      "sources": [
+        "ChinaMedia.list",
+        "Bilibili.list",
+        "NetEaseMusic.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/games.list",
+      "bytes": 1512,
+      "sha256": "a8bbc67319144e6c22374167481840da7229c226b06fcca041f86a3fadfb621b",
+      "rules": 51,
+      "sources": [
+        "Steam.list",
+        "Epic.list",
+        "Sony.list",
+        "Nintendo.list",
+        "Xbox.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/onedrive.list",
+      "bytes": 2543,
+      "sha256": "d96012d632ff39a2ea4c59816b79acc7a30895ce7ada1c63f3439f595f44a563",
+      "rules": 92,
+      "sources": [
+        "OneDrive.list",
+        "Microsoft.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/proxy-gfwlist.list",
+      "bytes": 187864,
+      "sha256": "aa02d7d07b95d02d27c77fcc686863e45fa6c3b3e62d659b67601e918631b053",
+      "rules": 6883,
+      "sources": [
+        "ProxyGFWlist.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/proxy-media.list",
+      "bytes": 10475,
+      "sha256": "6c1b4b1e091addf1ddcd513d150c6c456dded3d7c0d66cb6d66682b508abebf9",
+      "rules": 357,
+      "sources": [
+        "ProxyMedia.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/social.list",
+      "bytes": 1584,
+      "sha256": "a77d089b37a86dda9183674f6570e0039b376eb97e8cf3744cc6642da98131b3",
+      "rules": 53,
+      "sources": [
+        "Twitter.list",
+        "Instagram.list",
+        "Facebook.list",
+        "Whatsapp.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/streaming.list",
+      "bytes": 5361,
+      "sha256": "d00842a51b6ea3393b3c8d4a220054182588b8fc473a62fa3f940ef6d65a08eb",
+      "rules": 175,
+      "sources": [
+        "YouTube.list",
+        "Netflix.list",
+        "DisneyPlus.list",
+        "HBO.list",
+        "Hulu.list",
+        "AppleTV.list",
+        "BBCiPlayer.list",
+        "AbemaTV.list",
+        "DAZN.list",
+        "Twitch.list",
+        "Spotify.list",
+        "Amazon.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/telegram.list",
+      "bytes": 428,
+      "sha256": "8ea3ffebdd5f3fc78eed903504b27a6689dce9b539d784facdebcbe425d4ca92",
+      "rules": 14,
+      "sources": [
+        "Telegram.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/tiktok.list",
+      "bytes": 267,
+      "sha256": "b60805600f43635aaaf55cd7350327d67b275fafd260809e8bce64eae92afaed",
+      "rules": 10,
+      "sources": [
+        "TikTok.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "geo/ASN.mmdb",
+      "bytes": 8969559,
+      "sha256": "d82d2f39ea82a175a3d63484c8b4723040d134ba1edf4b27d6819c2f96c14a9b",
+      "upstreamAsset": "GeoLite2-ASN.mmdb"
+    },
+    {
+      "path": "geo/geoip.metadb",
+      "bytes": 8414245,
+      "sha256": "e060b447d974e2dde71340c47783f0263d4d4a6656237f4f824c186044647eb3",
+      "upstreamAsset": "geoip.metadb"
+    },
+    {
+      "path": "geo/geosite.dat",
+      "bytes": 4290986,
+      "sha256": "30b8fe82c220879da1fadf896ec18b26b495091980dab3dca7a11199c74a5773",
+      "upstreamAsset": "geosite.dat"
+    },
+    {
+      "path": "rules/ai.txt",
+      "bytes": 2064,
+      "sha256": "e7ba67543691ef8f4d1a6d890e9f0da64c076b15dcc40889e4b929ec5996f898",
+      "rules": 62,
+      "sources": [
+        "AI.list",
+        "OpenAi.list",
+        "ClaudeAI.list",
+        "Gemini.list"
+      ]
+    },
+    {
+      "path": "rules/banad.txt",
+      "bytes": 15484,
+      "sha256": "a04c807259b955236d391569c69e1139743ba4abaa7924db0fce151e03f6b799",
+      "rules": 588,
+      "sources": [
+        "BanAD.list"
+      ]
+    },
+    {
+      "path": "rules/banprogramad.txt",
+      "bytes": 31627,
+      "sha256": "c7659bbb8d39c4aeb6185befda1893c64fb8f83ae061bb7e347048a5ff9fd061",
+      "rules": 1010,
+      "sources": [
+        "BanProgramAD.list"
+      ]
+    },
+    {
+      "path": "rules/china-domain.txt",
+      "bytes": 17282,
+      "sha256": "771dcac7b4c3c8886f6713137e75bba0e368d5c8d567b035999409d8e3a74ea3",
+      "rules": 652,
+      "sources": [
+        "ChinaDomain.list",
+        "Baidu.list",
+        "Tencent.list",
+        "Alibaba.list",
+        "ByteDance.list",
+        "Wechat.list"
+      ]
+    },
+    {
+      "path": "rules/china-ip.txt",
+      "bytes": 322278,
+      "sha256": "b75777f1a602eb90d8064eb2a781b3e5aef87a5eab2159cce854397a661983ae",
+      "rules": 9114,
+      "sources": [
+        "ChinaIp.list",
+        "ChinaIpV6.list",
+        "ChinaCompanyIp.list"
+      ]
+    },
+    {
+      "path": "rules/china-media.txt",
+      "bytes": 2715,
+      "sha256": "e789422e1a281227de432de35880934c5bebffc4b884c90dbc80dcef91c19a0c",
+      "rules": 77,
+      "sources": [
+        "ChinaMedia.list",
+        "Bilibili.list",
+        "NetEaseMusic.list"
+      ]
+    },
+    {
+      "path": "rules/games.txt",
+      "bytes": 1739,
+      "sha256": "8841183b0297e018480fc6f3965484a78ad52afd72ff0090b17b87db810d06f8",
+      "rules": 51,
+      "sources": [
+        "Steam.list",
+        "Epic.list",
+        "Sony.list",
+        "Nintendo.list",
+        "Xbox.list"
+      ]
+    },
+    {
+      "path": "rules/onedrive.txt",
+      "bytes": 2796,
+      "sha256": "a0b741fc316504480ec689e88039a30427ba697b8b7c0d20097be0e6f5612910",
+      "rules": 92,
+      "sources": [
+        "OneDrive.list",
+        "Microsoft.list"
+      ]
+    },
+    {
+      "path": "rules/proxy-gfwlist.txt",
+      "bytes": 188074,
+      "sha256": "4304b377023c54eeddabb312e57da96b0bd3653210c5c27a253c59cb1e4470f9",
+      "rules": 6883,
+      "sources": [
+        "ProxyGFWlist.list"
+      ]
+    },
+    {
+      "path": "rules/proxy-media.txt",
+      "bytes": 10676,
+      "sha256": "dd81ef7e15abe490ef868f46792f9822e65a408147106bbcb800443c7338d60d",
+      "rules": 357,
+      "sources": [
+        "ProxyMedia.list"
+      ]
+    },
+    {
+      "path": "rules/social.txt",
+      "bytes": 1852,
+      "sha256": "a2c6adc1ac72214b1df677041a510b7247af25175a70485e26e6308995b92fe2",
+      "rules": 53,
+      "sources": [
+        "Twitter.list",
+        "Instagram.list",
+        "Facebook.list",
+        "Whatsapp.list"
+      ]
+    },
+    {
+      "path": "rules/streaming.txt",
+      "bytes": 5730,
+      "sha256": "f3448a7c9397ff5876c44cb3a55cbc2b65dd9b21c905f7bac543f57a36498f6c",
+      "rules": 175,
+      "sources": [
+        "YouTube.list",
+        "Netflix.list",
+        "DisneyPlus.list",
+        "HBO.list",
+        "Hulu.list",
+        "AppleTV.list",
+        "BBCiPlayer.list",
+        "AbemaTV.list",
+        "DAZN.list",
+        "Twitch.list",
+        "Spotify.list",
+        "Amazon.list"
+      ]
+    },
+    {
+      "path": "rules/telegram.txt",
+      "bytes": 595,
+      "sha256": "5bb3c179cb6a01d01de79b96f26ca51c105accf55a91830ed5da45a5ee16b672",
+      "rules": 14,
+      "sources": [
+        "Telegram.list"
+      ]
+    },
+    {
+      "path": "rules/tiktok.txt",
+      "bytes": 424,
+      "sha256": "6a8f187b3b7cd593dbaeb17dd6a07a676448e5b5b0ef2097e759f5019cb570d9",
+      "rules": 10,
+      "sources": [
+        "TikTok.list"
+      ]
+    }
+  ]
+}

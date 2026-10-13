@@ -1,0 +1,21 @@
+# 大文件：不做行尾转换，diff 里当二进制看
+*.dat              binary
+*.metadb           binary
+*.mmdb             binary
+
+# 其余从 polaris 主仓库复制过来的文件也必须 LF（CI 逐字节比对，行尾漂了就白跑）
+LICENSE            text eol=lf
+THIRD-PARTY-NOTICES.md text eol=lf
+
+# 手工写的脚本与文档：统一 LF
+*.mjs              text eol=lf
+*.js               text eol=lf
+*.json             text eol=lf
+*.yml              text eol=lf
+*.md               text eol=lf
+
+# 规则产出：CI 逐字节比对，行尾绝不能漂
+rules/*.txt        text eol=lf -diff
+dist/rules/*.list  text eol=lf -diff
+SHA256SUMS.txt     text eol=lf -diff
+VERSION            text eol=lf -diff

@@ -1,0 +1,94 @@
+name: sync-upstream
+
+# 每 15 分钟做一次「轻量探测」：只问两个上游「变了吗」，不变就直接退出。
+# 变了才全量拉取 + 校验 + 提交 —— 探测只花两次 API 调用，不下载任何规则内容。
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/**'
+      - '.github/workflows/sync.yml'
+
+# 同一时刻只允许一个同步任务，避免两个 cron 撞车互相覆盖
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 检出
+        uses: actions/checkout@v4
+
+      - name: Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ---- 轻量探测：不下载任何规则内容 ----
+      # 退出码：0 = 上游有变化；2 = 上游无变化；其他/非 0 非 2 = 探测本身失败
+      - name: 探测上游是否有变化
+        id: probe
+        run: |
+          set +e
+          node tools/sync.mjs --check
+          code=$?
+          set -e
+          echo "check_exit=${code}" >> "$GITHUB_OUTPUT"
+          if [ "$code" = "0" ]; then
+            echo "判定：上游有变化"
+          elif [ "$code" = "2" ]; then
+            echo "判定：上游无变化"
+          else
+            echo "::warning::探测失败（exit ${code}），本次跳过，不下载任何内容"
+          fi
+
+      - name: 需要同步吗
+        id: gate
+        run: |
+          if [ "${{ steps.probe.outputs.check_exit }}" = "0" ]; then
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ---- 有变化才全量同步 ----
+      - name: 全量同步
+        if: steps.gate.outputs.go == 'yes'
+        run: node tools/sync.mjs
+
+      # ---- 自洽性门禁：不自洽就绝不提交 ----
+      - name: 自洽性校验
+        if: steps.gate.outputs.go == 'yes'
+        run: node tools/verify.mjs
+
+      - name: 提交
+        if: steps.gate.outputs.go == 'yes'
+        run: |
+          set -euo pipefail
+          git config user.name  'polaris-rules-bot'
+          git config user.email 'polaris-rules-bot@users.noreply.github.com'
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "工作区干净，没有需要提交的变化"
+            exit 0
+          fi
+
+          VERSION="$(cat VERSION)"
+          ACL_SHA="$(node -e "const l=require('./latest.json');process.stdout.write(l.upstream.acl.sha.slice(0,8))")"
+          META_PUB="$(node -e "const l=require('./latest.json');process.stdout.write(l.upstream.meta.publishedAt)")"
+
+          git add -A
+          git commit -m "sync: 上游更新 -> VERSION ${VERSION}" \
+                     -m "ACL4SSR@${ACL_SHA} · meta-rules-dat release ${META_PUB}" \
+                     -m "由 .github/workflows/sync.yml 自动生成；改动全部来自上游，未经人工审核。"
+          git push

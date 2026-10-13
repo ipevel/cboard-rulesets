@@ -1,0 +1,14 @@
+{
+  "name": "polaris-rules",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Polaris 的自动同步分流规则与 geo 数据库（ACL4SSR + MetaCubeX 谱系）",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "sync": "node tools/sync.mjs",
+    "check": "node tools/sync.mjs --check",
+    "verify": "node tools/verify.mjs"
+  },
+  "license": "MIT"
+}
