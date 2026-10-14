@@ -6,21 +6,28 @@ name: sync-upstream
 # ⚠️ cron 写 9,24,39,54 而不是 */15：*/15 落在 :00/:15/:30/:45 这四个整点刻度上，
 # 那是 GitHub 全站最挤的时刻。
 #
-# 🔴 结论（2026-10-14T07:00+08 定案）：**本仓库的 schedule 事件根本不触发。**
+# ✅ 结论（2026-10-14 更正）：**schedule 已恢复触发，下面那版「根本不触发」的定案作废。**
+# 自 2026-10-14T01:21Z 起 `event=schedule` 的 run 正常出现，最早两条是
+# 38491346567（00:38:47Z）与 38495259658（01:21:18Z），此后每 15 分钟一次。
+# 恢复的直接原因是**对 workflow 做了一次 disable + enable 强制重新登记**。
+#
+# 教训：GitHub 的 schedule 登记可能长期不生效，而 disable + enable 能把它救回来 ——
+# 遇到「schedule 不触发」先试这一步，再考虑计划任务之类的兜底。
+#
+# —— 以下为作废的旧定案，保留以便对照 ——
+# 🔴 旧结论（2026-10-14T07:00+08）：**本仓库的 schedule 事件根本不触发。**
 # 建仓 2026-10-13T15:41Z 起近 7.5 小时 `event=schedule` 的 run 数一直是 **0**，
 # 期间已排除所有我们这侧的可能：push / workflow_dispatch 都正常；`state=active`；
 # 默认分支 main 上确有这段 schedule；`actions/permissions` enabled=True / all；
 # 不是 fork、没 archived/disabled；cron 已错开整点；还做过一次 disable+enable
 # 强制重登记（updated_at 刷新过）；最后又加了 `.github/workflows/schedule-probe.yml`
 # ——一个只 echo 报时的独立 workflow、自己一条 cron——42 分钟窗（覆盖 2 个刻度）
-# 内**它同样一次都没触发**。=> 问题在仓库的 schedule 通道，不在本文件。
+# 内**它同样一次都没触发**。=> 当时判定问题在仓库的 schedule 通道，不在本文件。
+# 该判定当时成立，但只维持了约两小时 —— 后来正是 disable + enable 生效了，
+# 所以「做过一次 disable+enable 也没用」这句不算数。
 #
-# 现行走法：**靠 push（tools/** 与改本文件）+ 手动 `gh workflow run sync.yml` 兜底**。
-# 规则本身有懒更新（App 两端每 12 小时拉一次 latest.json），所以兜底期间不会阻断使用，
-# 只是新鲜度取决于兜底派发的频率。若要让上游变更尽快进来，两条候选（需用户拍板）：
-#   (a) 本机计划任务每小时 `gh workflow run sync.yml`（不占 runner、不写 hack）；
-#   (b) 本 workflow 跑完 sleep ~2h 再自我派发（要 actions: write，每天多 ~12 条 run）。
-# schedule-probe.yml 先留着：哪天 GitHub 那边恢复了，它能第一时间看出来。
+# schedule-probe.yml 继续留着做长期观察：它的 cron 与本文件独立，通道再次失效时能第一时间看出来。
+
 on:
   schedule:
     - cron: '9,24,39,54 * * * *'
