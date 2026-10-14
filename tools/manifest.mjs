@@ -100,8 +100,12 @@ export const RULE_SETS = [
     out: 'onedrive',
     dir: 'Clash',
     files: ['OneDrive'],
-    alsoRuleset: ['Microsoft'],
-    why: '微软云盘 + 微软服务（同一组：云盘必须直连省流量，微软服务默认代理；给一个开关让用户整体切换）',
+    // 2026-10-14 用户裁定「微软组只留云盘直连，其余走兜底」：
+    // 这里**刻意不并** Clash/Ruleset/Microsoft.list —— 那份是宽口径微软全家桶
+    // （DOMAIN-KEYWORD,microsoft + bing/office/outlook/msn + 裸 live.com），
+    // 会把 GitHub / Bing / Office / Outlook / Teams 一并抓成直连。只取 OneDrive 本体，
+    // 天然的「白名单」比事后加排除项稳：上游明天新增什么都不会漏进来。
+    why: '微软云盘（只取 ACL4SSR 的 Clash/OneDrive.list，不并 Microsoft.list —— 见上方注释）',
   },
   {
     out: 'apple',
@@ -163,7 +167,7 @@ export const TEXT_HEADERS = {
   'china-domain': ['# Polaris 分流规则 —— 国内域名', '# ACL4SSR 主表 + 百度 / 腾讯 / 阿里 / 字节 / 微信五家大厂表 + UnBan 白名单。'],
   'china-ip': ['# Polaris 分流规则 —— 国内 IP 段', '# 含 IPv4、IPv6 与企业 IP；配合 GEOIP,CN 兜住 HTTPDNS 直连场景。'],
   'china-media': ['# Polaris 分流规则 —— 国内流媒体与下载', '# 哔哩哔哩 / 网易音乐已并入国内直连；Download 是下载类直连域名。'],
-  onedrive: ['# Polaris 分流规则 —— 微软云盘与微软服务', '# 同一组：云盘默认直连省流量，微软服务默认走代理，可在分流页整体切换。'],
+  onedrive: ['# Polaris 分流规则 —— 微软云盘', '# 只含 ACL4SSR 的 OneDrive 云盘域名；Bing / Office / Outlook / Teams / GitHub 走「国外穿墙」兜底（用户 2026-10-14 裁定）。'],
   apple: ['# Polaris 分流规则 —— 苹果服务', '# 默认直连，出口可选（用户 2026-10-13 定）。'],
   'proxy-gfwlist': ['# Polaris 分流规则 —— 国外穿墙兜底', '# GFWList，ACL4SSR 每 2–4 天自动更新一次。'],
   'proxy-media': ['# Polaris 分流规则 —— 境外流媒体兜底', '# 不在流媒体组名单里的长尾站点。'],

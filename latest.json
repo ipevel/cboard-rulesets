@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 4,
-  "generatedAt": "2026-10-13T18:46:02.424Z",
+  "version": 5,
+  "generatedAt": "2026-10-14T02:18:01.423Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
@@ -11,7 +11,7 @@
     "meta": {
       "repo": "MetaCubeX/meta-rules-dat",
       "tag": "latest",
-      "publishedAt": "2026-10-13T03:08:15Z"
+      "publishedAt": "2026-10-14T01:20:26Z"
     }
   },
   "files": [
@@ -24,13 +24,13 @@
     {
       "path": "dist/geo/geoip.metadb",
       "bytes": 8414245,
-      "sha256": "e060b447d974e2dde71340c47783f0263d4d4a6656237f4f824c186044647eb3",
+      "sha256": "2a423d870b01a7ea8f30c0184b627396bbc697160d4e7153eed4d1c8858dbb15",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "dist/geo/geosite.dat",
-      "bytes": 4290986,
-      "sha256": "30b8fe82c220879da1fadf896ec18b26b495091980dab3dca7a11199c74a5773",
+      "bytes": 4276543,
+      "sha256": "edcea5a7bb89cc1832ee3b3bbee3edcbf45474d52b6607261c11960a64e8e2e2",
       "upstreamAsset": "geosite.dat"
     },
     {
@@ -142,12 +142,11 @@
     },
     {
       "path": "dist/rules/onedrive.list",
-      "bytes": 2543,
-      "sha256": "d96012d632ff39a2ea4c59816b79acc7a30895ce7ada1c63f3439f595f44a563",
-      "rules": 92,
+      "bytes": 515,
+      "sha256": "69eb753d7443bd14d0b4358e86916ad06794f9f3d4ba4f388a29c27fb5230ecb",
+      "rules": 17,
       "sources": [
-        "OneDrive.list",
-        "Microsoft.list"
+        "OneDrive.list"
       ],
       "format": "text",
       "behavior": "classical"
@@ -241,13 +240,13 @@
     {
       "path": "geo/geoip.metadb",
       "bytes": 8414245,
-      "sha256": "e060b447d974e2dde71340c47783f0263d4d4a6656237f4f824c186044647eb3",
+      "sha256": "2a423d870b01a7ea8f30c0184b627396bbc697160d4e7153eed4d1c8858dbb15",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "geo/geosite.dat",
-      "bytes": 4290986,
-      "sha256": "30b8fe82c220879da1fadf896ec18b26b495091980dab3dca7a11199c74a5773",
+      "bytes": 4276543,
+      "sha256": "edcea5a7bb89cc1832ee3b3bbee3edcbf45474d52b6607261c11960a64e8e2e2",
       "upstreamAsset": "geosite.dat"
     },
     {
@@ -343,12 +342,11 @@
     },
     {
       "path": "rules/onedrive.txt",
-      "bytes": 2823,
-      "sha256": "f8247a8bb813e66f3058551da1e63143ba753d75cb97997578c19af695188751",
-      "rules": 92,
+      "bytes": 801,
+      "sha256": "894548daf8ef543f20da4e38f43a13c6445688702d70bd592452bedbfe8c7aec",
+      "rules": 17,
       "sources": [
-        "OneDrive.list",
-        "Microsoft.list"
+        "OneDrive.list"
       ]
     },
     {

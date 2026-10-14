@@ -1,12 +1,12 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-10-13T18:46:02.424Z
-版本：VERSION 4
+生成时间：2026-10-14T02:18:01.423Z
+版本：VERSION 5
 
 ## 上游坐标
 
 - 分流清单：`ACL4SSR/ACL4SSR` @ `802e3abf065f8609e7d9073ba506158dbe2ba6e7`（2026-10-07T03:44:24Z）
-- geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-10-13T03:08:15Z）
+- geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-10-14T01:20:26Z）
 
 ## 两种形态
 
@@ -26,7 +26,7 @@
 | `dist/rules/china-ip.list` *(内核形态)* | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
 | `dist/rules/china-media.list` *(内核形态)* | 91 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
 | `dist/rules/games.list` *(内核形态)* | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
-| `dist/rules/onedrive.list` *(内核形态)* | 92 | OneDrive.list, Microsoft.list |
+| `dist/rules/onedrive.list` *(内核形态)* | 17 | OneDrive.list |
 | `dist/rules/proxy-gfwlist.list` *(内核形态)* | 6883 | ProxyGFWlist.list |
 | `dist/rules/proxy-media.list` *(内核形态)* | 356 | ProxyMedia.list |
 | `dist/rules/social.list` *(内核形态)* | 53 | Twitter.list, Instagram.list, Facebook.list, Whatsapp.list |
@@ -44,7 +44,7 @@
 | `rules/china-ip.txt` | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
 | `rules/china-media.txt` | 91 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
 | `rules/games.txt` | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
-| `rules/onedrive.txt` | 92 | OneDrive.list, Microsoft.list |
+| `rules/onedrive.txt` | 17 | OneDrive.list |
 | `rules/proxy-gfwlist.txt` | 6883 | ProxyGFWlist.list |
 | `rules/proxy-media.txt` | 356 | ProxyMedia.list |
 | `rules/social.txt` | 53 | Twitter.list, Instagram.list, Facebook.list, Whatsapp.list |
