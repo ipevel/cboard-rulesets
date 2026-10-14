@@ -12,6 +12,8 @@
  *   5. dist/geo/* 与 geo/* 逐字节一致
  *   6. dist/rules 里没有 latest.json 未声明的陈旧文件
  *   7. VERSION 是正整数
+ *   8. 生成期断言：manifest 里声明了 forbid 的键，产物中不得出现这些宽口径条目
+ *      （当前只有 onedrive；见 manifest.mjs 的注释与 8b 的「生成参数」版断言）
  *
  * 退出码：0 全过；1 有问题（逐条打印）。
  * 这个检查跑在 CI 里：同步产物不自洽就**不提交**。
@@ -38,6 +40,13 @@ function abs(p) { return join(ROOT, p); }
 /** 取出一份规则文件里的「规则行」（丢掉 # 注释与空行） */
 function ruleLines(text) {
   return String(text).split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+}
+
+/** 取规则行的「域名 / 关键词」段（逗号后第一段，去掉参数），小写 */
+function ruleDomain(line) {
+  const i = String(line).indexOf(',');
+  if (i < 0) return '';
+  return String(line).slice(i + 1).split(',')[0].trim().toLowerCase();
 }
 
 /* ---- 1. latest.json ---- */
@@ -102,6 +111,41 @@ if (!existsSync(latestPath)) {
       let dupCount = 0;
       for (const line of ruleLines(raw)) { if (dup.has(line)) dupCount++; else dup.add(line); }
       if (dupCount) bad(`${DIST}/rules/${s.out}.list 有 ${dupCount} 条重复规则`);
+
+      /* ---- 8. 生成期断言：manifest 声明的 forbid 条目不得出现 ---- */
+      // 判据是「整行」或「域名段」与 forbid 任一条**完全相等**（不做子串匹配），
+      // 所以 onedrive.live.com 不会被 live.com 误伤。
+      if (Array.isArray(s.forbid) && s.forbid.length) {
+        const banned = new Set(s.forbid.map((f) => String(f).trim().toLowerCase()));
+        const hits = [];
+        for (const line of ruleLines(raw)) {
+          const whole = line.trim().toLowerCase();
+          if (banned.has(whole) || banned.has(ruleDomain(line))) hits.push(line);
+        }
+        if (hits.length) {
+          bad(
+            `${DIST}/rules/${s.out}.list 出现 ${hits.length} 条被 manifest.forbid 禁止的宽口径条目：` +
+            `${hits.slice(0, 5).join('、')}${hits.length > 5 ? ' …' : ''}`,
+          );
+        } else {
+          ok(`${DIST}/rules/${s.out}.list 生成期断言通过：未出现 ${s.forbid.length} 条被禁条目`);
+        }
+      }
+    }
+
+    /* ---- 8b. onedrive 不得重新并入宽口径 Microsoft.list ---- */
+    // 这是上面 forbid 的「源头」版本：产物断言挡的是结果，这条挡的是生成参数。
+    const od = RULE_SETS.find((s) => s.out === 'onedrive');
+    if (od) {
+      const back = [...(od.alsoRuleset || []), ...(od.alsoClash || [])]
+        .filter((n) => /^microsoft$/i.test(String(n)));
+      if (back.length) {
+        bad('manifest 的 onedrive 条目又把 Microsoft 加回了 alsoRuleset/alsoClash（宽口径回灌）');
+      } else if (!(od.files || []).includes('OneDrive')) {
+        bad('manifest 的 onedrive 条目不再取 Clash/OneDrive.list（白名单本体丢了）');
+      } else {
+        ok('onedrive 生成参数断言通过：只取 Clash/OneDrive.list，未并入 Microsoft');
+      }
     }
 
     /* ---- 5. geo 两处逐字节一致 ---- */

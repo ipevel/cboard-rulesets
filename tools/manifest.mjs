@@ -106,6 +106,26 @@ export const RULE_SETS = [
     // 会把 GitHub / Bing / Office / Outlook / Teams 一并抓成直连。只取 OneDrive 本体，
     // 天然的「白名单」比事后加排除项稳：上游明天新增什么都不会漏进来。
     why: '微软云盘（只取 ACL4SSR 的 Clash/OneDrive.list，不并 Microsoft.list —— 见上方注释）',
+    // 生成期断言（由 tools/verify.mjs 强制执行，跑在 sync.yml 提交**之前**）：
+    // 这份产物里不得再出现宽口径微软全家桶的特征条目。判定方式是「整行或域名段
+    // 与下面任一条**完全相等**」，所以云盘本体不会被误伤——onedrive.live.com /
+    // storage.live.com / storage.msn.com 都与 live.com / msn.com 不等。
+    // 万一有人把 alsoRuleset: ['Microsoft'] 加回来，CI 会在提交前红，
+    // 而不是等用户发现 GitHub 又变成直连。
+    forbid: [
+      'DOMAIN-KEYWORD,microsoft',
+      'bing.com',
+      'bing.net',
+      'bingapis.com',
+      'office.com',
+      'office.net',
+      'office365.com',
+      'officeppe.net',
+      'outlook.com',
+      'outlookmobile.com',
+      'msn.com',
+      'live.com',
+    ],
   },
   {
     out: 'apple',
