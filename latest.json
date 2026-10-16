@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 6,
-  "generatedAt": "2026-10-15T00:47:24.820Z",
+  "version": 7,
+  "generatedAt": "2026-10-16T04:19:27.940Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
@@ -11,26 +11,26 @@
     "meta": {
       "repo": "MetaCubeX/meta-rules-dat",
       "tag": "latest",
-      "publishedAt": "2026-10-15T00:42:34Z"
+      "publishedAt": "2026-10-16T00:33:36Z"
     }
   },
   "files": [
     {
       "path": "dist/geo/ASN.mmdb",
-      "bytes": 8969559,
-      "sha256": "d82d2f39ea82a175a3d63484c8b4723040d134ba1edf4b27d6819c2f96c14a9b",
+      "bytes": 8974108,
+      "sha256": "b9c1120510f02791c455fa667740a251e46e85d625fb977f8248d5ec1ebf6721",
       "upstreamAsset": "GeoLite2-ASN.mmdb"
     },
     {
       "path": "dist/geo/geoip.metadb",
-      "bytes": 8422675,
-      "sha256": "262bc4a119a9a3510ae957e434e11bfa41c37d72845bda9dbea12c3f2ac28b36",
+      "bytes": 8423059,
+      "sha256": "0b8e3f79883dc5a96f300c1bcaa1f6e986e0eb033eb8a5d653be9075a464bd3e",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "dist/geo/geosite.dat",
-      "bytes": 4276543,
-      "sha256": "9ae9d588b1c051c764f2500e188393934aa84fc45e0da96530ddf069cf232b27",
+      "bytes": 4272778,
+      "sha256": "c524fa1d3ad541eba3cb2fa3ea4f8f89931f10143baecd00d4ef5f4dd54806f4",
       "upstreamAsset": "geosite.dat"
     },
     {
@@ -233,20 +233,20 @@
     },
     {
       "path": "geo/ASN.mmdb",
-      "bytes": 8969559,
-      "sha256": "d82d2f39ea82a175a3d63484c8b4723040d134ba1edf4b27d6819c2f96c14a9b",
+      "bytes": 8974108,
+      "sha256": "b9c1120510f02791c455fa667740a251e46e85d625fb977f8248d5ec1ebf6721",
       "upstreamAsset": "GeoLite2-ASN.mmdb"
     },
     {
       "path": "geo/geoip.metadb",
-      "bytes": 8422675,
-      "sha256": "262bc4a119a9a3510ae957e434e11bfa41c37d72845bda9dbea12c3f2ac28b36",
+      "bytes": 8423059,
+      "sha256": "0b8e3f79883dc5a96f300c1bcaa1f6e986e0eb033eb8a5d653be9075a464bd3e",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "geo/geosite.dat",
-      "bytes": 4276543,
-      "sha256": "9ae9d588b1c051c764f2500e188393934aa84fc45e0da96530ddf069cf232b27",
+      "bytes": 4272778,
+      "sha256": "c524fa1d3ad541eba3cb2fa3ea4f8f89931f10143baecd00d4ef5f4dd54806f4",
       "upstreamAsset": "geosite.dat"
     },
     {
