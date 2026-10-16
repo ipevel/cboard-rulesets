@@ -1,4 +1,4 @@
-# TikTok_domain.yaml - 29 rules
+# TikTok_domain.yaml - 32 rules
 payload:
   - lf16-effectcdn.byteeffecttos-g.com
   - lf16-pkgcdn.pitaya-clientai.com
@@ -9,6 +9,9 @@ payload:
   - +.byteintlapi.com
   - +.byteoversea.com
   - +.capcut.com
+  - +.capcutapi.com
+  - +.capcutapi.us
+  - +.capcutstatic.com
   - +.ibytedtos.com
   - +.ibyteimg.com
   - +.ipstatp.com
