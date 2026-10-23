@@ -1,11 +1,11 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-10-23T05:15:56.414Z
-版本：VERSION 15
+生成时间：2026-10-23T19:19:50.540Z
+版本：VERSION 16
 
 ## 上游坐标
 
-- 分流清单：`ACL4SSR/ACL4SSR` @ `575637df38884575bfa523e95c17d0ee3be1676c`（2026-10-17T02:32:14Z）
+- 分流清单：`ACL4SSR/ACL4SSR` @ `ce7ef8f3bd7f372a756584722101c3e94e20eedd`（2026-10-23T17:56:56Z）
 - geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-10-23T00:48:39Z）
 
 ## 两种形态
