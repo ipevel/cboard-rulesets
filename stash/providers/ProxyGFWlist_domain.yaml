@@ -1,4 +1,4 @@
-# ProxyGFWlist_domain.yaml - 4432 rules
+# ProxyGFWlist_domain.yaml - 4434 rules
 payload:
   - +.000webhost.com
   - +.0rz.tw
@@ -861,6 +861,7 @@ payload:
   - +.compileheart.com
   - +.connect.facebook.net
   - +.conoha.jp
+  - +.console.typesafe.ai
   - +.contests.twilio.com
   - +.cool18.com
   - +.coolaler.com
@@ -1416,6 +1417,7 @@ payload:
   - +.g.co
   - +.g0v.social
   - +.g6hentai.com
+  - +.ga.jspm.io
   - +.gab.com
   - +.gabocorp.com
   - +.gagaoolala.com
