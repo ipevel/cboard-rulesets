@@ -1,0 +1,16 @@
+# 本地密钥文件（含数据库/服务器密码，严禁提交）
+.secrets.json
+*.local
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# 临时产物
+*.7z
+/tmp/
+mrs-refresh/

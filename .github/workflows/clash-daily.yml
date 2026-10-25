@@ -25,7 +25,7 @@ jobs:
 
       - name: Generate providers
         run: |
-          python3 scripts/generate_providers.py --update-template
+          python3 scripts/clash_generate_providers.py --update-template
 
       - name: Refactor config (RULE-SET extract + dedup)
         run: |

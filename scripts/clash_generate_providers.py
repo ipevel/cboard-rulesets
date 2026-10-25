@@ -30,7 +30,7 @@ LOYO = "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/{file
 # polaris-rules 合并后的 AI 清单（ACL4SSR 的 AI/OpenAi/ClaudeAI/Gemini 四份合并去重），
 # 覆盖 OpenAI / Claude / Gemini / Groq / Perplexity / Mistral / Meta AI / xAI / Cursor /
 # JetBrains / GitHub·Microsoft Copilot 等，比本仓原本只拉 OpenAI/Claude/Gemini 三份更全。
-POLARIS_AI = "https://raw.githubusercontent.com/ipevel/polaris-rules/main/dist/rules/ai.list"
+POLARIS_AI = "https://raw.githubusercontent.com/ipevel/cboard-rulesets/main/dist/rules/ai.list"
 UA = {"User-Agent": "Mozilla/5.0 (clash-rulesets-updater)"}
 
 # 规则类型前缀（标准 Clash 规则行）
@@ -441,7 +441,7 @@ def main():
             with open(TEMPLATE) as f:
                 text = f.read()
             new_text, n = re.subn(
-                r"(https://cdn\.jsdelivr\.net/gh/ipevel/clash-rulesets)@[0-9a-f]+(/clashmeta/providers/)",
+                r"(https://cdn\.jsdelivr\.net/gh/ipevel/cboard-rulesets)@[0-9a-f]+(/clashmeta/providers/)",
                 r"\1@main\2", text)
             # telegramcidr 指向新文件 TelegramCIDR.yaml
             new_text = new_text.replace(

@@ -36,9 +36,9 @@ except ImportError:
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_FILE = os.environ.get(
     "TEMPLATE_FILE", os.path.join(BASE, "clashmeta", "clash-xboard-subscription.yaml"))
-# stash 模板: 从 stash-rulesets 仓库拉 stash-full.yaml (Stash 原生格式)
+# stash 模板: 同仓内的 stash/stash-full.yaml (Stash 原生格式, 合并后不再跨仓)
 STASH_TEMPLATE_FILE = os.environ.get(
-    "STASH_TEMPLATE_FILE", os.path.join(BASE, "..", "stash-rulesets", "stash", "stash-full.yaml"))
+    "STASH_TEMPLATE_FILE", os.path.join(BASE, "stash", "stash-full.yaml"))
 
 # ---- 本地密钥（.secrets.json，不进 git）----
 SECRETS = {}

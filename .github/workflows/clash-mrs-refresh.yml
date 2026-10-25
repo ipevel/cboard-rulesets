@@ -70,8 +70,8 @@ jobs:
             echo "- 资产 sha256：\`${{ steps.refresh.outputs.bundle_sha256 }}\`（${{ steps.refresh.outputs.bundle_size }} B）"
             echo "- 内容：geosite ${{ steps.refresh.outputs.geosite_files }} 个 / geoip ${{ steps.refresh.outputs.geoip_files }} 个"
             echo
-            echo "- 滚动地址：https://github.com/ipevel/clash-rulesets/releases/download/latest/BundleMRS.7z"
-            echo "- 回退点：https://github.com/ipevel/clash-rulesets/releases/download/${{ steps.refresh.outputs.date_tag }}/BundleMRS.7z"
+            echo "- 滚动地址：https://github.com/ipevel/cboard-rulesets/releases/download/latest/BundleMRS.7z"
+            echo "- 回退点：https://github.com/ipevel/cboard-rulesets/releases/download/${{ steps.refresh.outputs.date_tag }}/BundleMRS.7z"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 失败留档（issue + 日志）

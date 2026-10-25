@@ -29,7 +29,7 @@ UPSTREAM_REPO="${UPSTREAM_REPO:-MetaCubeX/meta-rules-dat}"
 UPSTREAM_BRANCH="${UPSTREAM_BRANCH:-meta}"
 MRS_BRANCH="${MRS_BRANCH:-mrs}"
 ROLLING_TAG="${ROLLING_TAG:-latest}"
-REPO="${GITHUB_REPOSITORY:-ipevel/clash-rulesets}"
+REPO="${GITHUB_REPOSITORY:-ipevel/cboard-rulesets}"
 API="https://api.github.com/repos/${REPO}"
 WORK="${RUNNER_TEMP:-/tmp}/mrs-refresh"
 

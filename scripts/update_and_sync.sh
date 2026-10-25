@@ -10,7 +10,7 @@
 # ============================================================
 set -euo pipefail
 
-REPO_DIR="${REPO_DIR:-/root/clash-rulesets}"
+REPO_DIR="${REPO_DIR:-/root/cboard-rulesets}"
 LOG_FILE="${LOG_FILE:-/var/log/clash-rule-sync.log}"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_FILE"; }
@@ -25,19 +25,15 @@ git pull --ff-only origin main 2>&1 | tee -a "$LOG_FILE" || log "WARN: git pull 
 
 # 2. 生成 providers（更新源规则）
 log "生成 providers..."
-python3 scripts/generate_providers.py --update-template 2>&1 | tail -5 | tee -a "$LOG_FILE"
+python3 scripts/clash_generate_providers.py --update-template 2>&1 | tail -5 | tee -a "$LOG_FILE"
 
 # 2b. 重构为 RULE-SET（与 CI 一致，避免 generate 覆盖 CI 的 refactor 输出）
 log "重构 RULE-SET..."
 python3 scripts/refactor_to_rule_set.py 2>&1 | tail -5 | tee -a "$LOG_FILE"
 
-# 2c. 拉取 stash-rulesets（stash 模板来源，避免过期）
-log "拉取 stash-rulesets..."
-if [ -d /root/stash-rulesets ]; then
-    git -C /root/stash-rulesets pull --ff-only origin main 2>&1 | tee -a "$LOG_FILE" || log "WARN: stash-rulesets pull 失败"
-else
-    log "WARN: /root/stash-rulesets 不存在，跳过 stash 拉取"
-fi
+# 2c. stash 模板已在本仓内（stash/stash-full.yaml），不再跨仓拉取；
+#     但 stash 产物由 Actions 生成，这里只确保本地与远端一致（第 1 步已 pull）。
+log "stash 模板: 同仓 stash/stash-full.yaml"
 
 # 3. 若有本地生成改动则提交
 if ! git diff --quiet; then
