@@ -1,0 +1,14 @@
+# Polaris 分流规则 —— TikTok
+# 只含 TikTok 域名。
+# 来自 ACL4SSR 清单：TikTok
+# 规则数：10 条（上游合计 10 条，去重 0 条）
+DOMAIN-KEYWORD,tiktokcdn
+DOMAIN-SUFFIX,byteoversea.com
+DOMAIN-SUFFIX,ibytedtos.com
+DOMAIN-SUFFIX,ipstatp.com
+DOMAIN-SUFFIX,muscdn.com
+DOMAIN-SUFFIX,musical.ly
+DOMAIN-SUFFIX,tik-tokapi.com
+DOMAIN-SUFFIX,tiktok.com
+DOMAIN-SUFFIX,tiktokcdn.com
+DOMAIN-SUFFIX,tiktokv.com

@@ -1,0 +1,130 @@
+name: sync-upstream
+
+# 每 15 分钟做一次「轻量探测」：只问两个上游「变了吗」，不变就直接退出。
+# 变了才全量拉取 + 校验 + 提交 —— 探测只花两次 API 调用，不下载任何规则内容。
+#
+# ⚠️ cron 写 9,24,39,54 而不是 */15：*/15 落在 :00/:15/:30/:45 这四个整点刻度上，
+# 那是 GitHub 全站最挤的时刻。
+#
+# ✅ 结论（2026-10-14 更正）：**schedule 已恢复触发，下面那版「根本不触发」的定案作废。**
+# 自 2026-10-14T01:21Z 起 `event=schedule` 的 run 正常出现，最早两条是
+# 38491346567（00:38:47Z）与 38495259658（01:21:18Z），此后每 15 分钟一次。
+# 恢复的直接原因是**对 workflow 做了一次 disable + enable 强制重新登记**。
+#
+# 教训：GitHub 的 schedule 登记可能长期不生效，而 disable + enable 能把它救回来 ——
+# 遇到「schedule 不触发」先试这一步，再考虑计划任务之类的兜底。
+#
+# —— 以下为作废的旧定案，保留以便对照 ——
+# 🔴 旧结论（2026-10-14T07:00+08）：**本仓库的 schedule 事件根本不触发。**
+# 建仓 2026-10-13T15:41Z 起近 7.5 小时 `event=schedule` 的 run 数一直是 **0**，
+# 期间已排除所有我们这侧的可能：push / workflow_dispatch 都正常；`state=active`；
+# 默认分支 main 上确有这段 schedule；`actions/permissions` enabled=True / all；
+# 不是 fork、没 archived/disabled；cron 已错开整点；还做过一次 disable+enable
+# 强制重登记（updated_at 刷新过）；最后又加了 `.github/workflows/schedule-probe.yml`
+# ——一个只 echo 报时的独立 workflow、自己一条 cron——42 分钟窗（覆盖 2 个刻度）
+# 内**它同样一次都没触发**。=> 当时判定问题在仓库的 schedule 通道，不在本文件。
+# 该判定当时成立，但只维持了约两小时 —— 后来正是 disable + enable 生效了，
+# 所以「做过一次 disable+enable 也没用」这句不算数。
+#
+# schedule-probe.yml 继续留着做长期观察：它的 cron 与本文件独立，通道再次失效时能第一时间看出来。
+
+on:
+  schedule:
+    - cron: '9,24,39,54 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/**'
+      - '.github/workflows/sync.yml'
+
+# 同一时刻只允许一个同步任务，避免两个 cron 撞车互相覆盖
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 检出
+        uses: actions/checkout@v4
+
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # ---- 生成期断言：**不依赖上游是否有变化** ----
+      # verify.mjs 里 manifest.forbid 那组检查（当前只有 onedrive）挡的是「宽口径微软
+      # 全家桶回灌」。它必须在**任何** push 上都跑：否则「有人把
+      # alsoRuleset: ['Microsoft'] 加回来」这一手会在 probe 判「上游无变化」时溜过去
+      # （gate=no 会把下面那步校验整个跳过），等下次真同步才被发现——而那时产物已经
+      # 变回 92 行、GitHub 又被吞成直连了。校验器在干净仓库上是绿的（2026-10-14 实测
+      # exit 0），所以这一步不会给正常 push 添红。
+      - name: 生成期断言（manifest 禁止项 / 仓库自洽性）
+        run: node tools/verify.mjs
+
+      # ---- 轻量探测：不下载任何规则内容 ----
+      # 退出码：0 = 上游有变化；2 = 上游无变化；其他/非 0 非 2 = 探测本身失败
+      - name: 探测上游是否有变化
+        id: probe
+        run: |
+          set +e
+          node tools/sync.mjs --check
+          code=$?
+          set -e
+          echo "check_exit=${code}" >> "$GITHUB_OUTPUT"
+          if [ "$code" = "0" ]; then
+            echo "判定：上游有变化"
+          elif [ "$code" = "2" ]; then
+            echo "判定：上游无变化"
+          else
+            echo "::warning::探测失败（exit ${code}），本次跳过，不下载任何内容"
+          fi
+
+      - name: 需要同步吗
+        id: gate
+        run: |
+          if [ "${{ steps.probe.outputs.check_exit }}" = "0" ]; then
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ---- 有变化才全量同步 ----
+      - name: 全量同步
+        if: steps.gate.outputs.go == 'yes'
+        run: node tools/sync.mjs
+
+      # ---- 自洽性门禁：不自洽就绝不提交 ----
+      - name: 自洽性校验
+        if: steps.gate.outputs.go == 'yes'
+        run: node tools/verify.mjs
+
+      - name: 提交
+        if: steps.gate.outputs.go == 'yes'
+        run: |
+          set -euo pipefail
+          git config user.name  'polaris-rules-bot'
+          git config user.email 'polaris-rules-bot@users.noreply.github.com'
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "工作区干净，没有需要提交的变化"
+            exit 0
+          fi
+
+          VERSION="$(cat VERSION)"
+          ACL_SHA="$(node -e "const l=require('./latest.json');process.stdout.write(l.upstream.acl.sha.slice(0,8))")"
+          META_PUB="$(node -e "const l=require('./latest.json');process.stdout.write(l.upstream.meta.publishedAt)")"
+
+          git add -A
+          git commit -m "sync: 上游更新 -> VERSION ${VERSION}" \
+                     -m "ACL4SSR@${ACL_SHA} · meta-rules-dat release ${META_PUB}" \
+                     -m "由 .github/workflows/sync.yml 自动生成；改动全部来自上游，未经人工审核。"
+          git push
