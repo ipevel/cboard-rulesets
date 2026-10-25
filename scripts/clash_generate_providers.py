@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 从 blackmatrix7/ios_rule_script + Loyalsoldier/clash-rules 拉取最新 Clash 规则，
-生成 ipevel/clash-rulesets 的 provider 文件。
+生成 ipevel/cboard-rulesets 的 provider 文件。
 
 源格式支持三种:
   1. 标准 Clash 规则行  (DOMAIN-SUFFIX,xxx / IP-CIDR,x / DOMAIN-KEYWORD,x ...)
@@ -31,7 +31,7 @@ LOYO = "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/{file
 # 覆盖 OpenAI / Claude / Gemini / Groq / Perplexity / Mistral / Meta AI / xAI / Cursor /
 # JetBrains / GitHub·Microsoft Copilot 等，比本仓原本只拉 OpenAI/Claude/Gemini 三份更全。
 POLARIS_AI = "https://raw.githubusercontent.com/ipevel/cboard-rulesets/main/dist/rules/ai.list"
-UA = {"User-Agent": "Mozilla/5.0 (clash-rulesets-updater)"}
+UA = {"User-Agent": "Mozilla/5.0 (cboard-rulesets-updater)"}
 
 # 规则类型前缀（标准 Clash 规则行）
 RULE_TYPES = ("DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD", "DOMAIN-REGEX",

@@ -30,7 +30,7 @@ LOYO = "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/{file
 # 覆盖 OpenAI / Claude / Gemini / Groq / Perplexity / Mistral / Meta AI / xAI / Cursor /
 # JetBrains / GitHub·Microsoft Copilot 等，比本仓原本只拉 OpenAI/Claude/Gemini 三份更全。
 POLARIS_AI = "https://raw.githubusercontent.com/ipevel/cboard-rulesets/main/dist/rules/ai.list"
-UA = {"User-Agent": "Mozilla/5.0 (stash-rulesets-updater)"}
+UA = {"User-Agent": "Mozilla/5.0 (cboard-rulesets-updater)"}
 
 def fetch(url):
     req = urllib.request.Request(url, headers=UA)
@@ -134,7 +134,7 @@ def drop_microsoft_direct(domains):
 # 这些域名被 ACL4SSR 和 blackmatrix7 打进了 AI 清单，但它们服务的是**全网大量与 AI 无关的站点**
 # （Intercom 挂在无数网站上、Cloudflare Turnstile、Sentry、Stripe 支付……）。
 # 留在 AI 规则里会劫持非 AI 站点流量。2026-10-19 用户裁定：生成阶段统一剔除。
-# 与 clash-rulesets 的同名名单保持一致。
+# 与 cboard-rulesets 的 clashmeta 名单保持一致。
 AI_INFRA_DROP = {
     "auth0.com",
     "client-api.arkoselabs.com",
@@ -230,7 +230,7 @@ SOURCES = [
 ]
 
 # 合并源：把多个上游分类合并成一个 provider（去重），对应模板里的合并分组。
-# 2026-10-19 用户要求社交/流媒体/开发者各自并成一个分组（与 clash-rulesets 同批整改）。
+# 2026-10-19 用户要求社交/流媒体/开发者各自并成一个分组（与 clashmeta 同批整改）。
 # 结构：(输出名, [(blackmatrix7 分类, 该分类文件名), ...])
 MERGED_SOURCES = [
     ("Social", [

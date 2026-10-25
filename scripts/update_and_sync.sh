@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # ============================================================
 # update_and_sync.sh — 本机定时任务:
-#   1. git pull 拉取 clash-rulesets 最新 main
+#   1. git pull 拉取 cboard-rulesets 最新 main
 #   2. 重新生成 providers（双保险，与 Actions 一致）
 #   3. 同步 clash-xboard-subscription.yaml 到 xboard DB (clash + clashmeta)
 #   4. 若有本地改动（生成器更新源）则 commit & push
 #
-# 由 systemd timer 每日触发: clash-rule-sync.timer
+# 手动/备用入口。线上每日同步由 cron(北京 10:30) 调 /root/xboard-rule-sync.sh 完成;
+# 该 wrapper 只做 fetch+reset+sync, 不重新生成 providers。
 # ============================================================
 set -euo pipefail
 
@@ -39,7 +40,7 @@ log "stash 模板: 同仓 stash/stash-full.yaml"
 if ! git diff --quiet; then
     log "检测到本地改动，commit & push..."
     git add -A
-    git -c user.name="clash-rulesets-bot" -c user.email="ipevel@users.noreply.github.com" \
+    git -c user.name="cboard-rulesets-bot" -c user.email="ipevel@users.noreply.github.com" \
         commit -m "chore: local rule regeneration $(date -u +%Y-%m-%d)" || true
     git push origin main 2>&1 | tee -a "$LOG_FILE" || log "WARN: push 失败"
 fi

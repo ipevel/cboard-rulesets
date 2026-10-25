@@ -69,7 +69,7 @@ jobs:
       - name: Commit and push if changed
         if: github.ref == 'refs/heads/main'
         run: |
-          git config user.name "stash-rulesets-bot"
+          git config user.name "cboard-rulesets-bot"
           git config user.email "ipevel@users.noreply.github.com"
           git add -A
           if git diff --cached --quiet; then
