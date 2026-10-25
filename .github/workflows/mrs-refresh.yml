@@ -53,6 +53,9 @@ jobs:
       - name: 刷新并发布
         id: refresh
         env:
+          # GITHUB_TOKEN 不会自动出现在步骤环境里，必须显式映射；
+          # 否则脚本第一道自检就是「缺少 GITHUB_TOKEN」（2026-10-25 run #1 即因此失败）。
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FORCE_REFRESH: ${{ inputs.force && '1' || '0' }}
         run: bash scripts/mrs_refresh.sh
 
