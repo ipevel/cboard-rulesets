@@ -1,4 +1,4 @@
-name: schedule-probe
+name: Polaris Schedule Probe
 
 # 诊断用，不是产品的一部分。只为回答一个问题：
 # 本仓库的 `schedule` 事件到底会不会触发？

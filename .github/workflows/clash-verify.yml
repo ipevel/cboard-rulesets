@@ -1,4 +1,4 @@
-name: verify-rulesets
+name: Clash Verify Rulesets
 
 # PR 门禁：只跑仓库自带的校验脚本，**不生成、不提交、不推送**。
 # 日更（daily-rule-update.yml）继续走 schedule 直推 main，本 workflow 不参与那条链路。

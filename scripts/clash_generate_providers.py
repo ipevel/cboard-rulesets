@@ -441,8 +441,8 @@ def main():
             with open(TEMPLATE) as f:
                 text = f.read()
             new_text, n = re.subn(
-                r"(https://cdn\.jsdelivr\.net/gh/ipevel/cboard-rulesets)@[0-9a-f]+(/clashmeta/providers/)",
-                r"\1@main\2", text)
+                r"(https://cdn\.jsdelivr\.net/gh/ipevel/)(?:clash|cboard)-rulesets@[0-9a-f]+(/clashmeta/providers/)",
+                r"\1cboard-rulesets@main\2", text)
             # telegramcidr 指向新文件 TelegramCIDR.yaml
             new_text = new_text.replace(
                 "clashmeta/providers/Telegram.yaml\"\n    path: ./ruleset/telegramcidr-v2.yaml",

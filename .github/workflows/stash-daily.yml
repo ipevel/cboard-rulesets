@@ -1,4 +1,4 @@
-name: Daily Rule Update
+name: Stash Daily Update
 
 on:
   schedule:

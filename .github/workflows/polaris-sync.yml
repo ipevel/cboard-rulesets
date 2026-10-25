@@ -1,4 +1,4 @@
-name: sync-upstream
+name: Polaris Sync Upstream
 
 # 每 15 分钟做一次「轻量探测」：只问两个上游「变了吗」，不变就直接退出。
 # 变了才全量拉取 + 校验 + 提交 —— 探测只花两次 API 调用，不下载任何规则内容。
