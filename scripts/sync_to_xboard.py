@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""
+sync_to_xboard.py — 把 clash-xboard-subscription.yaml 全量同步到 xboard 订阅面板
+的 clash (id=2)、clashmeta (id=3)、stash (id=4) 订阅模板，并清理各节点 Redis 缓存。
+
+用法:
+  python3 scripts/sync_to_xboard.py
+  DB_HOST=... DB_PASS=... python3 scripts/sync_to_xboard.py   # 覆盖 DB 配置
+
+依赖: pymysql (pip install pymysql), sshpass (仅密码登录节点时需要)
+
+配置/密钥: 从仓库根目录 .secrets.json 读取（该文件已被 .gitignore 忽略，严禁提交）。
+仓库内不含任何真实地址/密钥；数据库与节点信息全部由 .secrets.json 或环境变量提供，例如:
+  {
+    "db_host": "...",
+    "db_user": "...",
+    "db_port": "3306",
+    "db_name": "xboard",
+    "db_pass": "...",
+    "nodes": [
+      {"host": "...", "port": 22, "key": "/path/to/private/key", "password": null},
+      {"host": "...", "port": 22, "key": null, "password": "..."}
+    ]
+  }
+"""
+import os
+import sys
+import json
+
+try:
+    import pymysql
+except ImportError:
+    print("ERROR: 需要 pymysql: pip install pymysql")
+    sys.exit(1)
+
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_FILE = os.environ.get(
+    "TEMPLATE_FILE", os.path.join(BASE, "clashmeta", "clash-xboard-subscription.yaml"))
+# stash 模板: 从 stash-rulesets 仓库拉 stash-full.yaml (Stash 原生格式)
+STASH_TEMPLATE_FILE = os.environ.get(
+    "STASH_TEMPLATE_FILE", os.path.join(BASE, "..", "stash-rulesets", "stash", "stash-full.yaml"))
+
+# ---- 本地密钥（.secrets.json，不进 git）----
+SECRETS = {}
+_secrets_path = os.path.join(BASE, ".secrets.json")
+if os.path.isfile(_secrets_path):
+    with open(_secrets_path, encoding="utf-8") as _f:
+        SECRETS = json.load(_f)
+
+DB = dict(
+    host=os.environ.get("DB_HOST", SECRETS.get("db_host", "")),
+    port=int(os.environ.get("DB_PORT", SECRETS.get("db_port", "3306"))),
+    user=os.environ.get("DB_USER", SECRETS.get("db_user", "")),
+    password=os.environ.get("DB_PASS", SECRETS.get("db_pass", "")),
+    database=os.environ.get("DB_NAME", SECRETS.get("db_name", "xboard")),
+    charset="utf8mb4",
+)
+
+TEMPLATE_IDS = [int(x.strip()) for x in os.environ.get(
+    "TEMPLATE_IDS", "2,3,4").split(",") if x.strip()]  # 2=clash, 3=clashmeta, 4=stash
+# 需要清 Redis 缓存的面板节点 (host, port, 认证方式)
+# 注意: Xboard 的 SubscribeTemplate::getContent() 用 Redis remember(3600) 缓存模板 1 小时，
+# 直接改库必须清缓存才能立即生效（缓存键在 db1: xboard_database_xboard_cachesubscribe_template:*）
+# 节点清单完全从 .secrets.json 的 "nodes" 字段读取（仓库内不保留真实地址）。
+# 每项: {"host": ..., "port": ..., "key": 私钥路径或null, "password": 密码或null}
+NODES = SECRETS.get("nodes", [])
+
+def _ssh_cmd(node):
+    """构造 SSH 清缓存命令。"""
+    remote = f"root@{node['host']}"
+    redis_container = os.environ.get("REDIS_CONTAINER", "xboard-redis-1")
+    script = (f"for db in 0 1; do docker exec {redis_container} redis-cli -n $db --scan 2>/dev/null "
+              f"| grep -i template | while read k; do docker exec {redis_container} redis-cli -n $db DEL \\\"$k\\\"; done; done")
+    if node.get("password"):
+        return ["sshpass", "-p", node["password"], "ssh", "-o", "StrictHostKeyChecking=no",
+                "-o", "ConnectTimeout=10", "-p", str(node["port"]), remote, script]
+    if node.get("key"):
+        return ["ssh", "-i", node["key"], "-o", "StrictHostKeyChecking=no",
+                "-o", "ConnectTimeout=10", "-p", str(node["port"]), remote, script]
+    # 无 key/password: 用默认 SSH 配置 (root 免密 / ~/.ssh/config)
+    return ["ssh", "-o", "StrictHostKeyChecking=no",
+            "-o", "ConnectTimeout=10", "-p", str(node["port"]), remote, script]
+
+def load_template(tid):
+    """按模板 id 加载对应内容: 2/3=clash, 4=stash。"""
+    if tid == 4:
+        path = STASH_TEMPLATE_FILE
+        if not os.path.isfile(path):
+            print(f"ERROR: stash 模板不存在: {path}")
+            return None
+        with open(path, encoding="utf-8") as f:
+            return f.read()
+    path = TEMPLATE_FILE
+    if not os.path.isfile(path):
+        print(f"ERROR: clash 模板不存在: {path}")
+        return None
+    with open(path, encoding="utf-8") as f:
+        return f.read()
+
+def main():
+    if not DB["host"]:
+        print("ERROR: 缺少数据库主机（.secrets.json 未配置 db_host 或 DB_HOST 环境变量）")
+        sys.exit(1)
+    if not DB["password"]:
+        print("ERROR: 缺少数据库密码（.secrets.json 未配置 db_pass 或 DB_PASS 环境变量）")
+        sys.exit(1)
+
+    print("=== 开始同步 xboard 订阅模板 ===")
+    print(f"DB: {DB['host']}:{DB['port']}/{DB['database']} ({DB['user']})")
+
+    try:
+        conn = pymysql.connect(**DB, autocommit=False)
+    except Exception as e:
+        print(f"ERROR: 连接数据库失败: {e}")
+        sys.exit(1)
+
+    try:
+        with conn.cursor() as cur:
+            for tid in TEMPLATE_IDS:
+                cur.execute(
+                    "SELECT name FROM v2_subscribe_templates WHERE id=%s", (tid,))
+                row = cur.fetchone()
+                if not row:
+                    print(f"  [id={tid}] 不存在，跳过")
+                    continue
+                name = row[0]
+                content = load_template(tid)
+                if content is None or not content.strip():
+                    print(f"  [id={tid}] {name}: 模板为空，跳过")
+                    continue
+                cur.execute(
+                    "UPDATE v2_subscribe_templates SET content=%s, updated_at=NOW() WHERE id=%s",
+                    (content, tid))
+                conn.commit()
+                cur.execute(
+                    "SELECT LENGTH(content), updated_at FROM v2_subscribe_templates WHERE id=%s", (tid,))
+                length, updated = cur.fetchone()
+                print(f"  [id={tid}] {name}: 更新完成 (content {length} 字符, {updated})")
+    finally:
+        conn.close()
+
+    print("=== 同步完成 ===")
+
+    # ---- 清各节点 Redis 模板缓存（否则面板继续读旧模板直到 1 小时过期）----
+    import subprocess
+    print("\n=== 清理各节点 Redis 模板缓存 ===")
+    for node in NODES:
+        try:
+            cmd = _ssh_cmd(node)
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+            if r.returncode == 0:
+                print(f"  {node['host']}: 缓存已清理")
+            else:
+                print(f"  {node['host']}: 清理失败: {r.stderr.strip()[:120]}")
+        except Exception as e:
+            print(f"  {node['host']}: 清理异常: {e}")
+
+    print("\n=== 全部完成 ===")
+
+if __name__ == "__main__":
+    main()

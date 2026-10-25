@@ -1,0 +1,465 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: warning
+external-controller: 127.0.0.1:9090
+clash-for-android:
+  append-system-dns: false
+unified-delay: true
+global-client-fingerprint: chrome
+keep-alive-interval: 360
+proxies: ~
+
+# --- 1. 远程规则集定义 (Rule Providers) ---
+rule-providers:
+  # === AI（精确，放最前面防止截流）===
+  openai:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/OpenAI.yaml"
+    path: ./ruleset/openai-v2.yaml
+    interval: 3600
+
+  claude:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Claude.yaml"
+    path: ./ruleset/claude-v2.yaml
+    interval: 3600
+
+  googlegemini:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/GoogleGemini.yaml"
+    path: ./ruleset/googlegemini-v2.yaml
+    interval: 3600
+
+  # 合并 AI 清单（Groq/Perplexity/Mistral/Meta AI/xAI/Cursor/JetBrains/Copilot 等）。
+  # 生成阶段已剔除 auth0/stripe/sentry/intercom/cloudflare-challenges 等第三方基础设施域名
+  # （见 generate_providers.py 的 AI_INFRA_DROP），所以可以安全地放在靠前位置。
+  ai:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/AI.yaml"
+    path: ./ruleset/ai-v2.yaml
+    interval: 3600
+
+  # === 社交 ===
+  instagram:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Instagram.yaml"
+    path: ./ruleset/instagram-v2.yaml
+    interval: 3600
+
+  # 合并社交清单：Twitter / Facebook / Whatsapp / Discord / Reddit
+  social:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Social.yaml"
+    path: ./ruleset/social-v2.yaml
+    interval: 3600
+
+  # === 流媒体 ===
+  proxy-media:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/ProxyMedia.yaml"
+    path: ./ruleset/proxy-media-v2.yaml
+    interval: 3600
+
+  netflix:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Netflix.yaml"
+    path: ./ruleset/netflix-v2.yaml
+    interval: 3600
+
+  # 合并流媒体清单：Disney+ / HBO Max / Prime Video / Twitch / Spotify
+  streaming:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Streaming.yaml"
+    path: ./ruleset/streaming-v2.yaml
+    interval: 3600
+
+  tiktok:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/TikTok.yaml"
+    path: ./ruleset/tiktok-v2.yaml
+    interval: 3600
+
+  # === Google（Google / Google Play / Google FCM 三合一）===
+  google:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Google.yaml"
+    path: ./ruleset/google-v2.yaml
+    interval: 3600
+
+  googleplay:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/GooglePlay.yaml"
+    path: ./ruleset/googleplay-v2.yaml
+    interval: 3600
+
+  googlefcm:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/GoogleFCM.yaml"
+    path: ./ruleset/googlefcm-v2.yaml
+    interval: 3600
+
+  # === Apple ===
+  apple:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Apple.yaml"
+    path: ./ruleset/apple-v2.yaml
+    interval: 3600
+
+  # === 开发者 ===
+  github:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/GitHub.yaml"
+    path: ./ruleset/github-v2.yaml
+    interval: 3600
+
+  # 合并开发者清单：GitLab / Docker Hub / npmjs / PyPI（Bitbucket 上游无此分类，走内联规则）
+  dev:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Dev.yaml"
+    path: ./ruleset/dev-v2.yaml
+    interval: 3600
+
+  # === Microsoft ===
+  bing:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Bing.yaml"
+    path: ./ruleset/bing-v2.yaml
+    interval: 3600
+
+  onedrive:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/OneDrive.yaml"
+    path: ./ruleset/onedrive-v2.yaml
+    interval: 3600
+
+  microsoft:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Microsoft.yaml"
+    path: ./ruleset/microsoft-v2.yaml
+    interval: 3600
+
+  # === 中国直连 ===
+  chinadomain:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/ChinaDomain.yaml"
+    path: ./ruleset/chinadomain-v2.yaml
+    interval: 3600
+
+  chinaip:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/ChinaIp.yaml"
+    path: ./ruleset/chinaip-v2.yaml
+    interval: 3600
+
+  # 国内云厂商/公司自有 IDC 网段（阿里云、腾讯云等），GEOIP,CN 兜不住的部分
+  chinaccompanyip:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/ChinaCompanyIp.yaml"
+    path: ./ruleset/chinaccompanyip-v2.yaml
+    interval: 3600
+
+  # 国内 IPv6 网段（ChinaIp 只收 IPv4）
+  chinaipv6:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/ChinaIpV6.yaml"
+    path: ./ruleset/chinaipv6-v2.yaml
+    interval: 3600
+
+  # === Telegram ===
+  telegram:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Telegram.yaml"
+    path: ./ruleset/telegram-v2.yaml
+    interval: 3600
+
+  telegramcidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/TelegramCIDR.yaml"
+    path: ./ruleset/telegramcidr-v2.yaml
+    interval: 3600
+
+  # === GFWlist 兜底代理 ===
+  gfwlist:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/ProxyGFWlist.yaml"
+    path: ./ruleset/gfwlist-v2.yaml
+    interval: 3600
+
+# --- 2. 策略组配置 ---
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select
+    proxies: []
+
+  # --- 应用分组 ---
+  - name: 📲 电报消息
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  - name: 💬 Ai平台
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  # 社交：Instagram / Twitter / Facebook / Whatsapp / Discord / Reddit
+  - name: 📱 社交
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  # 流媒体：YouTube / Netflix / Disney+ / HBO Max / Prime Video / Twitch / Spotify
+  - name: 🎬 流媒体
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  - name: 🏷️ TikTok
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  # Google：Google / Google Play / Google FCM 三合一
+  - name: 🔍 Google
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  - name: 🍎 苹果服务
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  # 开发者：GitHub / GitLab / Bitbucket / Docker Hub / npmjs / PyPI
+  - name: 💻 开发者
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+  - name: 🔎 微软 Bing
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🚀 节点选择
+
+  - name: ☁️ 微软云盘
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🚀 节点选择
+
+  - name: 🖥️ 微软服务
+    type: select
+    proxies:
+      - 🎯 全球直连
+      - 🚀 节点选择
+
+  # --- 工具分组（放最后）---
+  - name: 🎯 全球直连
+    type: select
+    proxies:
+      - DIRECT
+      - 🚀 节点选择
+
+  - name: 🐟 漏网之鱼
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - 🎯 全球直连
+
+# --- 3. 规则分流逻辑（内联关键词优先匹配，RULE-SET兜底）---
+rules:
+  # === 本地网络直连 ===
+  - DOMAIN-SUFFIX,local,🎯 全球直连
+  - IP-CIDR,127.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
+  - IP-CIDR,10.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,🎯 全球直连,no-resolve
+  - IP-CIDR,100.64.0.0/10,🎯 全球直连,no-resolve
+  - IP-CIDR,169.254.0.0/16,🎯 全球直连,no-resolve
+  - IP-CIDR,224.0.0.0/4,🎯 全球直连,no-resolve
+  - IP-CIDR,0.0.0.0/8,🎯 全球直连,no-resolve
+  - IP-CIDR,240.0.0.0/4,🎯 全球直连,no-resolve
+  - IP-CIDR6,::1/128,🎯 全球直连,no-resolve
+  - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
+  - IP-CIDR6,fe80::/10,🎯 全球直连,no-resolve
+  - IP-CIDR6,fd00::/8,🎯 全球直连,no-resolve
+
+  # === AI平台（精确 provider 放前面；合并清单 ai 见本文件末尾）===
+  - DOMAIN-KEYWORD,openai,💬 Ai平台
+  - DOMAIN-KEYWORD,chatgpt,💬 Ai平台
+  - DOMAIN-KEYWORD,claude,💬 Ai平台
+  - DOMAIN-KEYWORD,anthropic,💬 Ai平台
+  - DOMAIN-KEYWORD,gemini,💬 Ai平台
+  - DOMAIN-SUFFIX,chatgpt.com,💬 Ai平台
+  - DOMAIN-SUFFIX,claude.ai,💬 Ai平台
+  - DOMAIN-SUFFIX,openai.com,💬 Ai平台
+  - DOMAIN-SUFFIX,anthropic.com,💬 Ai平台
+  - DOMAIN-SUFFIX,copilot.microsoft.com,💬 Ai平台
+  - RULE-SET,openai,💬 Ai平台
+  - RULE-SET,claude,💬 Ai平台
+  - RULE-SET,googlegemini,💬 Ai平台
+  - RULE-SET,ai,💬 Ai平台
+
+  # === 社交（Instagram / Twitter / Facebook / Whatsapp / Discord / Reddit）===
+  - DOMAIN-KEYWORD,instagram,📱 社交
+  - DOMAIN-KEYWORD,twitter,📱 社交
+  - DOMAIN-KEYWORD,facebook,📱 社交
+  - DOMAIN-KEYWORD,fbcdn,📱 社交
+  - DOMAIN-KEYWORD,whatsapp,📱 社交
+  - DOMAIN-KEYWORD,discord,📱 社交
+  - DOMAIN-KEYWORD,reddit,📱 社交
+  - DOMAIN-SUFFIX,t.co,📱 社交
+  - DOMAIN-SUFFIX,fb.com,📱 社交
+  - RULE-SET,instagram,📱 社交
+  - RULE-SET,social,📱 社交
+
+  # === 流媒体（YouTube / Netflix / Disney+ / HBO Max / Prime Video / Twitch / Spotify）===
+  - DOMAIN-KEYWORD,youtube,🎬 流媒体
+  - DOMAIN-KEYWORD,googlevideo,🎬 流媒体
+  - DOMAIN-SUFFIX,youtube.com,🎬 流媒体
+  - DOMAIN-SUFFIX,youtu.be,🎬 流媒体
+  - DOMAIN-KEYWORD,netflix,🎬 流媒体
+  - DOMAIN-SUFFIX,nflxvideo.net,🎬 流媒体
+  - DOMAIN-KEYWORD,disney,🎬 流媒体
+  - DOMAIN-KEYWORD,hbo,🎬 流媒体
+  - DOMAIN-KEYWORD,primevideo,🎬 流媒体
+  - DOMAIN-KEYWORD,twitch,🎬 流媒体
+  - DOMAIN-KEYWORD,spotify,🎬 流媒体
+  - RULE-SET,proxy-media,🎬 流媒体
+  - RULE-SET,netflix,🎬 流媒体
+  - RULE-SET,streaming,🎬 流媒体
+
+  # === TikTok ===
+  - DOMAIN-KEYWORD,tiktok,🏷️ TikTok
+  - DOMAIN-SUFFIX,tiktok.com,🏷️ TikTok
+  - RULE-SET,tiktok,🏷️ TikTok
+
+  # === Telegram（内联关键词先匹配，RULE-SET兜底）===
+  - DOMAIN-KEYWORD,telegram,📲 电报消息
+  - DOMAIN-SUFFIX,t.me,📲 电报消息
+  - DOMAIN-SUFFIX,telegram.org,📲 电报消息
+  - RULE-SET,telegram,📲 电报消息
+  - RULE-SET,telegramcidr,📲 电报消息,no-resolve
+
+  # === Google（已剥离YouTube/Play/FCM/Gemini，三套规则并入同一组）===
+  # apis.google.com 是 Google 全系共用的 API JS 加载网关（搜索页也会拉），
+  # 曾被 blackmatrix7 误放进 Gemini 分类导致谷歌搜索被 AI 组截走，已剔除并在此显式接管。
+  - DOMAIN-SUFFIX,apis.google.com,🔍 Google
+  - RULE-SET,google,🔍 Google
+  - RULE-SET,googleplay,🔍 Google
+  - RULE-SET,googlefcm,🔍 Google
+
+  # === Apple ===
+  - RULE-SET,apple,🍎 苹果服务
+
+  # === 开发者（GitHub / GitLab / Bitbucket / Docker Hub / npmjs / PyPI）===
+  - DOMAIN-KEYWORD,github,💻 开发者
+  - DOMAIN-SUFFIX,github.com,💻 开发者
+  - DOMAIN-KEYWORD,gitlab,💻 开发者
+  - DOMAIN-KEYWORD,bitbucket,💻 开发者
+  - DOMAIN-SUFFIX,docker.io,💻 开发者
+  - DOMAIN-SUFFIX,docker.com,💻 开发者
+  - DOMAIN-SUFFIX,registry.npmjs.org,💻 开发者
+  - DOMAIN-SUFFIX,npmjs.com,💻 开发者
+  - DOMAIN-SUFFIX,npmjs.org,💻 开发者
+  - DOMAIN-SUFFIX,pypi.org,💻 开发者
+  - DOMAIN-SUFFIX,pythonhosted.org,💻 开发者
+  - RULE-SET,github,💻 开发者
+  - RULE-SET,dev,💻 开发者
+
+  # === Microsoft（内联规则优先，RULE-SET兜底）===
+  - RULE-SET,bing,🔎 微软 Bing
+  # OneDrive 内联规则（不依赖外部provider，加载失败也走这里）
+  - DOMAIN-KEYWORD,1drv,☁️ 微软云盘
+  - DOMAIN-KEYWORD,onedrive,☁️ 微软云盘
+  - DOMAIN-KEYWORD,skydrive,☁️ 微软云盘
+  - DOMAIN-SUFFIX,livefilestore.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,oneclient.sfx.ms,☁️ 微软云盘
+  - DOMAIN-SUFFIX,onedrive.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,onedrive.live.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,photos.live.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,sharepoint.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,sharepointonline.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,skydrive.wns.windows.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,spoprod-a.akamaihd.net,☁️ 微软云盘
+  - DOMAIN-SUFFIX,storage.live.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,storage.msn.com,☁️ 微软云盘
+  - DOMAIN-SUFFIX,microsoftpersonalcontent.com,☁️ 微软云盘
+  - RULE-SET,onedrive,☁️ 微软云盘
+  # Microsoft 内联规则
+  - DOMAIN-SUFFIX,hotmail.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,live.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,msn.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,office.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,office.net,🖥️ 微软服务
+  - DOMAIN-SUFFIX,microsoft.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,azure.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,microsoftonline.com,🖥️ 微软服务
+  - DOMAIN-SUFFIX,windows.net,🖥️ 微软服务
+  - DOMAIN-SUFFIX,bing.com,🖥️ 微软服务
+  - RULE-SET,microsoft,🖥️ 微软服务
+
+  # === PikPak 网盘（Web / API / App / 下载 CDN 全程走 🚀 节点选择）===
+  # 必须放在「中国直连」之前，原因有两条：
+  #   1) 下载 CDN 是 *.sandai.net（与迅雷共用该后缀），而 sandai.net 在 ChinaDomain 里，会被判直连；
+  #   2) 这些 CDN 子域解析到国内 IP（阿里云 / 联通），chinaip 与 GEOIP,CN 也会把它们拉去直连。
+  # 用 DOMAIN-KEYWORD,pikpak 一次覆盖全部品牌域名（pikpak.com / mypikpak.com / mypikpak.net /
+  # pikpak.me / pikpak.app / pikpak.org / pikpakapp.com / pikpakdrive.com 及其子域），
+  # 新增品牌域名无需再改；CDN 子域关键词覆盖不到，逐条列出。
+  - DOMAIN-KEYWORD,pikpak,🚀 节点选择
+  - DOMAIN-SUFFIX,dlandroid.rcv.sandai.net,🚀 节点选择
+  - DOMAIN-SUFFIX,hub5idx.v6.shub.sandai.net,🚀 节点选择
+  - DOMAIN-SUFFIX,hub5pn.wap.sandai.net,🚀 节点选择
+  - DOMAIN-SUFFIX,hub5pnc.sandai.net,🚀 节点选择
+  - DOMAIN-SUFFIX,hub5pr.v6.phub.sandai.net,🚀 节点选择
+  - DOMAIN-SUFFIX,hubciddata.sandai.net,🚀 节点选择
+
+  # === 中国直连 ===
+  - RULE-SET,chinadomain,🎯 全球直连
+  - RULE-SET,chinaip,🎯 全球直连,no-resolve
+  - RULE-SET,chinaccompanyip,🎯 全球直连,no-resolve
+  - RULE-SET,chinaipv6,🎯 全球直连,no-resolve
+  - DOMAIN-SUFFIX,cn,🎯 全球直连
+  - GEOIP,CN,🎯 全球直连
+
+  # === GFWlist 兜底 ===
+  - RULE-SET,gfwlist,🚀 节点选择
+
+  # === 最终兜底 ===
+  - MATCH,🐟 漏网之鱼
