@@ -1,0 +1,97 @@
+name: MRS Bundle refresh
+
+# 每日刷新 MRS Bundle 产物（`latest` 滚动 + `mrs-YYYYMMDD` 日期快照）。
+#
+# 与分流规则日更（daily-rule-update.yml）是两条独立的链路：
+#   daily-rule-update.yml  → 改 main 上的规则 provider（clashmeta/providers/*.yaml）
+#   本 workflow            → 只动 mrs 分支与 latest release（.mrs 产物）
+#
+# 安全约定（全局对话 2026-10-25 批准）：
+#   - 只有上游 meta 分支 commit 变化才更新；无变化直接退出
+#   - 拉取后先做完整校验（解包 diff / 计数 / sha256），**校验失败绝不碰线上资产**
+#   - 每次另打日期 tag 作滚动空窗期的兜底回退点
+#   - 失败重试一次即止，留日志与 issue，禁止无限重跑
+#   - 低峰时段执行（UTC 18–20 = 北京时间次日 02–04）
+on:
+  schedule:
+    # UTC 18:30（北京时间次日 02:30），落在 UTC 18–20 低峰窗
+    - cron: '30 18 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '强制刷新（忽略上游 commit 是否变化）'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # 推 mrs 分支、移动 latest tag
+  issues: write     # 失败时留 issue
+
+concurrency:
+  group: mrs-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      UPSTREAM_REPO: MetaCubeX/meta-rules-dat
+      UPSTREAM_BRANCH: meta
+      MRS_BRANCH: mrs
+      ROLLING_TAG: latest
+    steps:
+      - name: 检出（工作区）
+        uses: actions/checkout@v4
+
+      - name: 检出 mrs 分支（产物所在分支）
+        uses: actions/checkout@v4
+        with:
+          ref: mrs
+          path: mrs-branch
+
+      - name: 刷新并发布
+        id: refresh
+        env:
+          FORCE_REFRESH: ${{ inputs.force && '1' || '0' }}
+        run: bash scripts/mrs_refresh.sh
+
+      - name: 发布结果摘要
+        if: steps.refresh.outputs.no_change == 'false'
+        run: |
+          {
+            echo "### MRS Bundle 刷新完成"
+            echo
+            echo "- 上游 commit：\`${{ steps.refresh.outputs.upstream_sha }}\`"
+            echo "- 日期 tag：\`${{ steps.refresh.outputs.date_tag }}\`"
+            echo "- 资产 sha256：\`${{ steps.refresh.outputs.bundle_sha256 }}\`（${{ steps.refresh.outputs.bundle_size }} B）"
+            echo "- 内容：geosite ${{ steps.refresh.outputs.geosite_files }} 个 / geoip ${{ steps.refresh.outputs.geoip_files }} 个"
+            echo
+            echo "- 滚动地址：https://github.com/ipevel/clash-rulesets/releases/download/latest/BundleMRS.7z"
+            echo "- 回退点：https://github.com/ipevel/clash-rulesets/releases/download/${{ steps.refresh.outputs.date_tag }}/BundleMRS.7z"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 失败留档（issue + 日志）
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const title = `MRS Bundle 刷新失败（${new Date().toISOString().slice(0,10)}）`;
+            const body = [
+              'MRS Bundle 自动刷新失败，已重试一次仍不通过，**线上资产保持原状未被动过**。',
+              '',
+              '- run：' + process.env.GITHUB_SERVER_URL + '/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID,
+              '- 上游：' + (process.env.UPSTREAM_REPO || '') + '@' + (process.env.UPSTREAM_BRANCH || ''),
+              '',
+              '请人工排查；修复后可用 workflow_dispatch 带 force=true 手动重跑。',
+            ].join('\n');
+            const dup = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
+            });
+            const exist = dup.data.find(i => i.title === title);
+            if (exist) {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number: exist.number, body });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body });
+            }
