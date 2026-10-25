@@ -59,3 +59,24 @@ https://fastly.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Go
   - 实际触发时刻常有 5–7 小时漂移（近期落在 06:00–09:00 UTC），这是 GitHub Actions 定时任务的排队延迟，不是故障；判定日更是否正常请读 Actions 的 run 记录，别看本地克隆
 - 本机 systemd timer（`clash-rule-sync.timer`）跑 `scripts/update_and_sync.sh` 同步到 xboard 面板（内部调用 `scripts/sync_to_xboard.py` 写入面板数据库）
 - 改规则前后跑校验：`python3 scripts/verify_providers.py`（仓库根目录按脚本位置自动推导，也可用 `CLASH_RULESETS_BASE` 覆盖）
+
+## Release 与 tag 约定
+
+本仓同时承载两类互不相干的产物，**tag 命名空间必须分开，不得混用**：
+
+| tag 形态 | 用途 | 资产 | 更新方式 |
+|---|---|---|---|
+| `latest` + `mrs-YYYYMMDD` | **MRS Bundle**（`.mrs` 规则包，供客户端「MRS 查询」） | `BundleMRS.7z` | 滚动：`latest` 随上游滚动替换；每次另打一个日期 tag 作回退点 |
+| `rules/vX.Y.Z` | **分流规则自身**发版 | 待定 | 按版本发布，不使用 `latest` |
+
+**`latest` 专属 MRS Bundle，分流规则发版一律用 `rules/vX.Y.Z`。** 这条是硬约定：
+客户端把 `.../releases/download/latest/BundleMRS.7z` 写死在代码里，`latest` 一旦挪作他用会直接打断客户端。
+
+### MRS 产物
+
+- **内容分支**：`ipevel/clash-rulesets` 的 `mrs` 分支（orphan 分支，只含 `geo/geosite/*.mrs`、`geo/geoip/*.mrs`、`README.md`、`VERSION`，与 `main` 完全隔离，不影响分流规则主链路）。
+- **raw baseUrl**：`https://raw.githubusercontent.com/ipevel/clash-rulesets/mrs/`，按 `baseUrl + geo/<kind>/<name>.mrs` 拼接。
+- **打包下载**：`https://github.com/ipevel/clash-rulesets/releases/download/latest/BundleMRS.7z`，包内结构＝`geo/geosite/` + `geo/geoip/` + `VERSION`。
+- **来源**：[MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat) 的 `meta` 分支原生 `.mrs`（非转码）。具体 commit 与抓取时间记在 `VERSION` 与 release 说明里。
+- **不含 `asn/` 与 `geo-lite/`**：与客户端自带 bundle 的形态保持一致（上游 bundle 还带 82283 个 `AS*.mrs`，共 325 MB，本仓不纳入）。
+
