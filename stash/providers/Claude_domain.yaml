@@ -1,0 +1,4 @@
+# Claude_domain.yaml - 2 rules
+payload:
+  - +.anthropic.com
+  - +.claude.ai

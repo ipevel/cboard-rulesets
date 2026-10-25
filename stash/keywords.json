@@ -1,0 +1,78 @@
+{
+ "OpenAI": [
+  "openai"
+ ],
+ "GoogleGemini": [
+  "colab",
+  "developerprofiles",
+  "generativelanguage"
+ ],
+ "AI": [
+  "anthropic",
+  "claude",
+  "openai",
+  "colab",
+  "developerprofiles",
+  "generativelanguage"
+ ],
+ "ProxyMedia": [
+  "youtube"
+ ],
+ "TikTok": [
+  "musical.ly",
+  "tiktok"
+ ],
+ "Instagram": [
+  "instagram"
+ ],
+ "Netflix": [
+  "apiproxy-device-prod-nlb-",
+  "dualstack.apiproxy-",
+  "dualstack.ichnaea-web-",
+  "netflixdnstest"
+ ],
+ "Google": [
+  "appspot",
+  "blogspot",
+  "gmail",
+  "google",
+  "recaptcha"
+ ],
+ "Apple": [
+  "apple-support.akadns.net",
+  "apple.com.akadns.net",
+  "apple.com.edgekey.net",
+  "buy.itunes.apple.com",
+  "smp-device",
+  "testflight",
+  "icloud.com.akadns.net"
+ ],
+ "GitHub": [
+  "github"
+ ],
+ "OneDrive": [
+  "1drv",
+  "onedrive",
+  "skydrive"
+ ],
+ "Microsoft": [
+  "microsoft",
+  "1drv",
+  "onedrive",
+  "skydrive"
+ ],
+ "Telegram": [
+  "nicegram"
+ ],
+ "Social": [
+  "twitter",
+  "facebook",
+  "fbcdn",
+  "whatsapp"
+ ],
+ "Streaming": [
+  "avoddashs",
+  "ttvnw",
+  "spotify"
+ ]
+}
