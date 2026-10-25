@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: verify-rulesets-${{ github.ref }}
+  group: stash-verify-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
