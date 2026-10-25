@@ -32,7 +32,7 @@ App 两端（Windows / 安卓）**不再内置 ACL4SSR 原文**，改为从这�
 |---|---|
 | `schedule` | 每 15 分钟一次**轻量探测**（cron `9,24,39,54 * * * *`）：只问上游「变了吗」，不变就秒退，不下载任何内容 |
 | `push` | 改 `tools/**` 或这个 workflow 本身时跑一次 |
-| `workflow_dispatch` | 手动：`gh workflow run sync.yml --repo ipevel/polaris-rules` |
+| `workflow_dispatch` | 手动：`gh workflow run sync.yml --repo ipevel/cboard-rulesets` |
 
 > ⚠️ **`schedule` 是「尽力而为」，不是保证。** 本仓库 2026-10-13 建起来后的头 4 小时里，
 > `event=schedule` 的 run 数一直是 **0**（同期 push / `workflow_dispatch` 都正常、
@@ -42,7 +42,7 @@ App 两端（Windows / 安卓）**不再内置 ACL4SSR 原文**，改为从这�
 > 想知道「定时到底有没有在跑」：
 >
 > ```bash
-> gh api 'repos/ipevel/polaris-rules/actions/workflows/sync.yml/runs?event=schedule&per_page=1' --jq .total_count
+> gh api 'repos/ipevel/cboard-rulesets/actions/workflows/sync.yml/runs?event=schedule&per_page=1' --jq .total_count
 > ```
 >
 > 这个数长期不涨 = 定时没生效，规则会停在最后一次同步的版本上。此时手动 dispatch 一次，
@@ -85,8 +85,8 @@ dist/geo/ASN.mmdb
 **必须从同一个 commit 取文件和校验值**：
 
 ```
-https://cdn.jsdelivr.net/gh/ipevel/polaris-rules@<commit-sha>/dist/rules/social.list
-https://raw.githubusercontent.com/ipevel/polaris-rules/<commit-sha>/dist/rules/social.list
+https://cdn.jsdelivr.net/gh/ipevel/cboard-rulesets@<commit-sha>/dist/rules/social.list
+https://raw.githubusercontent.com/ipevel/cboard-rulesets/<commit-sha>/dist/rules/social.list
 ```
 
 用 `<commit-sha>` 而不是 `main` 的原因见上面第 3 条：`main` 会漂，`@<sha>` 不可变。

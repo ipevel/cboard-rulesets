@@ -37,7 +37,7 @@ rule-providers:
   google:
     type: http
     behavior: domain
-    url: "https://fastly.jsdelivr.net/gh/ipevel/stash-rulesets@main/stash/providers/Google_domain.yaml"
+    url: "https://fastly.jsdelivr.net/gh/ipevel/cboard-rulesets@main/stash/providers/Google_domain.yaml"
     path: ./ruleset/google.yaml
     interval: 86400
 ```

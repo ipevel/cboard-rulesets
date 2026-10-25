@@ -22,7 +22,7 @@ clashmeta/
 通过 jsDelivr CDN 托管的 provider 文件：
 
 ```
-https://fastly.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Google.yaml
+https://fastly.jsdelivr.net/gh/ipevel/cboard-rulesets@main/clashmeta/providers/Google.yaml
 ```
 
 ### 独立配置文件
@@ -74,9 +74,9 @@ https://fastly.jsdelivr.net/gh/ipevel/clash-rulesets@main/clashmeta/providers/Go
 
 ### MRS 产物
 
-- **内容分支**：`ipevel/clash-rulesets` 的 `mrs` 分支（orphan 分支，只含 `geo/geosite/*.mrs`、`geo/geoip/*.mrs`、`README.md`、`VERSION`，与 `main` 完全隔离，不影响分流规则主链路）。
-- **raw baseUrl**：`https://raw.githubusercontent.com/ipevel/clash-rulesets/mrs/`，按 `baseUrl + geo/<kind>/<name>.mrs` 拼接。
-- **打包下载**：`https://github.com/ipevel/clash-rulesets/releases/download/latest/BundleMRS.7z`，包内结构＝`geo/geosite/` + `geo/geoip/` + `VERSION`。
+- **内容分支**：`ipevel/cboard-rulesets` 的 `mrs` 分支（orphan 分支，只含 `geo/geosite/*.mrs`、`geo/geoip/*.mrs`、`README.md`、`VERSION`，与 `main` 完全隔离，不影响分流规则主链路）。
+- **raw baseUrl**：`https://raw.githubusercontent.com/ipevel/cboard-rulesets/mrs/`，按 `baseUrl + geo/<kind>/<name>.mrs` 拼接。
+- **打包下载**：`https://github.com/ipevel/cboard-rulesets/releases/download/latest/BundleMRS.7z`，包内结构＝`geo/geosite/` + `geo/geoip/` + `VERSION`。
 - **来源**：[MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat) 的 `meta` 分支原生 `.mrs`（非转码）。具体 commit 与抓取时间记在 `VERSION` 与 release 说明里。
 - **不含 `asn/` 与 `geo-lite/`**：与客户端自带 bundle 的形态保持一致（上游 bundle 还带 82283 个 `AS*.mrs`，共 325 MB，本仓不纳入）。
 

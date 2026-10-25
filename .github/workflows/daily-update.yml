@@ -1,0 +1,175 @@
+name: Daily Update (all rulesets)
+
+# 一条链路跑完全部日更: Polaris → Clash Meta → Stash → 单次提交推送。
+#
+# 为什么合并: 原先 clash-daily / stash-daily 两条 workflow 都定在同一时刻(UTC 02:00)
+# 各自 commit+push, 谁先推谁后推不确定, 后推的那条经常因远端已变而失败,
+# polaris-sync 又是每 15 分钟一跑, 与它们互相抢同一个 main 分支。
+# 合并后: 同一 job 内顺序生成 → 统一校验 → 一次 commit, 不存在并发推送。
+#
+# 触发时间固定为 UTC 01:00 = 北京 09:00。本机面板同步 cron 在北京 10:30 拉取,
+# 中间留 90 分钟给 Actions 排队与执行(平台上 schedule 常有数分钟延迟)。
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/**'
+      - 'scripts/**'
+      - '.github/workflows/daily-update.yml'
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    name: 生成 + 校验 + 提交
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: 检出
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # ── 1. Polaris: 上游 ACL4SSR / meta-rules-dat ────────────────────────
+      - name: 生成期断言（manifest 禁止项 / 仓库自洽性）
+        run: node tools/verify.mjs
+
+      - name: 探测上游是否有变化
+        id: probe
+        run: |
+          set +e
+          node tools/sync.mjs --check
+          code=$?
+          set -e
+          echo "check_exit=${code}" >> "$GITHUB_OUTPUT"
+          if [ "$code" = "0" ]; then
+            echo "判定：上游有变化"
+          elif [ "$code" = "2" ]; then
+            echo "判定：上游无变化"
+          else
+            echo "::warning::探测失败（exit ${code}），本次跳过 Polaris 同步，不下载任何内容"
+          fi
+
+      - name: Polaris 全量同步
+        if: steps.probe.outputs.check_exit == '0'
+        run: node tools/sync.mjs
+
+      - name: Polaris 自洽性门禁
+        if: steps.probe.outputs.check_exit == '0'
+        run: node tools/verify.mjs
+
+      # ── 2. Clash Meta ────────────────────────────────────────────────────
+      - name: Clash 生成 providers
+        run: python3 scripts/clash_generate_providers.py --update-template
+
+      - name: Clash 重构 RULE-SET（去重 + 抽取）
+        run: python3 scripts/refactor_to_rule_set.py
+
+      - name: Clash YAML 校验
+        run: |
+          pip install --quiet pyyaml
+          python3 - <<'EOF'
+          import yaml, glob, sys
+          ok = True
+          for f in glob.glob("clashmeta/providers/*.yaml"):
+              try:
+                  d = yaml.safe_load(open(f))
+                  assert isinstance(d, dict) and "payload" in d
+              except Exception as e:
+                  print(f"FAIL {f}: {e}")
+                  ok = False
+          try:
+              d = yaml.safe_load(open("clashmeta/clash-xboard-subscription.yaml"))
+              assert d.get("proxies") is None, "proxies must be null"
+              assert len(d.get("rule-providers", {})) >= 20
+          except Exception as e:
+              print(f"FAIL template: {e}")
+              ok = False
+          print("YAML validation:", "OK" if ok else "FAILED")
+          sys.exit(0 if ok else 1)
+          EOF
+
+      - name: Clash 规则集自校验（behavior 匹配 / 组名 emoji 引用）
+        run: python3 scripts/verify_providers.py
+
+      # ── 3. Stash ─────────────────────────────────────────────────────────
+      - name: Stash 生成 providers
+        run: python3 scripts/stash_generate_providers.py
+
+      - name: Stash YAML 校验
+        run: |
+          pip install --quiet pyyaml
+          python3 - <<'EOF'
+          import yaml, glob, sys
+          ok = True
+          for f in glob.glob("stash/providers/*.yaml"):
+              try:
+                  d = yaml.safe_load(open(f))
+                  assert isinstance(d, dict) and "payload" in d
+                  if "_domain.yaml" in f:
+                      for e in d["payload"]:
+                          assert not e.startswith(("DOMAIN-", "IP-", "PROCESS-")), f"bad domain entry: {e}"
+                  if "_ipcidr.yaml" in f:
+                      for e in d["payload"]:
+                          assert "/" in e, f"bad ipcidr entry: {e}"
+              except Exception as e:
+                  print(f"FAIL {f}: {e}")
+                  ok = False
+          try:
+              d = yaml.safe_load(open("stash/stash-full.yaml"))
+              assert len(d.get("rule-providers", {})) >= 20
+          except Exception as e:
+              print(f"FAIL template: {e}")
+              ok = False
+          print("YAML validation:", "OK" if ok else "FAILED")
+          sys.exit(0 if ok else 1)
+          EOF
+
+      - name: Stash 规则集自校验（rule-provider 存在性 / RULE-SET 引用 / 广告残留 / 组名）
+        run: python3 scripts/verify_stash.py
+
+      # ── 4. 单次提交推送 ──────────────────────────────────────────────────
+      # 任何一步校验失败都会让本 job 变红, 上面这些 commit 步骤根本不会执行,
+      # 坏规则进不了 main。这是本仓唯一的写 main 入口。
+      - name: 提交并推送
+        run: |
+          set -euo pipefail
+          git config user.name  'cboard-rulesets-bot'
+          git config user.email 'ipevel@users.noreply.github.com'
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "工作区干净，本次没有任何变化"
+            exit 0
+          fi
+
+          VERSION="$(cat VERSION)"
+          git add -A
+          git commit -m "chore: daily ruleset update $(date -u +%Y-%m-%d)" \
+                     -m "Polaris / Clash Meta / Stash 三条产物管线单次生成；VERSION ${VERSION}" \
+                     -m "由 .github/workflows/daily-update.yml 自动生成，改动全部来自上游。"
+          git push
+
+      - name: 变更摘要
+        if: always()
+        run: |
+          echo "### 本次改动" >> "$GITHUB_STEP_SUMMARY"
+          git show --stat --oneline HEAD | head -40 >> "$GITHUB_STEP_SUMMARY" || true
