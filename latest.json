@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 27,
-  "generatedAt": "2026-11-02T06:56:11.534Z",
+  "version": 28,
+  "generatedAt": "2026-11-03T07:20:09.762Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
@@ -11,7 +11,7 @@
     "meta": {
       "repo": "MetaCubeX/meta-rules-dat",
       "tag": "latest",
-      "publishedAt": "2026-11-02T01:42:12Z"
+      "publishedAt": "2026-11-03T03:35:02Z"
     }
   },
   "files": [
@@ -23,14 +23,14 @@
     },
     {
       "path": "dist/geo/geoip.metadb",
-      "bytes": 8426932,
-      "sha256": "c54a1704ee3e245bec1cb65c2e2948311eeee532e2ea1eed09322425d28775be",
+      "bytes": 8424898,
+      "sha256": "f74ad728d3d3e1a7ca51886a147a18d82406733f3bc0db8cf9117f66de437239",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "dist/geo/geosite.dat",
-      "bytes": 4356006,
-      "sha256": "7297bf574a563aed8a69528e1f3a2bb275911fb83ebe3082494213d97ab09deb",
+      "bytes": 4356022,
+      "sha256": "3fee9b84efce1ef142974a18b48b9b12d2cf8ccb8017dd4ec16e3906bcb7da69",
       "upstreamAsset": "geosite.dat"
     },
     {
@@ -239,14 +239,14 @@
     },
     {
       "path": "geo/geoip.metadb",
-      "bytes": 8426932,
-      "sha256": "c54a1704ee3e245bec1cb65c2e2948311eeee532e2ea1eed09322425d28775be",
+      "bytes": 8424898,
+      "sha256": "f74ad728d3d3e1a7ca51886a147a18d82406733f3bc0db8cf9117f66de437239",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "geo/geosite.dat",
-      "bytes": 4356006,
-      "sha256": "7297bf574a563aed8a69528e1f3a2bb275911fb83ebe3082494213d97ab09deb",
+      "bytes": 4356022,
+      "sha256": "3fee9b84efce1ef142974a18b48b9b12d2cf8ccb8017dd4ec16e3906bcb7da69",
       "upstreamAsset": "geosite.dat"
     },
     {
