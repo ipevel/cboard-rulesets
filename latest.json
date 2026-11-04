@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "version": 30,
-  "generatedAt": "2026-11-04T03:37:22.959Z",
+  "version": 31,
+  "generatedAt": "2026-11-04T07:02:13.240Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
-      "sha": "c15bf546085b825afd238e211f750bb7868c7132",
-      "date": "2026-11-01T03:45:36Z"
+      "sha": "6e075448a60bbc13071977b5fd409f568c3b3eae",
+      "date": "2026-11-04T04:22:34Z"
     },
     "meta": {
       "repo": "MetaCubeX/meta-rules-dat",
