@@ -1,4 +1,30 @@
 {
+ "BanAD": [
+  "admarvel",
+  "admaster",
+  "adsage",
+  "adsensor",
+  "adsmogo",
+  "adsrvmedia",
+  "adsserving",
+  "adsystem",
+  "adwords",
+  "applovin",
+  "appsflyer",
+  "domob",
+  "duomeng",
+  "dwtrack",
+  "guanggao",
+  "omgmta",
+  "omniture",
+  "openx",
+  "partnerad",
+  "pingfore",
+  "socdm",
+  "supersonicads",
+  "wlmonitor",
+  "zjtoolbar"
+ ],
  "OpenAI": [
   "openai"
  ],

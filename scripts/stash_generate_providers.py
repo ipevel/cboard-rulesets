@@ -197,6 +197,9 @@ def write_provider(fname, entries):
 
 # (url, 输出名, 策略[, 源格式])  —— 源格式缺省为 payload，可选 "list"（纯文本规则列表）
 SOURCES = [
+    # --- 广告拦截（来自本仓 dist/rules/banad.list：ACL4SSR BanAD + bett reject 合并产物）---
+    ("https://raw.githubusercontent.com/ipevel/cboard-rulesets/main/dist/rules/banad.list",
+     "BanAD", "REJECT", "list"),
     # --- AI ---
     (BM7.format(cat="OpenAI", file="OpenAI.yaml"), "OpenAI", "Proxy"),
     (BM7.format(cat="Claude", file="Claude.yaml"), "Claude", "Proxy"),

@@ -12,6 +12,14 @@ proxies: ~
 
 # --- 1. 远程规则集定义 (Rule Providers) ---
 rule-providers:
+  # === 广告拦截（ACL4SSR BanAD + bett reject 合并清单，588+892 条）===
+  banad:
+    type: http
+    behavior: classical
+    url: "https://cdn.jsdelivr.net/gh/ipevel/cboard-rulesets@main/clashmeta/providers/BanAD.yaml"
+    path: ./ruleset/banad-v1.yaml
+    interval: 3600
+
   # === AI（精确，放最前面防止截流）===
   openai:
     type: http
@@ -219,6 +227,13 @@ proxy-groups:
     proxies: []
 
   # --- 应用分组 ---
+  # 广告拦截：默认 REJECT，误伤时可切直连
+  - name: 🛑 广告拦截
+    type: select
+    proxies:
+      - REJECT
+      - 🎯 全球直连
+
   - name: 📲 电报消息
     type: select
     proxies:
@@ -319,6 +334,9 @@ rules:
   - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
   - IP-CIDR6,fe80::/10,🎯 全球直连,no-resolve
   - IP-CIDR6,fd00::/8,🎯 全球直连,no-resolve
+
+  # === 广告拦截 ===
+  - RULE-SET,banad,🛑 广告拦截
 
   # === AI平台（精确 provider 放前面；合并清单 ai 见本文件末尾）===
   - DOMAIN-KEYWORD,openai,💬 Ai平台
