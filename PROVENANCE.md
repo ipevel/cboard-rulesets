@@ -1,7 +1,7 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-11-04T02:45:28.148Z
-版本：VERSION 29
+生成时间：2026-11-04T03:37:22.959Z
+版本：VERSION 30
 
 ## 上游坐标
 
@@ -20,11 +20,12 @@
 |---|---|---|
 | `dist/rules/ai.list` *(内核形态)* | 62 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
 | `dist/rules/apple.list` *(内核形态)* | 29 | Apple.list |
-| `dist/rules/banad.list` *(内核形态)* | 588 | BanAD.list |
+| `dist/rules/banad.list` *(内核形态)* | 1457 | BanAD.list, reject.txt.list |
 | `dist/rules/banprogramad.list` *(内核形态)* | 1010 | BanProgramAD.list |
-| `dist/rules/china-domain.list` *(内核形态)* | 683 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list |
+| `dist/rules/china-domain.list` *(内核形态)* | 735 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
 | `dist/rules/china-ip.list` *(内核形态)* | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
 | `dist/rules/china-media.list` *(内核形态)* | 91 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
+| `dist/rules/fakeip-filter.list` *(内核形态)* | 119 | fakeip-filter.txt |
 | `dist/rules/games.list` *(内核形态)* | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `dist/rules/onedrive.list` *(内核形态)* | 17 | OneDrive.list |
 | `dist/rules/proxy-gfwlist.list` *(内核形态)* | 6890 | ProxyGFWlist.list |
@@ -38,11 +39,12 @@
 | `geo/geosite.dat` | — | release 资产 `geosite.dat` |
 | `rules/ai.txt` | 62 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
 | `rules/apple.txt` | 29 | Apple.list |
-| `rules/banad.txt` | 588 | BanAD.list |
+| `rules/banad.txt` | 1457 | BanAD.list, reject.txt.list |
 | `rules/banprogramad.txt` | 1010 | BanProgramAD.list |
-| `rules/china-domain.txt` | 683 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list |
+| `rules/china-domain.txt` | 735 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
 | `rules/china-ip.txt` | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
 | `rules/china-media.txt` | 91 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
+| `rules/fakeip-filter.txt` | 119 | fakeip-filter.txt |
 | `rules/games.txt` | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `rules/onedrive.txt` | 17 | OneDrive.list |
 | `rules/proxy-gfwlist.txt` | 6890 | ProxyGFWlist.list |

@@ -25,6 +25,13 @@ export const UPSTREAM = {
     apiBase: 'https://api.github.com/repos/MetaCubeX/meta-rules-dat/releases/latest',
     downloadBase: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download',
   },
+  // 本地 bett/ 目录（由 scripts/bett_sync.sh 从 appshubcc/bett-rules 镜像）。
+  // 这里只取它的**规则源数据**并入既有分组，不引入其构建产物 —— 产物在 bett-release 分支。
+  // 刻意不并入 bett 的 proxy.txt：该文件 15,412 条几乎全是灰黑产站群，
+  // 与「需要走代理的常规海外站点」不是一类东西，混进 proxy-gfwlist 会污染分流结果。
+  bett: {
+    dir: 'bett/resouces',
+  },
 };
 
 /**
@@ -80,7 +87,15 @@ export const RULE_SETS = [
     files: ['ChinaDomain'],
     alsoRuleset: ['Baidu', 'Tencent', 'Alibaba', 'ByteDance', 'Wechat'],
     alsoClash: ['UnBan'],
-    why: '国内域名（ACL4SSR 主表 + 五家大厂表 + UnBan 白名单，兜住主流 App 域名）',
+    // bett 的两份直连补充：
+    //   direct.txt       —— 大疆系(dji.com/djicdn.com/djiops.com)、联想、雷蛇、
+    //                       腾讯会议、华为云 DNS、3gppnetwork.org 等，共 23 条
+    //   geolocation-cn.txt —— 国内常用但 ACL4SSR 主表未收录的（cn.bing.com、
+    //                       weixin.qq.com、windowsupdate.com、captive.apple.com、
+    //                       阿里 NTP 系列等），共 48 条
+    // 两者合计约 67 条净增量（与现有条目去重后），均属「应当直连」的国内服务。
+    local: ['direct.txt', 'geolocation-cn.txt'],
+    why: '国内域名（ACL4SSR 主表 + 五家大厂表 + UnBan 白名单 + bett 直连补充，兜住主流 App 域名）',
   },
   {
     out: 'china-ip',
@@ -164,13 +179,27 @@ export const RULE_SETS = [
     out: 'banad',
     dir: 'Clash',
     files: ['BanAD'],
-    why: '广告拦截（默认打开，用户在 2026-10-13 定的）',
+    // bett 的 reject.txt 是人工维护的广告/追踪域名表（ad.qq.com / ad.toutiao.com /
+    // ad.ximalaya.com / aaid.umeng.com / abtasty.com 等），与 ACL4SSR BanAD 交集仅 88 条，
+    // 约 799 条是净增量。已核对：qq.com / tencent.com / baidu.com / apple.com 等
+    // 关键业务域名零命中，不会误伤正常流量。
+    local: ['reject.txt'],
+    why: '广告拦截（ACL4SSR BanAD + bett reject 广告/追踪域名表）',
   },
   {
     out: 'banprogramad',
     dir: 'Clash',
     files: ['BanProgramAD'],
     why: '应用净化（拦截 App 内的推广/启动图广告）',
+  },
+  {
+    // fakeip-filter 不是分流规则，而是 DNS 层「哪些域名不要用 FakeIP 应答」的白名单，
+    // 只对开启 enhanced-mode: fake-ip 的客户端有意义（本仓的 Stash 模板用 fake-ip）。
+    // 因此单独成一个产出文件，不并入任何分流组，由模板的 dns.fake-ip-filter 段消费。
+    out: 'fakeip-filter',
+    local: ['fakeip-filter.txt'],
+    fakeipFilter: true,
+    why: 'FakeIP 白名单（本地域 / 时间同步 / STUN / 游戏联机 / 音乐与更新服务），来自 bett',
   },
 ];
 

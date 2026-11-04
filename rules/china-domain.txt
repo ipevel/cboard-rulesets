@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 国内域名
 # ACL4SSR 主表 + 百度 / 腾讯 / 阿里 / 字节 / 微信五家大厂表 + UnBan 白名单。
-# 合并自 7 份 ACL4SSR 清单：ChinaDomain / Baidu / Tencent / Alibaba / ByteDance / Wechat / UnBan
-# 规则数：683 条（上游合计 803 条，去重 120 条）
+# 合并自 9 份 ACL4SSR 清单：ChinaDomain / Baidu / Tencent / Alibaba / ByteDance / Wechat / UnBan / direct.txt / geolocation-cn.txt
+# 规则数：735 条（上游合计 874 条，去重 139 条）
 DOMAIN-SUFFIX,13th.tech
 DOMAIN-SUFFIX,423down.com
 DOMAIN-SUFFIX,bokecc.com
@@ -685,3 +685,55 @@ DOMAIN-SUFFIX,DSmyNAS.org
 DOMAIN-SUFFIX,FamilyDS.com
 DOMAIN-SUFFIX,FamilyDS.net
 DOMAIN-SUFFIX,FamilyDS.org
+DOMAIN-SUFFIX,cdnetworks.com
+DOMAIN-SUFFIX,dji.com
+DOMAIN-SUFFIX,djicdn.com
+DOMAIN-SUFFIX,dji.net
+DOMAIN-SUFFIX,djiops.com
+DOMAIN-SUFFIX,djiservice.org
+DOMAIN-SUFFIX,lenovo.com
+DOMAIN-SUFFIX,qmail.com
+DOMAIN-SUFFIX,razerzone.com
+DOMAIN-SUFFIX,rtxapp.com
+DOMAIN-SUFFIX,skypixel.com
+DOMAIN-SUFFIX,tencentsuite.com
+DOMAIN-SUFFIX,tencentmeeting.com
+DOMAIN-SUFFIX,tripcdn.com
+DOMAIN-SUFFIX,wxworklive.com
+DOMAIN-SUFFIX,arpa
+DOMAIN-SUFFIX,3gppnetwork.org
+DOMAIN-SUFFIX,gwfb.net
+DOMAIN-SUFFIX,data4.net
+DOMAIN-SUFFIX,smartgslb.com
+DOMAIN-SUFFIX,huaweicloud-dns.net
+DOMAIN-SUFFIX,huaweicloud-dns.org
+DOMAIN-SUFFIX,ztedevices.com
+DOMAIN-SUFFIX,cn-ureca.galaxyappstore.com
+DOMAIN-SUFFIX,cn-ms.galaxyappstore.com
+DOMAIN-SUFFIX,cn.samsungapps.com
+DOMAIN-SUFFIX,cn.bing.com
+DOMAIN-SUFFIX,windowsupdate.com
+DOMAIN-SUFFIX,gs2.ww.prod.dl.playstation.net
+DOMAIN-SUFFIX,weather-data.apple.com
+DOMAIN-SUFFIX,captive.apple.com
+DOMAIN-SUFFIX,shortconn.im.qcloud.com
+DOMAIN-SUFFIX,tencentmeeting.cn
+DOMAIN-SUFFIX,community.oneplus.com
+DOMAIN-SUFFIX,ntp.aliyun.com
+DOMAIN-SUFFIX,ntp1.aliyun.com
+DOMAIN-SUFFIX,ntp2.aliyun.com
+DOMAIN-SUFFIX,ntp3.aliyun.com
+DOMAIN-SUFFIX,ntp4.aliyun.com
+DOMAIN-SUFFIX,ntp5.aliyun.com
+DOMAIN-SUFFIX,ntp6.aliyun.com
+DOMAIN-SUFFIX,ntp7.aliyun.com
+DOMAIN-SUFFIX,ntp.tencent.com
+DOMAIN-SUFFIX,ntp1.tencent.com
+DOMAIN-SUFFIX,ntp2.tencent.com
+DOMAIN-SUFFIX,ntp3.tencent.com
+DOMAIN-SUFFIX,ntp4.tencent.com
+DOMAIN-SUFFIX,ntp5.tencent.com
+DOMAIN-SUFFIX,cn.pool.ntp.org
+DOMAIN-SUFFIX,ntp.neu.edu.cn
+DOMAIN-SUFFIX,ntp.ntsc.ac.cn
+DOMAIN-SUFFIX,ntp.org.cn

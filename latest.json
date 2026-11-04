@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 29,
-  "generatedAt": "2026-11-04T02:45:28.148Z",
+  "version": 30,
+  "generatedAt": "2026-11-04T03:37:22.959Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
@@ -60,11 +60,12 @@
     },
     {
       "path": "dist/rules/banad.list",
-      "bytes": 15298,
-      "sha256": "2ecd4247c610b534f40533bdaaa5e6360525f0389e8c38b848ab8277c0a2ad82",
-      "rules": 588,
+      "bytes": 44459,
+      "sha256": "6646519598b19273dc8b3eb5b202c9db07d4f8a81b8b193531b7ec245f9bee8e",
+      "rules": 1457,
       "sources": [
-        "BanAD.list"
+        "BanAD.list",
+        "reject.txt.list"
       ],
       "format": "text",
       "behavior": "classical"
@@ -82,9 +83,9 @@
     },
     {
       "path": "dist/rules/china-domain.list",
-      "bytes": 17834,
-      "sha256": "c642cfe4c8e4a97a1b28269112850a3d6de64d0c6e65724e9cdfaa9e3a4661de",
-      "rules": 683,
+      "bytes": 19384,
+      "sha256": "78b9ff5819b032d0879dbb2fffad8d404d206ba24e0e5416d82c7b9afef6ebab",
+      "rules": 735,
       "sources": [
         "ChinaDomain.list",
         "Baidu.list",
@@ -92,7 +93,9 @@
         "Alibaba.list",
         "ByteDance.list",
         "Wechat.list",
-        "UnBan.list"
+        "UnBan.list",
+        "direct.txt.list",
+        "geolocation-cn.txt.list"
       ],
       "format": "text",
       "behavior": "classical"
@@ -120,6 +123,17 @@
         "Bilibili.list",
         "NetEaseMusic.list",
         "Download.list"
+      ],
+      "format": "text",
+      "behavior": "classical"
+    },
+    {
+      "path": "dist/rules/fakeip-filter.list",
+      "bytes": 1868,
+      "sha256": "7ab23ffd8ad5b0cb8ebaed2c0c70da11b3f2f103645097c1c52523a82cb1e8db",
+      "rules": 119,
+      "sources": [
+        "fakeip-filter.txt"
       ],
       "format": "text",
       "behavior": "classical"
@@ -272,11 +286,12 @@
     },
     {
       "path": "rules/banad.txt",
-      "bytes": 15484,
-      "sha256": "a04c807259b955236d391569c69e1139743ba4abaa7924db0fce151e03f6b799",
-      "rules": 588,
+      "bytes": 44670,
+      "sha256": "317e9c85b1752180198d2584b23cba73d360552bccab914ccebe638873ce6c9e",
+      "rules": 1457,
       "sources": [
-        "BanAD.list"
+        "BanAD.list",
+        "reject.txt.list"
       ]
     },
     {
@@ -290,9 +305,9 @@
     },
     {
       "path": "rules/china-domain.txt",
-      "bytes": 18144,
-      "sha256": "10c7a4170fbf0062ec8391d78a4cbd18ab874975d8e743074e6c67bfca682e1f",
-      "rules": 683,
+      "bytes": 19728,
+      "sha256": "bdaf1c15b3b327e66215b59464e2e4575aaf5e6b2a0a64c0ec8429b849d50297",
+      "rules": 735,
       "sources": [
         "ChinaDomain.list",
         "Baidu.list",
@@ -300,7 +315,9 @@
         "Alibaba.list",
         "ByteDance.list",
         "Wechat.list",
-        "UnBan.list"
+        "UnBan.list",
+        "direct.txt.list",
+        "geolocation-cn.txt.list"
       ]
     },
     {
@@ -324,6 +341,15 @@
         "Bilibili.list",
         "NetEaseMusic.list",
         "Download.list"
+      ]
+    },
+    {
+      "path": "rules/fakeip-filter.txt",
+      "bytes": 2053,
+      "sha256": "fb76dcd5b6464b8d3ad9fb14d88127f9fb1602c22f498a21af7e86450887961a",
+      "rules": 119,
+      "sources": [
+        "fakeip-filter.txt"
       ]
     },
     {

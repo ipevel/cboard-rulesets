@@ -111,16 +111,17 @@ geo 取 release 而不是仓库分支，原因：它是真正的上游源头、�
 | `games` | 51 | Steam / Epic / Sony / Nintendo / Xbox |
 | `telegram` | 14 | Telegram |
 | `tiktok` | 10 | TikTok |
-| `china-domain` | 652 | ChinaDomain + Baidu / Tencent / Alibaba / ByteDance / Wechat |
+| `china-domain` | 735 | ChinaDomain + Baidu / Tencent / Alibaba / ByteDance / Wechat + bett 的 direct / geolocation-cn |
 | `china-ip` | 9114 | ChinaIp / ChinaIpV6 / ChinaCompanyIp |
 | `china-media` | 77 | ChinaMedia + Bilibili / NetEaseMusic |
 | `onedrive` | 92 | OneDrive + Microsoft |
 | `proxy-gfwlist` | 6883 | ProxyGFWlist |
 | `proxy-media` | 357 | ProxyMedia |
-| `banad` | 588 | BanAD |
+| `banad` | 1457 | BanAD + bett 的 reject 广告/追踪域名表 |
 | `banprogramad` | 1010 | BanProgramAD |
+| `fakeip-filter` | 119 | bett 的 fakeip-filter（DNS 层白名单，非分流规则，供 Stash 模板的 dns.fake-ip-filter 消费） |
 
-条数是 2026-10-13 的快照，实际以 `latest.json` 为准。
+条数是 2026-11-04 的快照，实际以 `latest.json` 为准。
 
 ## 本地跑
 

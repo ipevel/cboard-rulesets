@@ -160,6 +160,53 @@ function dedupe(items) {
   return out;
 }
 
+/**
+ * 读本地规则源（bett/ 目录下的裸域名表），转成 Clash 规则行。
+ *
+ * bett 的源文件是「一行一个裸域名」，没有规则类型前缀。这里统一转成
+ * DOMAIN-SUFFIX（后缀匹配），语义上等同于「该域及其全部子域」，
+ * 与 ACL4SSR 清单里的写法一致。已经带 , 的行（防御性）原样保留。
+ */
+function readLocalRules(name) {
+  const abs = join(ROOT, UPSTREAM.bett.dir, name);
+  const text = readText(abs);
+  if (text == null) return null;
+  const out = [];
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    out.push(line.includes(',') ? line : `DOMAIN-SUFFIX,${line}`);
+  }
+  return out.join('\n');
+}
+
+/**
+ * 读本地 fakeip-filter 清单（bett 格式：*.lan / +.steamcontent.com / 裸域名 / *）。
+ *
+ * 这是给 mihomo / Stash 的 dns.fake-ip-filter 用的模式列表，**不是分流规则**，
+ * 所以不做规则类型转换，只做格式归一：
+ *   - 以 +. 开头的改写为 *.  （两种写法在客户端等价，统一成 * 便于阅读）
+ *   - 剔除单独的 *（整条匹配一切会让 FakeIP 完全失效，bett 原文有这行，必须去掉）
+ *   - 剔除含空格的行（如 "Mijia Cloud" 是注释残留，会让 YAML 解析出问题）
+ */
+function readLocalFakeipFilter(name) {
+  const abs = join(ROOT, UPSTREAM.bett.dir, name);
+  const text = readText(abs);
+  if (text == null) return null;
+  const out = [];
+  const seen = new Set();
+  for (const raw of text.split(/\r?\n/)) {
+    let line = raw.split('#')[0].trim();
+    if (!line || line === '*') continue;
+    if (/\s/.test(line)) continue;
+    if (line.startsWith('+.')) line = `*.${line.slice(2)}`;
+    if (seen.has(line)) continue;
+    seen.add(line);
+    out.push(line);
+  }
+  return out.join('\n');
+}
+
 function mergeLists(setDef, fetched) {
   const provenance = [];
   const all = [];
@@ -331,13 +378,38 @@ async function main() {
   // ---- 1. 规则清单 ----
   const staged = [];
   for (const setDef of RULE_SETS) {
-    const specs = setDef.files.map((n) => ({ name: n, dir: setDef.dir }));
+    const specs = (setDef.files || []).map((n) => ({ name: n, dir: setDef.dir }));
     for (const n of setDef.alsoRuleset || []) specs.push({ name: n, dir: 'Clash/Ruleset' });
     for (const n of setDef.alsoClash || []) specs.push({ name: n, dir: 'Clash' });
 
     const fetched = [];
     for (const spec of specs) {
       fetched.push({ name: spec.name, text: await http(`${UPSTREAM.acl.rawBase}/${current.acl.sha}/${spec.dir}/${spec.name}.list`) });
+    }
+    // 本地源（bett/）：不走网络，直接读仓库内文件
+    for (const n of setDef.local || []) {
+      const text = setDef.fakeipFilter ? readLocalFakeipFilter(n) : readLocalRules(n);
+      if (text == null) throw new Error(`${setDef.out}: 本地源 ${UPSTREAM.bett.dir}/${n} 不存在`);
+      fetched.push({ name: n, text, local: true });
+    }
+
+    // fakeip-filter 不是分流规则：不做规则行校验/去重渲染，原样落盘
+    if (setDef.fakeipFilter) {
+      const lines = [];
+      const seenF = new Set();
+      for (const { text } of fetched) {
+        for (const l of text.split(/\r?\n/)) {
+          const s = l.trim();
+          if (!s || seenF.has(s)) continue;
+          seenF.add(s); lines.push(s);
+        }
+      }
+      const body = `${lines.join('\n')}\n`;
+      const header = `# FakeIP 白名单 —— 用于 dns.fake-ip-filter\n# 这些域名不走 FakeIP 应答（本地域 / 时间同步 / STUN / 游戏联机 / 音乐与更新服务）\n# 规则数：${lines.length} 条\n`;
+      staged.push({ path: `rules/${setDef.out}.txt`, buf: Buffer.from(header + body), rules: lines.length, sources: ['fakeip-filter.txt'] });
+      staged.push({ path: `${DIST_DIR}/rules/${setDef.out}.list`, buf: Buffer.from(body), rules: lines.length, sources: ['fakeip-filter.txt'], kernel: true });
+      log(`  ${setDef.out.padEnd(14)} rules/…txt + dist/rules/…list  ${String(lines.length).padStart(5)} 条  (本地 bett/resouces)`);
+      continue;
     }
 
     const { merged, count, raw, provenance, dropped, injected } = mergeLists(setDef, fetched);
