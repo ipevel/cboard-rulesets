@@ -259,7 +259,7 @@ rule-providers:
   # === 广告拦截（ACL4SSR BanAD + bett reject 合并清单）===
   banad:
     type: http
-    behavior: classical
+    behavior: domain
     url: "https://fastly.jsdelivr.net/gh/ipevel/cboard-rulesets@main/stash/providers/BanAD_domain.yaml"
     path: ./ruleset/banad_domain.yaml
     interval: 86400
