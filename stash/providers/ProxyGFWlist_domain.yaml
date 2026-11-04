@@ -1,4 +1,4 @@
-# ProxyGFWlist_domain.yaml - 4451 rules
+# ProxyGFWlist_domain.yaml - 4452 rules
 payload:
   - +.000webhost.com
   - +.0rz.tw
@@ -408,6 +408,7 @@ payload:
   - +.bignews.org
   - +.bigone.com
   - +.bild.de
+  - +.bilibili.tv
   - +.bilinovel.com
   - +.biliworld.com
   - +.binance.com

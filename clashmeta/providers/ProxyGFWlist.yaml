@@ -1,4 +1,4 @@
-# ProxyGFWlist - 4435 rules
+# ProxyGFWlist - 4436 rules
 payload:
   - DOMAIN-SUFFIX,000webhost.com
   - DOMAIN-SUFFIX,0rz.tw
@@ -407,6 +407,7 @@ payload:
   - DOMAIN-SUFFIX,bignews.org
   - DOMAIN-SUFFIX,bigone.com
   - DOMAIN-SUFFIX,bild.de
+  - DOMAIN-SUFFIX,bilibili.tv
   - DOMAIN-SUFFIX,bilinovel.com
   - DOMAIN-SUFFIX,biliworld.com
   - DOMAIN-SUFFIX,binance.com
