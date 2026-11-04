@@ -1,6 +1,6 @@
 # cboard-rulesets
 
-Cboard 生态统一的分流规则仓库：一套源数据、三条产物管线，分别服务 Clash Meta / Mihomo、Stash 与 Polaris 客户端。规则由上游公开清单自动生成，仓库每日自动更新，面板与客户端按固定 URL 直接消费。
+Cboard 生态统一的分流规则仓库：一套源数据、四条产物管线，分别服务 Clash Meta / Mihomo、Stash、Polaris 客户端，以及 Bett Rules 的 geo 数据库与规则集。规则由上游公开清单自动生成，仓库每日自动更新，面板与客户端按固定 URL 直接消费。
 
 ## 模块
 
@@ -9,6 +9,7 @@ Cboard 生态统一的分流规则仓库：一套源数据、三条产物管线�
 | Clash Meta | `clashmeta/` | 22 个分类的 RULE-SET 提供者、完整配置 `clash-full.clash.yaml`、Xboard 订阅模板 `clash-xboard-subscription.yaml` | ckbox、Xboard 订阅 |
 | Stash | `stash/` | domain / ipcidr 分离的规则提供者、完整配置 `stash-full.yaml` | Xboard stash 订阅 |
 | Polaris | `dist/`、`geo/`、`rules/`、`tools/` | 规则 `.list`、geo 数据库（`geosite.dat` / `geoip.metadb` / `ASN.mmdb`）、`VERSION` / `latest.json` / `SHA256SUMS.txt` | Polaris 客户端、ckbox 的 geo 资源 |
+| Bett Rules | `bett/`、`bett-release` 分支 | 源码与规则源数据在 `bett/`；geoip / geosite 多格式产物（metadb / dat / db / mmdb / mrs / srs）在 `bett-release` 分支根目录 | 需要 Bett 系数据库与规则集的客户端 |
 
 ## 目录
 
@@ -20,6 +21,7 @@ clashmeta/            Clash Meta 产物
 stash/                Stash 产物
   providers/          规则集（domain / ipcidr 分离）
   stash-full.yaml     完整配置
+bett/                 Bett Rules 源码与规则源数据（Go 构建器 + 清洗脚本）
 dist/rules/*.list     Polaris 规则清单（AI / 地区 / 流媒体等）
 dist/geo/             geo 数据库
 geo/ rules/ tools/    Polaris 源数据与生成工具
@@ -33,6 +35,7 @@ docs/                 各模块的详细文档
 |---|---|---|
 | `daily-update.yml` | 每日 UTC 01:00（北京 09:00） | **唯一写 main 的入口**：顺序跑 Polaris 上游同步 → Clash 生成与 RULE-SET 重构 → Stash 生成，各步校验全绿后一次性提交推送 |
 | `clash-mrs-refresh.yml` | 每日 UTC 18:30（北京次日 02:30） | 仅刷新 `mrs` 分支与 `latest` release（`.mrs` 产物），不碰 main |
+| `bett-sync.yml` | 每日 UTC 00:30（北京 08:30） | 仅同步 `bett/` 目录与 `bett-release` 分支，不碰 main 的其它内容 |
 | `clash-verify.yml` / `stash-verify.yml` | PR / 手动 | 只读校验，不生成、不提交 |
 
 三条管线在同一 job 内串行执行、单次提交，不存在并发推送；任何一步校验失败都会让 job 变红，坏规则进不了 main。工作流用 `GITHUB_TOKEN` 推送，不会再次触发自身；`push` 触发只挂在 `tools/**`、`scripts/**` 与本工作流文件上，供改完生成逻辑后即时验证。
@@ -45,6 +48,7 @@ Stash 规则集   https://cdn.jsdelivr.net/gh/ipevel/cboard-rulesets@main/stash/
 Polaris 规则   https://raw.githubusercontent.com/ipevel/cboard-rulesets/main/dist/rules/
 Polaris geo    https://cdn.jsdelivr.net/gh/ipevel/cboard-rulesets@main/dist/geo/
 版本 / 清单    https://raw.githubusercontent.com/ipevel/cboard-rulesets/main/{VERSION,latest.json,SHA256SUMS.txt}
+Bett 数据库    https://raw.githubusercontent.com/ipevel/cboard-rulesets/bett-release/
 MRS Bundle     https://raw.githubusercontent.com/ipevel/cboard-rulesets/mrs/
                https://github.com/ipevel/cboard-rulesets/releases/download/latest/BundleMRS.7z
 ```
@@ -55,6 +59,7 @@ MRS Bundle     https://raw.githubusercontent.com/ipevel/cboard-rulesets/mrs/
 - [ACL4SSR/ACL4SSR](https://github.com/ACL4SSR/ACL4SSR) — Polaris 规则谱系
 - [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) — Clash / Stash 分类规则
 - [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) — release 规则集
+- [appshubcc/bett-rules](https://github.com/appshubcc/bett-rules) — Bett 系 geo 数据库与规则集（详见 `bett/UPSTREAM.md`）
 
 ## 本机面板同步
 

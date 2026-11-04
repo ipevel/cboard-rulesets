@@ -22,11 +22,22 @@
   - `GeoLite2-ASN.mmdb` 的上游数据来自 **MaxMind GeoLite2** —
     https://www.maxmind.com/en/geolite2/eula （CC BY-SA 4.0）
 
-## 3. 运行环境（非随包分发）
+## 3. Bett Rules 模块
+
+- **appshubcc/bett-rules** — https://github.com/appshubcc/bett-rules
+  - 许可证：GPL-3.0
+  - 取用：`master` 分支源码与规则源数据镜像到 `bett/`；`release` 分支产物镜像到 `bett-release` 分支
+  - 对应产出：`bett/`、`bett-release` 分支
+  - 该模块由其自身的 Go 程序从多个来源构建，其中 MaxMind 系数据库数据来自
+    **MaxMind GeoLite2** — https://www.maxmind.com/en/geolite2/eula （CC BY-SA 4.0）
+  - 本仓库对其规则内容不做修改，只做版本追踪与镜像，详见 `bett/UPSTREAM.md`
+
+## 4. 运行环境（非随包分发）
 
 - **Node.js** — https://nodejs.org （MIT）— 只在同步脚本与 CI 中使用
+- **Go** — https://go.dev （BSD-3-Clause）— 仅在需要本地重建 `bett/` 的 geo 数据库时使用
 
-## 4. 数据准确性
+## 5. 数据准确性
 
 所有文件均为**上游内容的机械合并与去重**，本仓库不对规则的正确性、完整性或时效性作任何担保。
 `PROVENANCE.md` 与 `latest.json` 记录了每次同步的上游 commit / release 坐标，便于逐次溯源。

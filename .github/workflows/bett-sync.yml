@@ -1,0 +1,112 @@
+name: Bett Rules sync
+
+# 追踪 appshubcc/bett-rules 的两条来源：
+#   master          → 源码与规则源数据，镜像到主分支 `bett/`
+#   release         → 构建产物（geoip/geosite 多格式 + 规则集），镜像到 `bett-release` 分支
+#
+# 与另外三条链的关系（互不干扰）：
+#   daily-update.yml       → 改 rules/ 与 clashmeta/、stash/ 的 provider
+#   clash-mrs-refresh.yml  → 只动 mrs 分支与 latest release
+#   本 workflow            → 只动 bett/ 目录与 bett-release 分支
+#
+# 安全约定：
+#   - 只有对方对应分支 commit 变化才动作，无变化直接成功退出，不产生空提交
+#   - 产物不写入主分支的 geo/ 与 dist/，避免与现有 meta-rules-dat 来源混淆
+#   - 推送失败重试一次即止；连续失败由 GitHub 通知，不无限重跑
+#   - 对方每日北京时间 06:30 构建，本 workflow 排在 08:00 之后拉取
+on:
+  schedule:
+    # UTC 00:30 = 北京时间 08:30，对方 06:30 构建之后的缓冲窗
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '同步范围'
+        type: choice
+        options: [both, source, release]
+        default: both
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bett-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: 同步 bett-rules
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 检出（含全部分支）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 配置 git 身份
+        run: |
+          git config user.name "ipevel"
+          git config user.email "-ipevel@users.noreply.github.com"
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 同步
+        id: sync
+        run: |
+          set -o pipefail
+          chmod +x scripts/bett_sync.sh
+          bash scripts/bett_sync.sh "${{ inputs.mode || 'both' }}" 2>&1 | tee /tmp/bett_sync.log
+          if grep -q 'unchanged' /tmp/bett_sync.log && ! grep -q 'synced\|committed' /tmp/bett_sync.log; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 提交源码镜像
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          if git diff --quiet && git diff --cached --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "主分支无变化"
+          else
+            git add bett/ .bett-release-sha
+            git commit -m "chore(bett): sync source $(cat bett/.upstream-sha | cut -c1-8)" \
+                       -m "同步 bett-rules 源码与规则源数据；产物见 bett-release 分支。"
+            git push origin HEAD:main
+          fi
+
+      - name: 推送产物分支
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          if git show-ref --verify --quiet refs/heads/bett-release; then
+            git push --force origin bett-release
+          else
+            echo "bett-release 分支未生成，跳过"
+          fi
+
+      - name: 校验产物完整性
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          set -e
+          n=$(git show bett-release --stat --oneline 2>/dev/null | wc -l || echo 0)
+          echo "bett-release 提交: $n"
+          git show bett-release:geoip.metadb > /tmp/g 2>/dev/null && \
+            echo "geoip.metadb $(stat -c%s /tmp/g) bytes" || echo "::warning::geoip.metadb 缺失"
+          git show bett-release:geosite.dat > /tmp/s 2>/dev/null && \
+            echo "geosite.dat $(stat -c%s /tmp/s) bytes" || echo "::warning::geosite.dat 缺失"
+
+      - name: 摘要
+        run: |
+          {
+            echo "### Bett Rules sync"
+            echo ""
+            echo "- 模式: ${{ inputs.mode || 'both' }}"
+            echo "- 有变化: ${{ steps.sync.outputs.changed }}"
+            echo "- 源码版本: $(cat bett/.upstream-sha 2>/dev/null | cut -c1-8)"
+            echo "- 产物版本: $(cat .bett-release-sha 2>/dev/null | cut -c1-8)"
+          } >> "$GITHUB_STEP_SUMMARY"
