@@ -81,19 +81,24 @@ if missing:
 else:
     print("  OK 所有 RULE-SET 引用都有定义")
 
-# ---- 广告残留 ----
-ads = [ln.strip() for ln in lines if re.search(r"Ban[A-Za-z]*_|banad|BanAD|REJECT|🛑", ln)]
+# ---- 广告拦截结构自检 ----
+# 2026-11-04 用户批准接入广告拦截分组（BanAD provider + 🛑 广告拦截）。
+# 旧版这里防"广告拦截混进来"，现在改为防"结构不完整"：
+#   三件套必须同时存在（provider 定义、分组、RULE-SET），缺一才算问题。
+need_provider = any(p["name"] == "banad" for p in providers)
+need_group = any(
+    ln.strip().startswith("- name:") and "广告拦截" in ln for ln in lines)
+need_rule = any("RULE-SET,banad" in ln for ln in lines)
+missing_ads = [w for w, ok in [("provider", need_provider), ("分组", need_group), ("规则行", need_rule)] if not ok]
 print()
 print("=" * 74)
-print("广告拦截残留检查")
+print("广告拦截结构检查")
 print("=" * 74)
-if ads:
+if missing_ads:
     ok = False
-    print("  !! 发现 %d 处:" % len(ads))
-    for a in ads[:10]:
-        print("     ", a[:100])
+    print("  !! 广告拦截三件套缺失:", missing_ads)
 else:
-    print("  OK 无残留")
+    print("  OK provider / 分组 / 规则行 三件套齐全")
 
 # ---- provider 文件被引用情况 ----
 files = {f for f in os.listdir(PROV) if f.endswith(".yaml")}
