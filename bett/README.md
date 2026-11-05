@@ -1,6 +1,6 @@
 # Bett Rules
 
-适用所有 **Mihomo (包括其他 Clash 系)**、**Sing-box** 与 **V2Ray / Xray** 的 GeoIP / GeoSite / ASN 数据库以及 Rule-Set 规则集，更加轻巧和精准，已在 Bettbox 客户端托管模式下默认使用，每日北京时间 **06:30** 自动同步上游更新。
+适用所有 **Mihomo (包括其他 Clash 系)**、**Sing-box** 与 **V2Ray / Xray** 的 GeoIP / GeoSite / ASN 数据库以及 Rule-Set 规则集，更加轻巧和精准，已在 [Bettbox](https://github.com/appshubcc/Bettbox) 客户端托管模式下默认使用，每日北京时间 **06:30** 自动同步上游更新。
 
 ---
 
@@ -110,7 +110,7 @@ dns:
     - RULE-SET:private
     - RULE-SET:connectcheck
     - RULE-SET:fakeip_filter
-    - RULE-SET:geolocation-cn
+    - RULE-SET:china-ns-list
   nameserver-policy:
     'rule-set:private': 'system'
     'rule-set:ai': '1.1.1.1#✨ AI'
@@ -155,7 +155,7 @@ rule-providers:
   games-cn: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/category-games@cn.mrs" }
   connectcheck: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/connectivity-check.mrs" }
   geolocation-cn: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/geolocation-cn.mrs" }
-  cn: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/cn.mrs" }
+  china-ns-list: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/cn.mrs" }
   ai: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/category-ai-!cn.mrs" }
   douyin: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/douyin.mrs" }
   tiktok: { <<: *domain, url: "https://raw.githubusercontent.com/appshubcc/bett-rules/meta/geo/geosite/tiktok.mrs" }
