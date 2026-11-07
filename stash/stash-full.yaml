@@ -493,6 +493,10 @@ rule-providers:
 
 # --- 分流规则 ---
 rules:
+  # === 固定路由（最高优先级）：app.mbe.cc 写死走 🐟 漏网之鱼 ===
+  # 放在所有规则之前，避免被任何直连/中国域名/广告规则截胡。
+  - DOMAIN,app.mbe.cc,🐟 漏网之鱼
+
   # === 本地网络直连 ===
   - DOMAIN-SUFFIX,local,🎯 全球直连
 
