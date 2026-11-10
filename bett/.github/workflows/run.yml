@@ -194,45 +194,9 @@ jobs:
 
       - name: Build geosite-lite.dat file
         run: |
-          cd community || exit 1
-          mkdir -p data-lite
-          parse_clash() {
-            perl -ne 's/^\s*-\s*//; s/["\x27]//g; if (/^DOMAIN,([^\s,#]+)/) { print "full:$1\n" } elsif (/^DOMAIN-SUFFIX,([^\s,#]+)/) { print "$1\n" } elsif (/^DOMAIN-KEYWORD,([^\s,#]+)/) { print "keyword:$1\n" }'
-          }
-          curl -sSL https://raw.githubusercontent.com/xishang0128/rules/main/biliintl.list > ./data-lite/biliintl
-          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/ehentai > ./data-lite/ehentai
-          curl -sSL https://github.com/v2fly/domain-list-community/raw/master/data/private > ./data-lite/private
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/AbemaTV/AbemaTV.yaml | parse_clash > ./data-lite/abema
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Apple/Apple_Classical.yaml | parse_clash > ./data-lite/apple
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/AppleMusic/AppleMusic.yaml | parse_clash > ./data-lite/applemusic
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/BiliBili/BiliBili.yaml | parse_clash > ./data-lite/bilibili
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Bahamut/Bahamut.yaml | parse_clash > ./data-lite/bahamut
-          curl -sSL $CHINA_DOMAINS_URL | perl -ne '/^server=\/([^\/]+)\// && print "$1\n"' | grep -v "acg.rip" | sort --ignore-case -u > ./cn-raw.tmp
-          python ../resouces/dedupTLD.py --mode cn --input ./cn-raw.tmp --output ./data-lite/cn --tld-cn ../resouces/tld-cn.txt --tld-not-cn ../resouces/tld-not-cn.txt --direct ../resouces/direct.txt --remove ../resouces/direct-need-to-remove.txt
-          rm -f ./cn-raw.tmp
-          [ -f "../resouces/geolocation-cn.txt" ] && cat ../resouces/geolocation-cn.txt >> ./data-lite/cn
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Cloudflare/Cloudflare.yaml | parse_clash > ./data-lite/cloudflare
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Google/Google.yaml | parse_clash > ./data-lite/google
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GitHub/GitHub.yaml | parse_clash > ./data-lite/github
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Microsoft/Microsoft.yaml | parse_clash > ./data-lite/microsoft
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Netflix/Netflix.yaml | parse_clash > ./data-lite/netflix
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OpenAI/OpenAI.yaml | parse_clash > ./data-lite/openai
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/OneDrive/OneDrive.yaml | parse_clash > ./data-lite/onedrive
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Pixiv/Pixiv.yaml | parse_clash > ./data-lite/pixiv
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/ProxyLite/ProxyLite.yaml | parse_clash > ./data-lite/proxy
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Spotify/Spotify.yaml | parse_clash > ./data-lite/spotify
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Telegram/Telegram.yaml | parse_clash > ./data-lite/telegram
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/Twitter/Twitter.yaml | parse_clash > ./data-lite/twitter
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/TikTok/TikTok.yaml | parse_clash > ./data-lite/tiktok
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/YouTube/YouTube.yaml | parse_clash > ./data-lite/youtube
-          curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/GlobalMedia/GlobalMedia.yaml | parse_clash > ./data-lite/proxymedia
-
-          echo include:google >> ./data-lite/proxy && echo include:github >> ./data-lite/proxy && echo include:netflix >> ./data-lite/proxy
-          echo ipleak.net >> ./data-lite/proxy && echo browserleaks.org >> ./data-lite/proxy
-          echo "full:o33249.ingest.sentry.io" >>  ./data-lite/openai
-          echo "openai.com" >> ./data-lite/openai
-          python ../resouces/formatFakeIP.py ../resouces/fakeip-filter.txt ./data-lite/fakeip-filter
-          go run ./ --datapath=./data-lite --outputname geosite-lite.dat
+          go run ./cmd/build-geosite \
+            -from-dat ./custom/publish/geosite.dat \
+            -lite-out ./community/geosite-lite.dat
 
       - name: Cache IP2Location databases
         uses: actions/cache@v4
@@ -385,7 +349,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y p7zip-full
           cd meta-rule
-          7z a ../BundleMRS.7z -mx=1 -r *.mrs
+          # Fast store non-solid bundle: only geo/geoip and geo/geosite MRS rules, excludes ASN and lite
+          7z a ../BundleMRS.7z -mx=0 -ms=off '-ir!geo/*.mrs'
 
       - name: Move and zip files
         run: |

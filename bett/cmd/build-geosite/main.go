@@ -190,9 +190,78 @@ func stripRulePrefixAndAttrs(line string) string {
 	return strings.TrimSpace(s)
 }
 
+var liteBuiltinTags = map[string]bool{
+	"abema":           true,
+	"apple":           true,
+	"bahamut":         true,
+	"bilibili":        true,
+	"biliintl":        true,
+	"category-ads":    true,
+	"cloudflare":      true,
+	"cn":              true,
+	"ehentai":         true,
+	"fakeip-filter":   true,
+	"geolocation-!cn": true,
+	"geolocation-cn":  true,
+	"gfw":             true,
+	"github":          true,
+	"google":          true,
+	"microsoft":       true,
+	"netflix":         true,
+	"onedrive":        true,
+	"openai":          true,
+	"pixiv":           true,
+	"private":         true,
+	"spotify":         true,
+	"telegram":        true,
+	"tiktok":          true,
+	"twitter":         true,
+	"youtube":         true,
+}
+
 func main() {
 	outputDir := flag.String("out", "./publish", "Output directory for compiled assets")
+	fromDat := flag.String("from-dat", "", "Path to existing geosite.dat to extract geosite-lite.dat from")
+	liteOut := flag.String("lite-out", "", "Output file path for extracted geosite-lite.dat")
 	flag.Parse()
+
+	if *fromDat != "" {
+		raw, err := os.ReadFile(*fromDat)
+		if err != nil {
+			fmt.Printf("❌ Failed to read %s: %v\n", *fromDat, err)
+			os.Exit(1)
+		}
+		fullList, err := v2raygeo.LoadSite(raw)
+		if err != nil {
+			fmt.Printf("❌ Failed to parse %s: %v\n", *fromDat, err)
+			os.Exit(1)
+		}
+		var liteEntries []*v2raygeo.GeoSite
+		for _, entry := range fullList {
+			if liteBuiltinTags[strings.ToLower(entry.CountryCode)] {
+				liteEntries = append(liteEntries, entry)
+			}
+		}
+		protoLite, err := proto.Marshal(&v2raygeo.GeoSiteList{Entry: liteEntries})
+		if err != nil {
+			fmt.Printf("❌ Failed to marshal geosite-lite.dat: %v\n", err)
+			os.Exit(1)
+		}
+		outPath := *liteOut
+		if outPath == "" {
+			outPath = filepath.Join(*outputDir, "geosite-lite.dat")
+		}
+		if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
+			fmt.Printf("❌ Failed to create directory for %s: %v\n", outPath, err)
+			os.Exit(1)
+		}
+		if err := os.WriteFile(outPath, protoLite, 0o644); err != nil {
+			fmt.Printf("❌ Failed to write %s: %v\n", outPath, err)
+			os.Exit(1)
+		}
+		fmt.Printf("✅ Extracted %d built-in categories into %s\n", len(liteEntries), outPath)
+		return
+	}
 
 	startTime := time.Now()
 	fmt.Println("🚀 Starting Native GeoSite Build Engine (Full & Lite)...")
@@ -553,6 +622,22 @@ func main() {
 	}
 
 	// Fetch additional community / meta categories matching run.yml
+	if gfwLines, err := fetchLines("https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/gfw.txt"); err == nil {
+		gfwTree := newDomainNode()
+		var cleanGfw []string
+		for _, l := range gfwLines {
+			dom := strings.ToLower(stripRulePrefixAndAttrs(l))
+			if dom == "" || proxyRemoveSet.matches(dom) {
+				continue
+			}
+			if gfwTree.insert(dom) {
+				cleanGfw = append(cleanGfw, dom)
+			}
+		}
+		if len(cleanGfw) > 0 {
+			_ = os.WriteFile(filepath.Join(dataDir, "gfw"), []byte(strings.Join(cleanGfw, "\n")+"\n"), 0o644)
+		}
+	}
 	if biliLines, err := fetchLines("https://raw.githubusercontent.com/xishang0128/rules/main/biliintl.list"); err == nil {
 		_ = os.WriteFile(filepath.Join(dataDir, "biliintl"), []byte(strings.Join(biliLines, "\n")+"\n"), 0o644)
 	}
@@ -912,153 +997,12 @@ func main() {
 		f.Close()
 	}
 
-	fmt.Println("🧩 Compiling Lite GeoSite entries...")
+	fmt.Println("🧩 Compiling Lite GeoSite entries from built-in categories...")
 	var siteListLite []*v2raygeo.GeoSite
-
-	var cnDomainsLite []*v2raygeo.Domain
-	for _, dom := range cnClean {
-		cnDomainsLite = append(cnDomainsLite, &v2raygeo.Domain{
-			Type:  v2raygeo.Domain_Domain,
-			Value: dom,
-		})
-	}
-	siteListLite = append(siteListLite, &v2raygeo.GeoSite{
-		CountryCode: "CN",
-		Domain:      cnDomainsLite,
-	})
-
-	liteClashSources := map[string]string{
-		"abema":      "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AbemaTV/AbemaTV.yaml",
-		"apple":      "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical.yaml",
-		"applemusic": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleMusic/AppleMusic.yaml",
-		"bilibili":   "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml",
-		"bahamut":    "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Bahamut/Bahamut.yaml",
-		"cloudflare": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.yaml",
-		"google":     "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml",
-		"github":     "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml",
-		"microsoft":  "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml",
-		"netflix":    "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml",
-		"openai":     "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml",
-		"onedrive":   "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.yaml",
-		"pixiv":      "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Pixiv/Pixiv.yaml",
-		"proxy":      "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ProxyLite/ProxyLite.yaml",
-		"spotify":    "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml",
-		"telegram":   "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml",
-		"twitter":    "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml",
-		"tiktok":     "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml",
-		"youtube":    "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml",
-		"proxymedia": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia.yaml",
-	}
-
-	liteParsedMap := make(map[string][]string)
-	for tag, url := range liteClashSources {
-		if lines, err := fetchLines(url); err == nil {
-			liteParsedMap[tag] = parseClashDomainLines(lines)
+	for _, entry := range siteListFull {
+		if liteBuiltinTags[strings.ToLower(entry.CountryCode)] {
+			siteListLite = append(siteListLite, entry)
 		}
-	}
-	liteParsedMap["openai"] = append(liteParsedMap["openai"], "full:o33249.ingest.sentry.io", "openai.com")
-	liteParsedMap["proxy"] = append(liteParsedMap["proxy"], liteParsedMap["google"]...)
-	liteParsedMap["proxy"] = append(liteParsedMap["proxy"], liteParsedMap["github"]...)
-	liteParsedMap["proxy"] = append(liteParsedMap["proxy"], liteParsedMap["netflix"]...)
-	liteParsedMap["proxy"] = append(liteParsedMap["proxy"], "ipleak.net", "browserleaks.org")
-
-	if biliLines, err := fetchLines("https://raw.githubusercontent.com/xishang0128/rules/main/biliintl.list"); err == nil {
-		liteParsedMap["biliintl"] = biliLines
-	}
-	for _, v2Tag := range []string{"ehentai", "private"} {
-		if items := resolveTag(v2Tag); len(items) > 0 {
-			for _, it := range items {
-				switch it.dType {
-				case v2raygeo.Domain_Full:
-					liteParsedMap[v2Tag] = append(liteParsedMap[v2Tag], "full:"+it.val)
-				case v2raygeo.Domain_Plain:
-					liteParsedMap[v2Tag] = append(liteParsedMap[v2Tag], "keyword:"+it.val)
-				case v2raygeo.Domain_Regex:
-					liteParsedMap[v2Tag] = append(liteParsedMap[v2Tag], "regexp:"+it.val)
-				default:
-					liteParsedMap[v2Tag] = append(liteParsedMap[v2Tag], it.val)
-				}
-			}
-		}
-	}
-
-	var liteKeys []string
-	for k := range liteParsedMap {
-		liteKeys = append(liteKeys, k)
-	}
-	sort.Strings(liteKeys)
-
-	for _, tag := range liteKeys {
-		var domains []*v2raygeo.Domain
-		t := newDomainNode()
-		seen := make(map[string]bool)
-		for _, r := range liteParsedMap[tag] {
-			dType, val, _ := parseDomainLine(r)
-			if val == "" {
-				continue
-			}
-			key := fmt.Sprintf("%d:%s", dType, strings.ToLower(val))
-			if seen[key] {
-				continue
-			}
-			seen[key] = true
-			if dType == v2raygeo.Domain_Domain {
-				if t.insert(val) {
-					domains = append(domains, &v2raygeo.Domain{
-						Type:  dType,
-						Value: val,
-					})
-				}
-			} else {
-				domains = append(domains, &v2raygeo.Domain{
-					Type:  dType,
-					Value: val,
-				})
-			}
-		}
-		if len(domains) > 0 {
-			siteListLite = append(siteListLite, &v2raygeo.GeoSite{
-				CountryCode: strings.ToUpper(tag),
-				Domain:      domains,
-			})
-		}
-	}
-
-	if len(customRejects) > 0 {
-		var adsDomainsLite []*v2raygeo.Domain
-		for _, d := range customRejects {
-			adsDomainsLite = append(adsDomainsLite, &v2raygeo.Domain{
-				Type:  v2raygeo.Domain_Domain,
-				Value: d,
-			})
-		}
-		siteListLite = append(siteListLite, &v2raygeo.GeoSite{
-			CountryCode: "CATEGORY-ADS",
-			Domain:      adsDomainsLite,
-		})
-	}
-
-	if len(customFakeIP) > 0 {
-		var fakeDomainsLite []*v2raygeo.Domain
-		for _, d := range customFakeIP {
-			dType := v2raygeo.Domain_Domain
-			val := d
-			if strings.HasPrefix(d, "full:") {
-				dType = v2raygeo.Domain_Full
-				val = strings.TrimPrefix(d, "full:")
-			} else if strings.HasPrefix(d, "regexp:") {
-				dType = v2raygeo.Domain_Regex
-				val = strings.TrimPrefix(d, "regexp:")
-			}
-			fakeDomainsLite = append(fakeDomainsLite, &v2raygeo.Domain{
-				Type:  dType,
-				Value: val,
-			})
-		}
-		siteListLite = append(siteListLite, &v2raygeo.GeoSite{
-			CountryCode: "FAKEIP-FILTER",
-			Domain:      fakeDomainsLite,
-		})
 	}
 
 	protoDataLite, _ := proto.Marshal(&v2raygeo.GeoSiteList{Entry: siteListLite})
