@@ -1,9 +1,9 @@
 mrs_bundle_version: 1
 source: MetaCubeX/meta-rules-dat@meta
-source_commit: 458e716abd80ff8c6aee2b7d15c4f94b20e9d279
-source_date: 2026-11-11T02:05:00Z
+source_commit: a08d80c786668262381318e6c11cb13527a525e3
+source_date: 2026-11-12T03:13:52Z
 geosite_files: 2023
 geoip_files: 260
-payload_sha256: da395e3f32d6b5ce41d73ca2b76a3aee637e88c157c91f297f23ff23c207c408
-fetched_at: 2026-11-12T00:53:32Z
-built_at: 2026-11-12T00:53:32Z
+payload_sha256: cc642ea9048ea503ea67c3d4f57b0a8a6b584f395a02715b45395f0122ebb02c
+fetched_at: 2026-11-12T23:43:16Z
+built_at: 2026-11-12T23:43:16Z
