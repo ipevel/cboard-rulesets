@@ -1,4 +1,4 @@
-# ProxyGFWlist_domain.yaml - 4452 rules
+# ProxyGFWlist_domain.yaml - 4453 rules
 payload:
   - +.000webhost.com
   - +.0rz.tw
@@ -48,6 +48,7 @@ payload:
   - +.51.ca
   - +.51jav.org
   - +.51luoben.com
+  - +.51papaya.com
   - +.5278.cc
   - +.611study.com
   - +.611study.icu
