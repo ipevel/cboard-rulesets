@@ -78,10 +78,15 @@ ROLLING_REL_ID=""
 if ROLLING_REL_ID="$(api GET "/releases/tags/${ROLLING_TAG}" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);process.stdout.write(j.id?String(j.id):"")}catch(e){}})')"; then
   PUBLISHED_SHA="$(api GET "/releases/${ROLLING_REL_ID}" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);const m=/<!--\s*upstream_commit:\s*([0-9a-f]{40})\s*-->/.exec(j.body||"");process.stdout.write(m?m[1]:"")}catch(e){}})')"
 fi
-if [ -n "$PUBLISHED_SHA" ] && [ "$PUBLISHED_SHA" = "$UPSTREAM_SHA" ] && [ "${FORCE_REFRESH:-0}" != "1" ]; then
+MISSING_EXTRAS=0
+[ -f "mrs-branch/geo/geosite/fakeip-filter.mrs" ] || MISSING_EXTRAS=1
+if [ -n "$PUBLISHED_SHA" ] && [ "$PUBLISHED_SHA" = "$UPSTREAM_SHA" ] && [ "$MISSING_EXTRAS" -eq 0 ] && [ "${FORCE_REFRESH:-0}" != "1" ]; then
   log "线上已是上游 $UPSTREAM_SHA，无需更新"
   echo "no_change=true" >> "$GITHUB_OUTPUT"
   exit 0
+fi
+if [ "$MISSING_EXTRAS" -eq 1 ]; then
+  log "上游未变，但 mrs 分支缺少自定义类别产物 → 重建"
 fi
 log "需要更新：线上 ${PUBLISHED_SHA:-（无）} → 上游 $UPSTREAM_SHA"
 
@@ -89,6 +94,24 @@ log "需要更新：线上 ${PUBLISHED_SHA:-（无）} → 上游 $UPSTREAM_SHA"
 TREE="$WORK/tree"; mkdir -p "$TREE/geo"
 cp -r "$WORK/upstream/geo/geosite" "$TREE/geo/"
 cp -r "$WORK/upstream/geo/geoip" "$TREE/geo/"
+
+# ---- 3b. 注入自定义类别（上游 MetaCubeX 不产，bett 系配置依赖）--------------
+# clients 的 managed 配置引用 `geosite/fakeip-filter.mrs`（fake-ip-filter 里的
+# rule-set:fakeip_filter）。上游 meta-rules-dat 没有这个类别，不注入就会 404。
+EXTRAS_DIR="$(cd "$(dirname "$0")" && pwd)/extras"
+FAKEIP_SRC="$EXTRAS_DIR/fakeip-filter.txt"
+[ -f "$FAKEIP_SRC" ] || die "缺少自定义清单 $FAKEIP_SRC"
+MIHOMO_BIN="${MIHOMO_BIN:-$(command -v mihomo 2>/dev/null || true)}"
+[ -n "$MIHOMO_BIN" ] && [ -x "$MIHOMO_BIN" ] || die "缺少 mihomo（convert-ruleset 转换器）；用 MIHOMO_BIN 指定路径"
+grep -vE '^[[:space:]]*#|^[[:space:]]*$' "$FAKEIP_SRC" > "$WORK/fakeip-filter.txt"
+FAKEIP_N=$(wc -l < "$WORK/fakeip-filter.txt" | tr -d ' ')
+[ "$FAKEIP_N" -gt 0 ] || die "fakeip-filter 清单为空"
+"$MIHOMO_BIN" convert-ruleset domain text "$WORK/fakeip-filter.txt" "$TREE/geo/geosite/fakeip-filter.mrs" >/dev/null 2>&1 \
+  || die "生成 fakeip-filter.mrs 失败"
+FAKEIP_SIZE=$(stat -c %s "$TREE/geo/geosite/fakeip-filter.mrs" 2>/dev/null || stat -f %z "$TREE/geo/geosite/fakeip-filter.mrs")
+[ "$FAKEIP_SIZE" -gt 0 ] || die "fakeip-filter.mrs 产物为空"
+log "注入自定义类别：fakeip-filter.mrs（${FAKEIP_N} 条规则，${FAKEIP_SIZE} B）"
+
 GS=$(find "$TREE/geo/geosite" -name '*.mrs' | wc -l | tr -d ' ')
 GI=$(find "$TREE/geo/geoip"   -name '*.mrs' | wc -l | tr -d ' ')
 [ "$GS" -gt 0 ] || die "geosite 产物为空"
@@ -104,6 +127,7 @@ source_commit: ${UPSTREAM_SHA}
 source_date: ${UPSTREAM_DATE}
 geosite_files: ${GS}
 geoip_files: ${GI}
+custom_categories: fakeip-filter (${FAKEIP_N} rules, via mihomo convert-ruleset)
 payload_sha256: ${PAYLOAD_SHA}
 fetched_at: ${FETCHED_AT}
 built_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)

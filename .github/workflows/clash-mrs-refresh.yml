@@ -50,6 +50,21 @@ jobs:
           ref: mrs
           path: mrs-branch
 
+      - name: 准备 mihomo（自定义类别转换器）
+        # 固定版本：mrs 产物必须可复现，跟随 mihomo 最新版会让输出漂移。
+        # 该版本已验证可由 scripts/extras/fakeip-filter.txt 产出与上游逐字节相同的 mrs。
+        run: |
+          set -euo pipefail
+          MIHOMO_VERSION="v1.19.34"
+          cd "$RUNNER_TEMP"
+          curl -sSL --retry 3 --max-time 180 \
+            "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_VERSION}/mihomo-linux-amd64-${MIHOMO_VERSION}.gz" \
+            -o mihomo.gz
+          gunzip -f mihomo.gz
+          chmod +x mihomo
+          echo "MIHOMO_BIN=${RUNNER_TEMP}/mihomo" >> "$GITHUB_ENV"
+          "${RUNNER_TEMP}/mihomo" -v | head -1
+
       - name: 刷新并发布
         id: refresh
         env:
