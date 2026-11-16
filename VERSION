@@ -1,9 +1,10 @@
 mrs_bundle_version: 1
 source: MetaCubeX/meta-rules-dat@meta
-source_commit: f181fff77f5f243f69bfc12b45e0fa10bed899fc
-source_date: 2026-11-15T02:03:48Z
-geosite_files: 2023
+source_commit: c50286e52b8f6497af083871747d4b49a4bb77a2
+source_date: 2026-11-16T02:20:30Z
+geosite_files: 2024
 geoip_files: 260
-payload_sha256: 58d1349d85c3b5e31aefbf70e469afb5cc32fbfab211326ea97d0bd7268d8878
-fetched_at: 2026-11-15T23:01:41Z
-built_at: 2026-11-15T23:01:41Z
+custom_categories: fakeip-filter (121 rules, via mihomo convert-ruleset)
+payload_sha256: b523da72ed64785a11160d80fe426283999ed9e1405cb1cdcbea02c7b77dae5a
+fetched_at: 2026-11-16T03:14:01Z
+built_at: 2026-11-16T03:14:01Z
