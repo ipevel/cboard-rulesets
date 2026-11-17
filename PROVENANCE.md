@@ -1,12 +1,12 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-11-16T03:14:08.856Z
-版本：VERSION 43
+生成时间：2026-11-17T08:36:29.848Z
+版本：VERSION 44
 
 ## 上游坐标
 
 - 分流清单：`ACL4SSR/ACL4SSR` @ `e2f257307bf0ee31921ac948036e942a29a35b35`（2026-11-14T04:29:38Z）
-- geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-11-16T02:19:21Z）
+- geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-11-17T04:42:28Z）
 
 ## 两种形态
 
@@ -20,7 +20,7 @@
 |---|---|---|
 | `dist/rules/ai.list` *(内核形态)* | 62 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
 | `dist/rules/apple.list` *(内核形态)* | 29 | Apple.list |
-| `dist/rules/banad.list` *(内核形态)* | 1457 | BanAD.list, reject.txt.list |
+| `dist/rules/banad.list` *(内核形态)* | 1461 | BanAD.list, reject.txt.list |
 | `dist/rules/banprogramad.list` *(内核形态)* | 1010 | BanProgramAD.list |
 | `dist/rules/china-domain.list` *(内核形态)* | 735 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
 | `dist/rules/china-ip.list` *(内核形态)* | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
@@ -39,7 +39,7 @@
 | `geo/geosite.dat` | — | release 资产 `geosite.dat` |
 | `rules/ai.txt` | 62 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
 | `rules/apple.txt` | 29 | Apple.list |
-| `rules/banad.txt` | 1457 | BanAD.list, reject.txt.list |
+| `rules/banad.txt` | 1461 | BanAD.list, reject.txt.list |
 | `rules/banprogramad.txt` | 1010 | BanProgramAD.list |
 | `rules/china-domain.txt` | 735 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
 | `rules/china-ip.txt` | 9114 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
