@@ -1,4 +1,4 @@
-# BanAD_domain.yaml - 1433 rules
+# BanAD_domain.yaml - 1437 rules
 payload:
   - +.09mk.cn
   - +.100peng.com
@@ -911,6 +911,7 @@ payload:
   - +.e.ad.xiaomi.com
   - +.eclick.baidu.com
   - +.edge.ads.twitch.tv
+  - +.edge.mountaintoys.cn
   - +.ef-dongfeng.tanx.com
   - +.entry.baidu.com
   - +.errlog.umeng.com
@@ -960,6 +961,7 @@ payload:
   - +.gromore.pangolin-sdk-toutiao.com
   - +.grow.me
   - +.h-adashx.ut.taobao.com
+  - +.h2.smtcdns.net
   - +.h5.analytics.126.net
   - +.h5.hpplay.com.cn
   - +.hanlanad.com
@@ -1102,6 +1104,8 @@ payload:
   - +.mbdlog.iqiyi.com
   - +.mc.yandex.md
   - +.mc.yandex.ru
+  - +.mcdn.bilivideo.cn
+  - +.mcdn.bilivideo.com
   - +.media.net
   - +.mediavine.com
   - +.metrics.icloud.com
