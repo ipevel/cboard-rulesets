@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 国内流媒体与下载
 # 哔哩哔哩 / 网易音乐已并入国内直连；Download 是下载类直连域名。
 # 合并自 4 份 ACL4SSR 清单：ChinaMedia / Bilibili / NetEaseMusic / Download
-# 规则数：91 条（上游合计 109 条，去重 18 条；丢弃内核不认的 URL-REGEX 8 条（该类型 mihomo 从不支持，内核本来也会逐条跳过））
+# 规则数：92 条（上游合计 111 条，去重 19 条；丢弃内核不认的 URL-REGEX 8 条（该类型 mihomo 从不支持，内核本来也会逐条跳过））
 DOMAIN,apiintl.biliapi.net
 DOMAIN,upos-hz-mirrorakam.akamaized.net
 DOMAIN-SUFFIX,acg.tv
@@ -15,6 +15,7 @@ DOMAIN-SUFFIX,bilibili.com
 DOMAIN-SUFFIX,bilibili.tv
 DOMAIN-SUFFIX,biligame.com
 DOMAIN-SUFFIX,biligame.net
+DOMAIN-SUFFIX,biliimg.com
 DOMAIN-SUFFIX,bilivideo.cn
 DOMAIN-SUFFIX,bilivideo.com
 DOMAIN-SUFFIX,hdslb.com

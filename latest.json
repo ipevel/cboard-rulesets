@@ -1,17 +1,17 @@
 {
   "schema": 1,
-  "version": 48,
-  "generatedAt": "2026-11-21T07:46:58.779Z",
+  "version": 49,
+  "generatedAt": "2026-11-22T07:34:10.434Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
-      "sha": "c45d484ffc43ea0b64db63d847741c1e94586d73",
-      "date": "2026-11-21T05:07:58Z"
+      "sha": "a7bdd9c97c3c4a1d01a7259bba7c23c275794cc7",
+      "date": "2026-11-22T04:33:15Z"
     },
     "meta": {
       "repo": "MetaCubeX/meta-rules-dat",
       "tag": "latest",
-      "publishedAt": "2026-11-21T03:21:17Z"
+      "publishedAt": "2026-11-22T02:28:43Z"
     }
   },
   "files": [
@@ -24,20 +24,20 @@
     {
       "path": "dist/geo/geoip.metadb",
       "bytes": 8434612,
-      "sha256": "41bce1c35748f2748433739e0f3d3093db2fbabe244c159e2d9fa5f5566b1bbf",
+      "sha256": "1669d9ca839829ca376cf7dc54987c7a21abd8d26581d8adbbf3f03e8d95b34f",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "dist/geo/geosite.dat",
-      "bytes": 4349121,
-      "sha256": "55c0ff0bb7a75de661de7a30984ece344d9c7840a37a92893b59af9f4baed280",
+      "bytes": 4350610,
+      "sha256": "7772be22495e316b22bec388b3ae4b3f3869fcb09cc1912c4bedc4095ca1572c",
       "upstreamAsset": "geosite.dat"
     },
     {
       "path": "dist/rules/ai.list",
-      "bytes": 1826,
-      "sha256": "184058d368a1ae069f135379a4d1269cd69412e830f956e6c07a3844afb9ff35",
-      "rules": 62,
+      "bytes": 2013,
+      "sha256": "d3fce81e475dcc8c9171c3e292efecae0fafe8c137f1c4739fcc57098e953f15",
+      "rules": 68,
       "sources": [
         "AI.list",
         "OpenAi.list",
@@ -60,9 +60,9 @@
     },
     {
       "path": "dist/rules/banad.list",
-      "bytes": 44588,
-      "sha256": "8f7bacf84da3c0c20b4460acd51ee1bd6b258f17cb85c5775b5824833e22bdda",
-      "rules": 1461,
+      "bytes": 44632,
+      "sha256": "1f6a02363761df8a586bb67bc092417c7b06ee08869420667788dd9acf7ef5d6",
+      "rules": 1462,
       "sources": [
         "BanAD.list",
         "reject.txt.list"
@@ -102,9 +102,9 @@
     },
     {
       "path": "dist/rules/china-ip.list",
-      "bytes": 322016,
-      "sha256": "b701fd6cdc1b6bdb6258983f31717278a8d234c97d6b4ba83b11906fd3252e15",
-      "rules": 9114,
+      "bytes": 330591,
+      "sha256": "9436fd1f018dab1c17988b5f3ac6f2f9d4bd6e18f97c8f111b11560e4973a54f",
+      "rules": 9340,
       "sources": [
         "ChinaIp.list",
         "ChinaIpV6.list",
@@ -115,9 +115,9 @@
     },
     {
       "path": "dist/rules/china-media.list",
-      "bytes": 2834,
-      "sha256": "1806d9aa9cea605d39cf0a39c6d882358b497ca67deee9c49943b1a8dd4594ce",
-      "rules": 91,
+      "bytes": 2860,
+      "sha256": "872c0ff7ae54b5ee19abc42f8bafa62c2e387ca0914747943eadba51707aedf1",
+      "rules": 92,
       "sources": [
         "ChinaMedia.list",
         "Bilibili.list",
@@ -141,7 +141,7 @@
     {
       "path": "dist/rules/games.list",
       "bytes": 1974,
-      "sha256": "14bd8de1eb10557c508f2c8a53e4ec15fd6d9ae0eac71ad9d274eca159525fbc",
+      "sha256": "9c01bc4b97d18f15fefa899f0c22dab1fef13ca2a4dc93f3c58c163a0588be3d",
       "rules": 67,
       "sources": [
         "Steam.list",
@@ -167,9 +167,9 @@
     },
     {
       "path": "dist/rules/proxy-gfwlist.list",
-      "bytes": 188111,
-      "sha256": "137a50dbc2da9e07844dbd94b0cbf78870b119ea65e54b36a6ba36bd40f6f52e",
-      "rules": 6890,
+      "bytes": 198393,
+      "sha256": "1e78c2e376574908bb7e6ac8baf87566409baa5e2520b893718bfb429bb2e771",
+      "rules": 7253,
       "sources": [
         "ProxyGFWlist.list"
       ],
@@ -178,9 +178,9 @@
     },
     {
       "path": "dist/rules/proxy-media.list",
-      "bytes": 10408,
-      "sha256": "3cb20de2312ea79096702d932af34e47114f2874b69e70593f0485594879b417",
-      "rules": 356,
+      "bytes": 9008,
+      "sha256": "b617fc5c81b8546f25da13a0c35d228aa6d7c45561e4e7cb5277a028b1800711",
+      "rules": 307,
       "sources": [
         "ProxyMedia.list"
       ],
@@ -254,20 +254,20 @@
     {
       "path": "geo/geoip.metadb",
       "bytes": 8434612,
-      "sha256": "41bce1c35748f2748433739e0f3d3093db2fbabe244c159e2d9fa5f5566b1bbf",
+      "sha256": "1669d9ca839829ca376cf7dc54987c7a21abd8d26581d8adbbf3f03e8d95b34f",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "geo/geosite.dat",
-      "bytes": 4349121,
-      "sha256": "55c0ff0bb7a75de661de7a30984ece344d9c7840a37a92893b59af9f4baed280",
+      "bytes": 4350610,
+      "sha256": "7772be22495e316b22bec388b3ae4b3f3869fcb09cc1912c4bedc4095ca1572c",
       "upstreamAsset": "geosite.dat"
     },
     {
       "path": "rules/ai.txt",
-      "bytes": 2064,
-      "sha256": "e7ba67543691ef8f4d1a6d890e9f0da64c076b15dcc40889e4b929ec5996f898",
-      "rules": 62,
+      "bytes": 2251,
+      "sha256": "bc124f9d333555fc75d1be93893757667c8ba7d16398147805c5529edbf2ceb6",
+      "rules": 68,
       "sources": [
         "AI.list",
         "OpenAi.list",
@@ -286,9 +286,9 @@
     },
     {
       "path": "rules/banad.txt",
-      "bytes": 44799,
-      "sha256": "6a456a4589cd0c0fc9445d7605cd8d70f730231170280ea071cae52287db6289",
-      "rules": 1461,
+      "bytes": 44843,
+      "sha256": "c12c082b4b94a58da474dbb9c61985528eff2034553454a98e813b40880daee6",
+      "rules": 1462,
       "sources": [
         "BanAD.list",
         "reject.txt.list"
@@ -322,9 +322,9 @@
     },
     {
       "path": "rules/china-ip.txt",
-      "bytes": 322278,
-      "sha256": "b75777f1a602eb90d8064eb2a781b3e5aef87a5eab2159cce854397a661983ae",
-      "rules": 9114,
+      "bytes": 330853,
+      "sha256": "0a89676db4c5f066452fbd8bfbc50198d585a083174803d24c59e057ca086669",
+      "rules": 9340,
       "sources": [
         "ChinaIp.list",
         "ChinaIpV6.list",
@@ -333,9 +333,9 @@
     },
     {
       "path": "rules/china-media.txt",
-      "bytes": 3233,
-      "sha256": "22e6500baa38c8d3d75b8c602a182acb8323964966651f36bd407cb6b6c3affb",
-      "rules": 91,
+      "bytes": 3259,
+      "sha256": "7282ef661b50607ea24fbe1e57d79bed7a7776d186e5b57cc841a434bd6aa7f4",
+      "rules": 92,
       "sources": [
         "ChinaMedia.list",
         "Bilibili.list",
@@ -355,7 +355,7 @@
     {
       "path": "rules/games.txt",
       "bytes": 2244,
-      "sha256": "df81272860a6eb717586df222e639b39801f81a6e0de3547ea6d86136f083aca",
+      "sha256": "093aeab9da036e7e16c3063605e0a14808acd47a8bf440c4714976e6244d2c62",
       "rules": 67,
       "sources": [
         "Steam.list",
@@ -377,18 +377,18 @@
     },
     {
       "path": "rules/proxy-gfwlist.txt",
-      "bytes": 188396,
-      "sha256": "3f9462e3ebca60d5be5053c65666fe120d58c11639d1457ef3732dba8b136010",
-      "rules": 6890,
+      "bytes": 198679,
+      "sha256": "5986cf670369775da6f6a9d24899430eb41aca20f4b3908ae667f9c6adcc9298",
+      "rules": 7253,
       "sources": [
         "ProxyGFWlist.list"
       ]
     },
     {
       "path": "rules/proxy-media.txt",
-      "bytes": 10717,
-      "sha256": "76d3d18e0f5ff3a5743798576a2d524555e11b6ba5afe9a33568d08d7d501c65",
-      "rules": 356,
+      "bytes": 9316,
+      "sha256": "6243b4e5462f8a5da39664a6342a30cbf860e4fddf07d10a87c29c221e1dce9f",
+      "rules": 307,
       "sources": [
         "ProxyMedia.list"
       ]
