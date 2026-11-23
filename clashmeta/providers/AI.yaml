@@ -1,6 +1,7 @@
-# AI - 51 rules
+# AI - 57 rules
 payload:
   - DOMAIN-KEYWORD,anthropic
+  - DOMAIN-KEYWORD,antigravity
   - DOMAIN-KEYWORD,claude
   - DOMAIN-KEYWORD,openai
   - DOMAIN,ai.google.dev
@@ -12,13 +13,17 @@ payload:
   - DOMAIN,console.groq.com
   - DOMAIN,copilot-proxy.githubusercontent.com
   - DOMAIN,gemini.google.com
+  - DOMAIN,geminiweb-pa.clients.google.com
+  - DOMAIN,geminiweb-pa.clients6.google.com
   - DOMAIN,generativelanguage.googleapis.com
+  - DOMAIN,notebooklm-pa.googleapis.com
   - DOMAIN,notebooklm.google.com
   - DOMAIN,sydney.bing.com
   - DOMAIN-SUFFIX,ai.azure.com
   - DOMAIN-SUFFIX,anthropic.com
   - DOMAIN-SUFFIX,bard.google.com
   - DOMAIN-SUFFIX,chatgpt.com
+  - DOMAIN-SUFFIX,clau.de
   - DOMAIN-SUFFIX,claude.ai
   - DOMAIN-SUFFIX,claude.com
   - DOMAIN-SUFFIX,claudeusercontent.com
@@ -29,6 +34,7 @@ payload:
   - DOMAIN-SUFFIX,gemini.google.com
   - DOMAIN-SUFFIX,grazie.ai
   - DOMAIN-SUFFIX,grazie.aws.intellij.net
+  - DOMAIN-SUFFIX,grok.com
   - DOMAIN-SUFFIX,jetbrains.ai
   - DOMAIN-SUFFIX,makersuite.google.com
   - DOMAIN-SUFFIX,meta.ai

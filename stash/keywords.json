@@ -17,7 +17,6 @@
   "guanggao",
   "omgmta",
   "omniture",
-  "openx",
   "partnerad",
   "pingfore",
   "socdm",
@@ -35,6 +34,7 @@
  ],
  "AI": [
   "anthropic",
+  "antigravity",
   "claude",
   "openai",
   "colab",

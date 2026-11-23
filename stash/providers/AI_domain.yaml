@@ -1,4 +1,4 @@
-# AI_domain.yaml - 45 rules
+# AI_domain.yaml - 50 rules
 payload:
   - ai.google.dev
   - aistudio.google.com
@@ -9,13 +9,17 @@ payload:
   - console.groq.com
   - copilot-proxy.githubusercontent.com
   - gemini.google.com
+  - geminiweb-pa.clients.google.com
+  - geminiweb-pa.clients6.google.com
   - generativelanguage.googleapis.com
+  - notebooklm-pa.googleapis.com
   - notebooklm.google.com
   - sydney.bing.com
   - +.ai.azure.com
   - +.anthropic.com
   - +.bard.google.com
   - +.chatgpt.com
+  - +.clau.de
   - +.claude.ai
   - +.claude.com
   - +.claudeusercontent.com
@@ -26,6 +30,7 @@ payload:
   - +.gemini.google.com
   - +.grazie.ai
   - +.grazie.aws.intellij.net
+  - +.grok.com
   - +.jetbrains.ai
   - +.makersuite.google.com
   - +.meta.ai

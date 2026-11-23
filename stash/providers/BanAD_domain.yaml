@@ -1,4 +1,4 @@
-# BanAD_domain.yaml - 1437 rules
+# BanAD_domain.yaml - 1439 rules
 payload:
   - +.09mk.cn
   - +.100peng.com
@@ -502,6 +502,9 @@ payload:
   - +.nend.net
   - +.netshelter.net
   - +.nexage.com
+  - +.openx.net
+  - +.openxenterprise.com
+  - +.openxmarket.asia
   - +.owneriq.net
   - +.pixels.asia
   - +.plista.com
@@ -1156,7 +1159,6 @@ payload:
   - +.open.kuaishouzt.com
   - +.open.kwaizt.com
   - +.open.oneplus.net
-  - +.openx.net
   - +.optimizely.com
   - +.optimus-ads.amap.com
   - +.orbit.jd.com
