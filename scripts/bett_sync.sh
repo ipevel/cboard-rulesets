@@ -24,11 +24,35 @@ MODE="${1:-both}"
 log() { printf '%s\n' "$*"; }
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
+# 取远端 ref 的 commit SHA。
+#   - 设置了 GITHUB_TOKEN 时带 Bearer 头，避免共享出口 IP 撞匿名配额（60 次/小时）返回 403
+#   - 最多 3 次尝试，间隔 5s / 10s 递增；全部失败才返回非零
 api_sha() {
-    local ref="$1" body
-    body="$(curl -fsSL --max-time 30 \
-        "https://api.github.com/repos/${UPSTREAM_SLUG}/commits/${ref}" 2>/dev/null)" || return 1
-    printf '%s' "$body" | python3 -c 'import json,sys; print(json.load(sys.stdin)["sha"])' 2>/dev/null || return 1
+    local ref="$1" body sha attempt delay
+    local -a auth=()
+    if [ -n "${GITHUB_TOKEN:-}" ]; then
+        auth=(-H "Authorization: Bearer ${GITHUB_TOKEN}")
+    fi
+    for attempt in 1 2 3; do
+        sha=""
+        if body="$(curl -fsSL --max-time 30 \
+            -H 'Accept: application/vnd.github+json' \
+            "${auth[@]}" \
+            "https://api.github.com/repos/${UPSTREAM_SLUG}/commits/${ref}" 2>/dev/null)"; then
+            sha="$(printf '%s' "$body" \
+                | python3 -c 'import json,sys; print(json.load(sys.stdin).get("sha") or "")' 2>/dev/null)" || sha=""
+        fi
+        if [ -n "$sha" ]; then
+            printf '%s\n' "$sha"
+            return 0
+        fi
+        if [ "$attempt" -lt 3 ]; then
+            delay=$(( attempt * 5 ))
+            printf 'WARN: 取 %s SHA 第 %d 次尝试失败，%ds 后重试\n' "$ref" "$attempt" "$delay" >&2
+            sleep "$delay"
+        fi
+    done
+    return 1
 }
 
 fetch_tarball() {

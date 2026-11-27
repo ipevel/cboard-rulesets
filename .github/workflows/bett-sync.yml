@@ -58,6 +58,8 @@ jobs:
 
       - name: 同步
         id: sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -o pipefail
           chmod +x scripts/bett_sync.sh
