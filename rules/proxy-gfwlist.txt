@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 国外穿墙兜底
 # GFWList，ACL4SSR 每 2–4 天自动更新一次。
 # 来自 ACL4SSR 清单：ProxyGFWlist
-# 规则数：7253 条（上游合计 7378 条，去重 125 条；另按 manifest.extra 注入 7 条本地补丁规则（上游不提供））
+# 规则数：7256 条（上游合计 7381 条，去重 125 条；另按 manifest.extra 注入 7 条本地补丁规则（上游不提供））
 DOMAIN-SUFFIX,1password.com
 DOMAIN-SUFFIX,adguard.org
 DOMAIN-SUFFIX,bit.no.com
@@ -278,6 +278,7 @@ DOMAIN-SUFFIX,ai-kan.net
 DOMAIN-SUFFIX,ai-wen.net
 DOMAIN-SUFFIX,ai.dev
 DOMAIN-SUFFIX,ai.studio
+DOMAIN-SUFFIX,aicu.cc
 DOMAIN-SUFFIX,aidc.com.tw
 DOMAIN-SUFFIX,aihub.top
 DOMAIN-SUFFIX,aiosearch.com
@@ -1413,6 +1414,7 @@ DOMAIN-SUFFIX,dalailamaworld.com
 DOMAIN-SUFFIX,dalianmeng.org
 DOMAIN-SUFFIX,daliulian.org
 DOMAIN-SUFFIX,danke4china.net
+DOMAIN-SUFFIX,danmakus.com
 DOMAIN-SUFFIX,danwei.org
 DOMAIN-SUFFIX,daolan.net
 DOMAIN-SUFFIX,daozhongxing.org
@@ -5404,6 +5406,7 @@ DOMAIN-SUFFIX,southmongolia.org
 DOMAIN-SUFFIX,southnews.com.tw
 DOMAIN-SUFFIX,sowers.org.hk
 DOMAIN-SUFFIX,soylent.com
+DOMAIN-SUFFIX,spacedesk.net
 DOMAIN-SUFFIX,spaceforce.mil
 DOMAIN-SUFFIX,spacex.com
 DOMAIN-SUFFIX,spankbang.com

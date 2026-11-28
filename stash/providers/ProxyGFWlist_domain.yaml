@@ -1,4 +1,4 @@
-# ProxyGFWlist_domain.yaml - 4481 rules
+# ProxyGFWlist_domain.yaml - 4484 rules
 payload:
   - +.000webhost.com
   - +.0rz.tw
@@ -135,6 +135,7 @@ payload:
   - +.agro.hk
   - +.ai.dev
   - +.ai.studio
+  - +.aicu.cc
   - +.aidc.com.tw
   - +.aihub.top
   - +.aiosearch.com
@@ -961,6 +962,7 @@ payload:
   - +.daliulian.org
   - +.danbooru.donmai.us
   - +.danke4china.net
+  - +.danmakus.com
   - +.darmau.co
   - +.darpa.mil
   - +.darrenliuwei.com
@@ -3419,6 +3421,7 @@ payload:
   - +.southnews.com.tw
   - +.southpark.cc.com
   - +.sowers.org.hk
+  - +.spacedesk.net
   - +.spaceforce.mil
   - +.spaces.hightail.com
   - +.spacex.com

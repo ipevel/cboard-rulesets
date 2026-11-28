@@ -1,17 +1,17 @@
 {
   "schema": 1,
-  "version": 54,
-  "generatedAt": "2026-11-27T09:11:36.224Z",
+  "version": 55,
+  "generatedAt": "2026-11-28T08:31:46.062Z",
   "upstream": {
     "acl": {
       "repo": "ACL4SSR/ACL4SSR",
-      "sha": "a7bdd9c97c3c4a1d01a7259bba7c23c275794cc7",
-      "date": "2026-11-22T04:33:15Z"
+      "sha": "384af1b35d29df946013cf8912db1c3e40935ce5",
+      "date": "2026-11-28T06:09:47Z"
     },
     "meta": {
       "repo": "MetaCubeX/meta-rules-dat",
       "tag": "latest",
-      "publishedAt": "2026-11-27T04:25:27Z"
+      "publishedAt": "2026-11-28T04:05:11Z"
     }
   },
   "files": [
@@ -24,13 +24,13 @@
     {
       "path": "dist/geo/geoip.metadb",
       "bytes": 8505514,
-      "sha256": "137a8c42fbb2d91a499770c97b75ca615c86d2b477c021dfe7ee6a371ade31ca",
+      "sha256": "dbcb1689ff9cb4e1327382f9ec0b4d0a195d86dd8116621d134f3b66c311e916",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "dist/geo/geosite.dat",
-      "bytes": 4357245,
-      "sha256": "f187c87088838f757c880bcbd4bb172e45697d6a8d08158beb49c7500dc0da1e",
+      "bytes": 4357457,
+      "sha256": "a29f0d812db432aa61ccffc8d72fdf8f0b316dea4c95558169dc6c2b021ab6f9",
       "upstreamAsset": "geosite.dat"
     },
     {
@@ -60,9 +60,9 @@
     },
     {
       "path": "dist/rules/banad.list",
-      "bytes": 44632,
-      "sha256": "1f6a02363761df8a586bb67bc092417c7b06ee08869420667788dd9acf7ef5d6",
-      "rules": 1462,
+      "bytes": 44607,
+      "sha256": "9c9937f1dbb2b3a522890af0edd455ee71f45ad38890951ae6a5b1f22c691b00",
+      "rules": 1461,
       "sources": [
         "BanAD.list",
         "reject.txt.list"
@@ -83,9 +83,9 @@
     },
     {
       "path": "dist/rules/china-domain.list",
-      "bytes": 19384,
-      "sha256": "78b9ff5819b032d0879dbb2fffad8d404d206ba24e0e5416d82c7b9afef6ebab",
-      "rules": 735,
+      "bytes": 19619,
+      "sha256": "e394f8ad4a06d2c46a65abce4e3bafdab752b8c8c6d99cc60a933e98ef79617a",
+      "rules": 743,
       "sources": [
         "ChinaDomain.list",
         "Baidu.list",
@@ -102,9 +102,9 @@
     },
     {
       "path": "dist/rules/china-ip.list",
-      "bytes": 330591,
-      "sha256": "9436fd1f018dab1c17988b5f3ac6f2f9d4bd6e18f97c8f111b11560e4973a54f",
-      "rules": 9340,
+      "bytes": 330558,
+      "sha256": "681a0e1c0206bd03bc4938e702504ee8ddc7d03d729cc344289accc7bdcb635e",
+      "rules": 9339,
       "sources": [
         "ChinaIp.list",
         "ChinaIpV6.list",
@@ -141,7 +141,7 @@
     {
       "path": "dist/rules/games.list",
       "bytes": 1974,
-      "sha256": "9c01bc4b97d18f15fefa899f0c22dab1fef13ca2a4dc93f3c58c163a0588be3d",
+      "sha256": "a07d3ea5e82b4abcbcfecb665d9da50623e6f5c8ce1d89704c656f3063c3699b",
       "rules": 67,
       "sources": [
         "Steam.list",
@@ -167,9 +167,9 @@
     },
     {
       "path": "dist/rules/proxy-gfwlist.list",
-      "bytes": 198393,
-      "sha256": "1e78c2e376574908bb7e6ac8baf87566409baa5e2520b893718bfb429bb2e771",
-      "rules": 7253,
+      "bytes": 198470,
+      "sha256": "31a861ae38631fce3d2703c1760a5c5ccb1eecbbb2b0daae8716a381add25cd1",
+      "rules": 7256,
       "sources": [
         "ProxyGFWlist.list"
       ],
@@ -178,9 +178,9 @@
     },
     {
       "path": "dist/rules/proxy-media.list",
-      "bytes": 9008,
-      "sha256": "b617fc5c81b8546f25da13a0c35d228aa6d7c45561e4e7cb5277a028b1800711",
-      "rules": 307,
+      "bytes": 9039,
+      "sha256": "9fec903ee731e5497bf315fb9f4e40470f7e45e4311f02a776b713634c39a657",
+      "rules": 308,
       "sources": [
         "ProxyMedia.list"
       ],
@@ -254,13 +254,13 @@
     {
       "path": "geo/geoip.metadb",
       "bytes": 8505514,
-      "sha256": "137a8c42fbb2d91a499770c97b75ca615c86d2b477c021dfe7ee6a371ade31ca",
+      "sha256": "dbcb1689ff9cb4e1327382f9ec0b4d0a195d86dd8116621d134f3b66c311e916",
       "upstreamAsset": "geoip.metadb"
     },
     {
       "path": "geo/geosite.dat",
-      "bytes": 4357245,
-      "sha256": "f187c87088838f757c880bcbd4bb172e45697d6a8d08158beb49c7500dc0da1e",
+      "bytes": 4357457,
+      "sha256": "a29f0d812db432aa61ccffc8d72fdf8f0b316dea4c95558169dc6c2b021ab6f9",
       "upstreamAsset": "geosite.dat"
     },
     {
@@ -286,9 +286,9 @@
     },
     {
       "path": "rules/banad.txt",
-      "bytes": 44843,
-      "sha256": "c12c082b4b94a58da474dbb9c61985528eff2034553454a98e813b40880daee6",
-      "rules": 1462,
+      "bytes": 44818,
+      "sha256": "9784d110f192f46fd5df4c7c51133adddc6127ef3722d1361816e29ebed11b29",
+      "rules": 1461,
       "sources": [
         "BanAD.list",
         "reject.txt.list"
@@ -305,9 +305,9 @@
     },
     {
       "path": "rules/china-domain.txt",
-      "bytes": 19728,
-      "sha256": "bdaf1c15b3b327e66215b59464e2e4575aaf5e6b2a0a64c0ec8429b849d50297",
-      "rules": 735,
+      "bytes": 19963,
+      "sha256": "aa57f82392394310aa13c417b0252fd86cf068aad114e0f0bfbdda7b3790569e",
+      "rules": 743,
       "sources": [
         "ChinaDomain.list",
         "Baidu.list",
@@ -322,9 +322,9 @@
     },
     {
       "path": "rules/china-ip.txt",
-      "bytes": 330853,
-      "sha256": "0a89676db4c5f066452fbd8bfbc50198d585a083174803d24c59e057ca086669",
-      "rules": 9340,
+      "bytes": 330820,
+      "sha256": "212449716e52e655ce73f21bde5b146a38044849153d89b739929716c6930b00",
+      "rules": 9339,
       "sources": [
         "ChinaIp.list",
         "ChinaIpV6.list",
@@ -355,7 +355,7 @@
     {
       "path": "rules/games.txt",
       "bytes": 2244,
-      "sha256": "093aeab9da036e7e16c3063605e0a14808acd47a8bf440c4714976e6244d2c62",
+      "sha256": "303792b022b84f377a4f2c042f947600ee2dda9a362ad97b7d9c005e9a7979d9",
       "rules": 67,
       "sources": [
         "Steam.list",
@@ -377,18 +377,18 @@
     },
     {
       "path": "rules/proxy-gfwlist.txt",
-      "bytes": 198679,
-      "sha256": "5986cf670369775da6f6a9d24899430eb41aca20f4b3908ae667f9c6adcc9298",
-      "rules": 7253,
+      "bytes": 198756,
+      "sha256": "798d35f46f216751d550f7fabc50dc3ba1f62ef6f4a155fa224e024849411f7e",
+      "rules": 7256,
       "sources": [
         "ProxyGFWlist.list"
       ]
     },
     {
       "path": "rules/proxy-media.txt",
-      "bytes": 9316,
-      "sha256": "6243b4e5462f8a5da39664a6342a30cbf860e4fddf07d10a87c29c221e1dce9f",
-      "rules": 307,
+      "bytes": 9347,
+      "sha256": "eec1a0d75404f79c3c6aebf9c23753e862d8b68e7e14cc7561bd8c4a807a667a",
+      "rules": 308,
       "sources": [
         "ProxyMedia.list"
       ]

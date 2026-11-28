@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 广告拦截
 # 默认打开（用户 2026-10-13 确定）。
 # 合并自 2 份 ACL4SSR 清单：BanAD / reject.txt
-# 规则数：1462 条（上游合计 1486 条，去重 24 条）
+# 规则数：1461 条（上游合计 1485 条，去重 24 条）
 DOMAIN-KEYWORD,admarvel
 DOMAIN-KEYWORD,admaster
 DOMAIN-KEYWORD,adsage
@@ -330,7 +330,6 @@ DOMAIN-SUFFIX,stg8.com
 DOMAIN-SUFFIX,switchadhub.com
 DOMAIN-SUFFIX,sycbbs.com
 DOMAIN-SUFFIX,synacast.com
-DOMAIN-SUFFIX,sysdig.com
 DOMAIN-SUFFIX,talkingdata.com
 DOMAIN-SUFFIX,talkingdata.net
 DOMAIN-SUFFIX,tansuotv.com

@@ -1,12 +1,12 @@
 # 产出谱系（自动生成，勿手工编辑）
 
-生成时间：2026-11-27T09:11:36.224Z
-版本：VERSION 54
+生成时间：2026-11-28T08:31:46.062Z
+版本：VERSION 55
 
 ## 上游坐标
 
-- 分流清单：`ACL4SSR/ACL4SSR` @ `a7bdd9c97c3c4a1d01a7259bba7c23c275794cc7`（2026-11-22T04:33:15Z）
-- geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-11-27T04:25:27Z）
+- 分流清单：`ACL4SSR/ACL4SSR` @ `384af1b35d29df946013cf8912db1c3e40935ce5`（2026-11-28T06:09:47Z）
+- geo 数据库：`MetaCubeX/meta-rules-dat` release `latest`（2026-11-28T04:05:11Z）
 
 ## 两种形态
 
@@ -20,16 +20,16 @@
 |---|---|---|
 | `dist/rules/ai.list` *(内核形态)* | 68 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
 | `dist/rules/apple.list` *(内核形态)* | 29 | Apple.list |
-| `dist/rules/banad.list` *(内核形态)* | 1462 | BanAD.list, reject.txt.list |
+| `dist/rules/banad.list` *(内核形态)* | 1461 | BanAD.list, reject.txt.list |
 | `dist/rules/banprogramad.list` *(内核形态)* | 1010 | BanProgramAD.list |
-| `dist/rules/china-domain.list` *(内核形态)* | 735 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
-| `dist/rules/china-ip.list` *(内核形态)* | 9340 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
+| `dist/rules/china-domain.list` *(内核形态)* | 743 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
+| `dist/rules/china-ip.list` *(内核形态)* | 9339 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
 | `dist/rules/china-media.list` *(内核形态)* | 92 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
 | `dist/rules/fakeip-filter.list` *(内核形态)* | 119 | fakeip-filter.txt |
 | `dist/rules/games.list` *(内核形态)* | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `dist/rules/onedrive.list` *(内核形态)* | 17 | OneDrive.list |
-| `dist/rules/proxy-gfwlist.list` *(内核形态)* | 7253 | ProxyGFWlist.list |
-| `dist/rules/proxy-media.list` *(内核形态)* | 307 | ProxyMedia.list |
+| `dist/rules/proxy-gfwlist.list` *(内核形态)* | 7256 | ProxyGFWlist.list |
+| `dist/rules/proxy-media.list` *(内核形态)* | 308 | ProxyMedia.list |
 | `dist/rules/social.list` *(内核形态)* | 53 | Twitter.list, Instagram.list, Facebook.list, Whatsapp.list |
 | `dist/rules/streaming.list` *(内核形态)* | 174 | YouTube.list, Netflix.list, DisneyPlus.list, HBO.list, Hulu.list, AppleTV.list, BBCiPlayer.list, AbemaTV.list, DAZN.list, Twitch.list, Spotify.list, Amazon.list |
 | `dist/rules/telegram.list` *(内核形态)* | 14 | Telegram.list |
@@ -39,16 +39,16 @@
 | `geo/geosite.dat` | — | release 资产 `geosite.dat` |
 | `rules/ai.txt` | 68 | AI.list, OpenAi.list, ClaudeAI.list, Gemini.list |
 | `rules/apple.txt` | 29 | Apple.list |
-| `rules/banad.txt` | 1462 | BanAD.list, reject.txt.list |
+| `rules/banad.txt` | 1461 | BanAD.list, reject.txt.list |
 | `rules/banprogramad.txt` | 1010 | BanProgramAD.list |
-| `rules/china-domain.txt` | 735 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
-| `rules/china-ip.txt` | 9340 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
+| `rules/china-domain.txt` | 743 | ChinaDomain.list, Baidu.list, Tencent.list, Alibaba.list, ByteDance.list, Wechat.list, UnBan.list, direct.txt.list, geolocation-cn.txt.list |
+| `rules/china-ip.txt` | 9339 | ChinaIp.list, ChinaIpV6.list, ChinaCompanyIp.list |
 | `rules/china-media.txt` | 92 | ChinaMedia.list, Bilibili.list, NetEaseMusic.list, Download.list |
 | `rules/fakeip-filter.txt` | 119 | fakeip-filter.txt |
 | `rules/games.txt` | 67 | Steam.list, Epic.list, Sony.list, Nintendo.list, Xbox.list, SteamCN.list |
 | `rules/onedrive.txt` | 17 | OneDrive.list |
-| `rules/proxy-gfwlist.txt` | 7253 | ProxyGFWlist.list |
-| `rules/proxy-media.txt` | 307 | ProxyMedia.list |
+| `rules/proxy-gfwlist.txt` | 7256 | ProxyGFWlist.list |
+| `rules/proxy-media.txt` | 308 | ProxyMedia.list |
 | `rules/social.txt` | 53 | Twitter.list, Instagram.list, Facebook.list, Whatsapp.list |
 | `rules/streaming.txt` | 174 | YouTube.list, Netflix.list, DisneyPlus.list, HBO.list, Hulu.list, AppleTV.list, BBCiPlayer.list, AbemaTV.list, DAZN.list, Twitch.list, Spotify.list, Amazon.list |
 | `rules/telegram.txt` | 14 | Telegram.list |

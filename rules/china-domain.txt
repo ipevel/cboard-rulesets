@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 国内域名
 # ACL4SSR 主表 + 百度 / 腾讯 / 阿里 / 字节 / 微信五家大厂表 + UnBan 白名单。
 # 合并自 9 份 ACL4SSR 清单：ChinaDomain / Baidu / Tencent / Alibaba / ByteDance / Wechat / UnBan / direct.txt / geolocation-cn.txt
-# 规则数：735 条（上游合计 874 条，去重 139 条）
+# 规则数：743 条（上游合计 883 条，去重 140 条）
 DOMAIN-SUFFIX,13th.tech
 DOMAIN-SUFFIX,423down.com
 DOMAIN-SUFFIX,bokecc.com
@@ -319,6 +319,7 @@ DOMAIN,dota2.wmsj.cn
 DOMAIN,wmsjsteam.com
 DOMAIN,dl.steam.clngaa.com
 DOMAIN,dl.steam.ksyna.com
+DOMAIN,gstore.val.manlaxy.com
 DOMAIN,st.dl.bscstorage.net
 DOMAIN,st.dl.eccdnx.com
 DOMAIN,st.dl.pinyuncloud.com
@@ -327,6 +328,7 @@ DOMAIN,steampipe.steamcontent.tnkjmec.com
 DOMAIN,steampowered.com.8686c.com
 DOMAIN,steamstatic.com.8686c.com
 DOMAIN-SUFFIX,foxmail.com
+DOMAIN-SUFFIX,gcloudsvcs.com
 DOMAIN-SUFFIX,gtimg.com
 DOMAIN-SUFFIX,idqqimg.com
 DOMAIN-SUFFIX,igamecj.com
@@ -636,6 +638,12 @@ DOMAIN-SUFFIX,zhongsou.com
 DOMAIN-SUFFIX,zhuihd.com
 DOMAIN-SUFFIX,cmbchina.com
 DOMAIN-SUFFIX,95516.com
+DOMAIN,cn.download.nvidia.com
+DOMAIN-SUFFIX,made-in-china.com
+DOMAIN-SUFFIX,micstatic.com
+DOMAIN-SUFFIX,focuschina.com
+DOMAIN-SUFFIX,vemic.com
+DOMAIN-SUFFIX,trademessenger.com
 DOMAIN-SUFFIX,qlogo.cn
 DOMAIN-SUFFIX,qpic.cn
 DOMAIN-SUFFIX,weixin.qq.com

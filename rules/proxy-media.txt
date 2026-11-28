@@ -1,7 +1,7 @@
 # Polaris 分流规则 —— 境外流媒体兜底
 # 不在流媒体组名单里的长尾站点。
 # 来自 ACL4SSR 清单：ProxyMedia
-# 规则数：307 条（上游合计 308 条，去重 1 条；丢弃内核不认的 URL-REGEX 1 条（该类型 mihomo 从不支持，内核本来也会逐条跳过））
+# 规则数：308 条（上游合计 309 条，去重 1 条；丢弃内核不认的 URL-REGEX 1 条（该类型 mihomo 从不支持，内核本来也会逐条跳过））
 DOMAIN-SUFFIX,edgedatg.com
 DOMAIN-SUFFIX,go.com
 DOMAIN-KEYWORD,abematv.akamaized.net
@@ -248,6 +248,7 @@ DOMAIN-SUFFIX,pornhubpremium.com
 DOMAIN-SUFFIX,qobuz.com
 DOMAIN-SUFFIX,p-cdn.us
 DOMAIN-SUFFIX,sndcdn.com
+DOMAIN-SUFFIX,soundcloud.cloud
 DOMAIN-SUFFIX,soundcloud.com
 DOMAIN-KEYWORD,-spotify-
 DOMAIN-KEYWORD,spotify.com
